@@ -40,11 +40,10 @@ class diaryItem extends StatelessWidget {
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 height:1.5,
-
                               ),),
                             Icon(Icons.arrow_forward_ios_outlined,
                                 size:15
-                            )
+                            ),
                           ],
                         ),
 
@@ -68,6 +67,46 @@ class diaryItem extends StatelessWidget {
                                 fontSize: 22,
                               ),
                             ),
+                              SizedBox(height:30),
+                              Align(
+                               alignment: Alignment(0.1,0),
+                               child: Container(
+                                 height: 25,
+                                 width: 100,
+                                 decoration: BoxDecoration(
+                                   color: kPrimaryColor,
+                                   borderRadius: BorderRadius.circular(10),
+                                 ),
+                                 child:Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                   children: [
+                                     Text('-',
+                                     style: TextStyle(
+                                       fontSize: 20,
+                                       fontWeight: FontWeight.bold,
+                                     ),),
+                                     Container(
+                                       padding: EdgeInsets.all(12),
+                                       decoration: BoxDecoration(
+                                         shape: BoxShape.circle,
+                                         color: Colors.pinkAccent,
+                                       ),
+                                       child: Text(prod.quantity.toString(),
+                                       style: TextStyle(
+                                         color: Colors.white,
+                                         fontWeight: FontWeight.bold,
+
+                                       ),),
+                                     ),
+                                     Text('+',
+                                       style: TextStyle(
+                                         fontSize: 20,
+                                         fontWeight: FontWeight.bold,
+                                       ),)
+                                   ],
+                                 ) ,
+                               ),
+                              )
                           ],
                         )
                       ]
