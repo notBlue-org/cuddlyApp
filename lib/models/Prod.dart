@@ -1,34 +1,35 @@
-class Prod{
+// ignore_for_file: non_constant_identifier_names, file_names
+
+class Prod {
   String imgUrl;
   String desc;
   String name;
   num price;
   num quantity;
 
-  Prod(this.imgUrl,this.desc,this.name,this.price,this.quantity);
+  Prod(this.imgUrl, this.desc, this.name, this.price, this.quantity);
 
-
-  static List<Prod> Brand1(){
-    return[
+  static List<Prod> Brand1() {
+    return [
       Prod(
         'assets/images/bag_1.png',
-        'Best shit in town',
-        'Lady bird',
+        'Product 1 descp',
+        'Product 1',
         50,
-        1,
+        0,
       ),
       Prod(
         'assets/images/bag_2.png',
-        'Best poop in town',
-        'Lady Gaga',
+        'Product 2 descp',
+        'Product 2',
         5,
-        1,
+        0,
       )
     ];
   }
 
-  static List<Prod> Brand2(){
-    return[
+  static List<Prod> Brand2() {
+    return [
       Prod(
         'assets/images/bag_3.png',
         'Best shit in town',
@@ -45,5 +46,4 @@ class Prod{
       )
     ];
   }
-
 }
