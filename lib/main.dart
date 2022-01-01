@@ -1,60 +1,54 @@
-import 'dart:async';
-
+import 'package:diaryapp/screens/error.dart';
+import 'package:diaryapp/screens/home.dart';
+import 'package:diaryapp/screens/login.dart';
+import 'package:diaryapp/screens/spashscreen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import 'screens/register_screen.dart';
+import 'firebase_options.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const DiaryApp());
 }
 
-class DiaryApp extends StatelessWidget {
+class DiaryApp extends StatefulWidget {
   const DiaryApp({Key? key}) : super(key: key);
 
+  @override
+  _DiaryAppState createState() => _DiaryAppState();
+}
 
-  // This widget is the root of your application.
+class _DiaryAppState extends State<DiaryApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home:SplashScreen(),
+      home: MainScreen(),
     );
   }
 }
-
-
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
-
+  
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
-
-  @override
-  void initState() {
-    Timer(
-      const Duration(
-        seconds: 2,
-      ),(){
-        Navigator.pushReplacement(context,MaterialPageRoute(
-            builder:(context)=>RegisterScreen(),
-        ));
-    }
-    );
-    // TODO: implement initState
-    super.initState();
-  }
-
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:Center(
-        child: Image.asset('images/Notblue.png'),
-      )
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const ErrorScreen();
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          return const LoginScreen();
+        }
+        return const SplashScreen();
+      },
     );
   }
 }
-
-
-
