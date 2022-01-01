@@ -1,5 +1,3 @@
-import 'package:diaryapp/screens/error.dart';
-import 'package:diaryapp/screens/home.dart';
 import 'package:diaryapp/screens/login.dart';
 import 'package:diaryapp/screens/spashscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,7 +24,7 @@ class _DiaryAppState extends State<DiaryApp> {
     );
   }
 }
-  
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
   @override
@@ -41,9 +39,6 @@ class _MainScreenState extends State<MainScreen> {
         options: DefaultFirebaseOptions.currentPlatform,
       ),
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const ErrorScreen();
-        }
         if (snapshot.connectionState == ConnectionState.done) {
           return const LoginScreen();
         }
