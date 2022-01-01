@@ -1,6 +1,0 @@
-type Distributor @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  username: String
-  passwordHash: String
-  type: String
-}
