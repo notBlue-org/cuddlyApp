@@ -114,7 +114,7 @@ Widget _loginButton(BuildContext context) {
             email: loginId.text, password: password.text, context: context);
         if (user != null) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => HomePage(user: user)),
           );
         } else {
           const snackBar =

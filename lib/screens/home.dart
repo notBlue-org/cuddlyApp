@@ -3,12 +3,14 @@ import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/models/top.dart';
 import 'package:diaryapp/widgets/custom_app_bar.dart';
 import 'package:diaryapp/widgets/home_shop.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
 class HomePage extends StatefulWidget {
-
+  final User user;
+  const HomePage({required this.user});
 
   @override
   _HomePageState createState() => _HomePageState();

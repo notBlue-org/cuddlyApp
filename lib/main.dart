@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => ProfileScreen(
+          builder: (context) => HomePage(
             user: user,
           ),
         ),
