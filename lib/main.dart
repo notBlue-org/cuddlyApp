@@ -1,7 +1,9 @@
 import 'package:diaryapp/screens/error.dart';
 import 'package:diaryapp/screens/home.dart';
 import 'package:diaryapp/screens/login.dart';
+import 'package:diaryapp/screens/profile.dart';
 import 'package:diaryapp/screens/spashscreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
@@ -26,7 +28,7 @@ class _DiaryAppState extends State<DiaryApp> {
     );
   }
 }
-  
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
   @override
@@ -34,12 +36,29 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  Future<FirebaseApp> _initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => ProfileScreen(
+            user: user,
+          ),
+        ),
+      );
+    }
+    return firebaseApp;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      ),
+      future: _initializeFirebase(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const ErrorScreen();

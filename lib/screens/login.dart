@@ -100,6 +100,7 @@ Widget _loginButton(BuildContext context) {
       vertical: 20,
     ),
     width: 280,
+    
     child: ElevatedButton(
       child: const Text('Login'),
       style: ElevatedButton.styleFrom(

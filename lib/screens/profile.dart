@@ -1,3 +1,4 @@
+import 'package:diaryapp/screens/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +37,21 @@ class _HomeScreenState extends State<ProfileScreen> {
               'NAME: ${_currentUser.displayName}',
               style: Theme.of(context).textTheme.bodyText1,
             ),
+            Text(
+              'EMAIL: ${_currentUser.email}',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
+                },
+                child: const Text('Sign out'))
           ],
         )),
       ),
