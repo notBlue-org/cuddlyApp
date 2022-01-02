@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, camel_case_types, prefer_const_constructors_in_immutables
 
 import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/models/Prod.dart';

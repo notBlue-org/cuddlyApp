@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_constructors_in_immutables
+
 import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/models/top.dart';
 import 'package:diaryapp/widgets/diary_item.dart';
