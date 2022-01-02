@@ -1,5 +1,4 @@
 import 'package:diaryapp/screens/home.dart';
-import 'package:diaryapp/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -115,7 +114,7 @@ Widget _loginButton(BuildContext context) {
             email: loginId.text, password: password.text, context: context);
         if (user != null) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ProfileScreen(user: user)),
+            MaterialPageRoute(builder: (context) => HomePage()),
           );
         } else {
           const snackBar =

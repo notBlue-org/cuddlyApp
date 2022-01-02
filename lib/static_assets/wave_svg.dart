@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class wave_svg extends StatelessWidget {
-  static String assetName = 'images/wave.svg';
+  static String assetName = 'assets/images/wave.svg';
   Widget svg = SvgPicture.asset(
     assetName,
   );

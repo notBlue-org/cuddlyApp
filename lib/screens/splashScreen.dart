@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: Image.asset('images/Notblue.png'),
+      child: Image.asset('assets/images/Notblue.png'),
     ));
   }
 }

@@ -8,7 +8,8 @@
 .buildlog/
 .history
 .svn/
-
+.vscode/
+.dart_tool
 # IntelliJ related
 *.iml
 *.ipr
@@ -32,7 +33,7 @@
 /build/
 
 # Web related
-lib/generated_plugin_registrant.dart
+lib/firebase/generated_plugin_registrant.dart
 
 # Symbolication related
 app.*.symbols
@@ -49,4 +50,3 @@ app.*.map.json
 
 .flutter-plugins
 .flutter-pligins-dependancies
-

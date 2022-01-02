@@ -1,12 +1,13 @@
-import 'package:diaryapp/screens/error.dart';
 import 'package:diaryapp/screens/home.dart';
 import 'package:diaryapp/screens/login.dart';
 import 'package:diaryapp/screens/profile.dart';
-import 'package:diaryapp/screens/spashscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:diaryapp/screens/splashScreen.dart';
+import 'package:flutter/material.dart';
+import 'package:diaryapp/screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'firebase_options.dart';
+import './firebase/firebase_options.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,9 +61,6 @@ class _MainScreenState extends State<MainScreen> {
     return FutureBuilder(
       future: _initializeFirebase(),
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const ErrorScreen();
-        }
         if (snapshot.connectionState == ConnectionState.done) {
           return const LoginScreen();
         }

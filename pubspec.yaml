@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  smooth_page_indicator: ^1.0.0+2
   flutter_svg: ^1.0.0
   material_color_gen: ^2.0.0
   firebase_core: ^1.10.6
@@ -28,4 +29,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - images/
+    - assets/images/
+    - assets/icons/
