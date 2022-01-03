@@ -1,12 +1,10 @@
 import 'package:diaryapp/screens/home.dart';
 import 'package:diaryapp/screens/login.dart';
-import 'package:diaryapp/screens/profile.dart';
+import 'package:diaryapp/screens/order_summary.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diaryapp/screens/splashScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:diaryapp/screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import './firebase/firebase_options.dart';
 
 void main() {
@@ -24,8 +22,12 @@ class DiaryApp extends StatefulWidget {
 class _DiaryAppState extends State<DiaryApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MainScreen(),
+    return MaterialApp(
+      home: const MainScreen(),
+      routes: {
+        '/shopping_home': (ctx) => const HomePage(),
+        '/order_summary': (ctx) => const OrderSummary()
+      },
     );
   }
 }
@@ -45,12 +47,9 @@ class _MainScreenState extends State<MainScreen> {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => HomePage(
-            user: user,
-          ),
-        ),
+      Navigator.of(context).pushReplacementNamed(
+        '/shopping_home',
+        arguments: {'user': user},
       );
     }
     return firebaseApp;

@@ -1,4 +1,3 @@
-import 'package:diaryapp/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -99,7 +98,6 @@ Widget _loginButton(BuildContext context) {
       vertical: 20,
     ),
     width: 280,
-    
     child: ElevatedButton(
       child: const Text('Login'),
       style: ElevatedButton.styleFrom(
@@ -113,8 +111,9 @@ Widget _loginButton(BuildContext context) {
         User? user = await FireAuth.signInUsingEmailPassword(
             email: loginId.text, password: password.text, context: context);
         if (user != null) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomePage(user: user)),
+          Navigator.of(context).pushReplacementNamed(
+            '/shopping_home',
+            arguments: {'user': user},
           );
         } else {
           const snackBar =
