@@ -30,8 +30,6 @@ class _DiaryAppState extends State<DiaryApp> {
         '/order_summary': (ctx) => const OrderSummary(),
         '/login_page': (ctx) => const LoginScreen(),
         '/profile_page': (ctx) => const ProfileScreen(),
-
-
       },
     );
   }

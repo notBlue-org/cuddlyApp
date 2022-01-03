@@ -6,8 +6,8 @@ import '../static_assets/wave_svg.dart';
 import '../static_assets/bottom_wave.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
-final loginId = TextEditingController();
-final password = TextEditingController();
+final _loginId = TextEditingController();
+final _passwordId = TextEditingController();
 final _formKey = GlobalKey<FormState>();
 
 class LoginScreen extends StatelessWidget {
@@ -17,25 +17,32 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      body: Stack(alignment: Alignment.center, children: [
-        Positioned(
-          top: -10,
-          child: wave_svg(),
-        ),
-        // waveBar(),
-        Positioned(
-          top: MediaQuery.of(context).size.height / 6 + 100,
-          child: Login(),
-        ),
-        Positioned(
-          bottom: -310,
-          child: BottomWave(),
-        )
-      ]),
-    );
+    return GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          body: Stack(alignment: Alignment.center, children: [
+            Positioned(
+              top: -10,
+              child: wave_svg(),
+            ),
+            // waveBar(),
+            Positioned(
+              top: MediaQuery.of(context).size.height / 6 + 100,
+              child: Login(),
+            ),
+            Positioned(
+              bottom: -310,
+              child: BottomWave(),
+            )
+          ]),
+        ));
   }
 }
 
@@ -66,10 +73,9 @@ Widget _usernameField() {
       child: TextFormField(
         textAlign: TextAlign.center,
         decoration: const InputDecoration(
-          hintText: 'Username',
+          hintText: 'Email ID',
         ),
-        validator: (value) => Validator.validateEmail(email: value),
-        controller: loginId,
+        controller: _loginId,
       ),
     ),
   );
@@ -81,13 +87,13 @@ Widget _passwordField() {
     child: Card(
       color: Colors.white70,
       child: TextFormField(
-          obscureText: true,
-          textAlign: TextAlign.center,
-          decoration: const InputDecoration(
-            hintText: 'Password',
-          ),
-          controller: password,
-          validator: (value) => Validator.validatePassword(password: value)),
+        obscureText: true,
+        textAlign: TextAlign.center,
+        decoration: const InputDecoration(
+          hintText: 'Password',
+        ),
+        controller: _passwordId,
+      ),
     ),
   );
 }
@@ -108,17 +114,28 @@ Widget _loginButton(BuildContext context) {
         ),
       ),
       onPressed: () async {
-        User? user = await FireAuth.signInUsingEmailPassword(
-            email: loginId.text, password: password.text, context: context);
-        if (user != null) {
-          Navigator.of(context).pushReplacementNamed(
-            '/profile_page',
-            arguments: {'user': user},
-          );
-        } else {
-          const snackBar =
-              SnackBar(content: Text('Login Failed! Please Try Again!'));
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        currentFocus.unfocus();
+        String loginText = _loginId.text.trim();
+        String passwordText = _passwordId.text.trim();
+
+        String? _validationResult = Validator.validate(
+            {loginText, passwordText},
+            email: loginText, password: passwordText);
+
+        if (_validationResult != null) {
+          var snackBar = SnackBar(content: Text(_validationResult));
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          return;
+        } else {
+          User? user = await FireAuth.signInUsingEmailPassword(
+              email: loginText, password: passwordText, context: context);
+          if (user != null) {
+            Navigator.of(context).pushReplacementNamed(
+              '/profile_page',
+              arguments: {'user': user},
+            );
+          }
         }
       },
     ),
