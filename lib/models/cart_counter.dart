@@ -1,7 +1,6 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:diaryapp/models/Prod.dart';
 
 class CartCounter extends StatefulWidget {
   num item;
@@ -34,7 +33,7 @@ class _CartCounterState extends State<CartCounter> {
                 {
                   setState(() {
                     item_default--;
-                    print(widget.item);
+                    // print(widget.item);
                   }),
                 }
             },
