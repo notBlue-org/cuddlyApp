@@ -112,7 +112,7 @@ Widget _loginButton(BuildContext context) {
             email: loginId.text, password: password.text, context: context);
         if (user != null) {
           Navigator.of(context).pushReplacementNamed(
-            '/shopping_home',
+            '/profile_page',
             arguments: {'user': user},
           );
         } else {

@@ -4,26 +4,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final User user;
-  const ProfileScreen({required this.user});
+  const ProfileScreen({Key? key}) : super(key: key);
+
+  // final User user;
+  // const ProfileScreen({required this.user});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<ProfileScreen> {
-  late User _currentUser;
   bool _isSendingVerification = false;
   bool _isSigningOut = false;
 
   @override
-  void initState() {
-    _currentUser = widget.user;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, User>;
+    var _currentUser = routeArgs['user'];
+    
     return MaterialApp(
       title: 'Profile Page',
       home: Scaffold(
@@ -35,7 +34,7 @@ class _HomeScreenState extends State<ProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Name: ${_currentUser.displayName}',
+              'Name: ${_currentUser!.displayName}',
               style: Theme.of(context).textTheme.bodyText1,
             ),
             Text(
@@ -69,7 +68,7 @@ class _HomeScreenState extends State<ProfileScreen> {
                           setState(() {
                             _isSendingVerification = true;
                           });
-                          await _currentUser.sendEmailVerification();
+                          await _currentUser!.sendEmailVerification();
                           setState(() {
                             _isSendingVerification = false;
                           });
@@ -80,7 +79,7 @@ class _HomeScreenState extends State<ProfileScreen> {
                       IconButton(
                         icon: const Icon(Icons.refresh),
                         onPressed: () async {
-                          User? user = await FireAuth.refreshUser(_currentUser);
+                          User? user = await FireAuth.refreshUser(_currentUser!);
 
                           if (user != null) {
                             setState(() {

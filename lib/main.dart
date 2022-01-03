@@ -1,6 +1,7 @@
 import 'package:diaryapp/screens/home.dart';
 import 'package:diaryapp/screens/login.dart';
 import 'package:diaryapp/screens/order_summary.dart';
+import 'package:diaryapp/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diaryapp/screens/splashScreen.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,11 @@ class _DiaryAppState extends State<DiaryApp> {
       home: const MainScreen(),
       routes: {
         '/shopping_home': (ctx) => const HomePage(),
-        '/order_summary': (ctx) => const OrderSummary()
+        '/order_summary': (ctx) => const OrderSummary(),
+        '/login_page': (ctx) => const LoginScreen(),
+        '/profile_page': (ctx) => const ProfileScreen(),
+
+
       },
     );
   }
@@ -52,6 +57,11 @@ class _MainScreenState extends State<MainScreen> {
         arguments: {'user': user},
       );
     }
+    else{
+      Navigator.of(context).pushReplacementNamed(
+        '/login_page',
+      );
+    }
     return firebaseApp;
   }
 
@@ -60,9 +70,6 @@ class _MainScreenState extends State<MainScreen> {
     return FutureBuilder(
       future: _initializeFirebase(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return const LoginScreen();
-        }
         return const SplashScreen();
       },
     );

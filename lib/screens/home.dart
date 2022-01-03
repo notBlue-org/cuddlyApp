@@ -1,5 +1,6 @@
 import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/models/top.dart';
+import 'package:diaryapp/screens/login.dart';
 import 'package:diaryapp/widgets/custom_app_bar.dart';
 import 'package:diaryapp/widgets/home_shop.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,7 +81,18 @@ class _HomePageState extends State<HomePage> {
                           color: kPrimaryColor, padding: 2, width: 2))),
               onDotClicked: (index) => pageController.jumpToPage(index),
             ),
-          )
+          ),
+          ElevatedButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              },
+              child: const Text('Sign out'))
         ],
       ),
       floatingActionButton: FloatingActionButton(
