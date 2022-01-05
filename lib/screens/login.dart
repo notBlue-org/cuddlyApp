@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
       body: Stack(alignment: Alignment.center, children: [
         Positioned(
           top: -10,
-          child: wave_svg(),
+          child: WaveSvg(),
         ),
         // waveBar(),
         Positioned(
@@ -112,7 +112,7 @@ Widget _loginButton(BuildContext context) {
             email: loginId.text, password: password.text, context: context);
         if (user != null) {
           Navigator.of(context).pushReplacementNamed(
-            '/profile_page',
+            '/shopping_home',
             arguments: {'user': user},
           );
         } else {

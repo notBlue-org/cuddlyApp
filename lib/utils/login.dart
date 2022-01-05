@@ -18,12 +18,12 @@ class FireAuth {
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        // print('No user found for that email.');
         const snackBar =
             SnackBar(content: Text('No user found for that email.'));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided.');
+        // print('Wrong password provided.');
         const snackBar = SnackBar(content: Text('Wrong password provided.'));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }

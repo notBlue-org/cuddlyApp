@@ -1,18 +1,19 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, must_be_immutable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, must_be_immutable, avoid_print, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 
 class CartCounter extends StatefulWidget {
-  num item;
-  // ignore: use_key_in_widget_constructors
-  CartCounter(this.item);
+  num item_num;
+  CartCounter({this.item_num = 0}) {
+    print(item_num);
+  }
 
   @override
   _CartCounterState createState() => _CartCounterState();
 }
 
 class _CartCounterState extends State<CartCounter> {
-  late num item_default = widget.item;
+  late num item_default = widget.item_num;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +34,13 @@ class _CartCounterState extends State<CartCounter> {
                 {
                   setState(() {
                     item_default--;
-                    // print(widget.item);
+                    CartCounter(item_num: item_default);
                   }),
                 }
             },
             child: const Icon(
               Icons.remove,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
         ),
@@ -47,6 +48,9 @@ class _CartCounterState extends State<CartCounter> {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             item_default.toString().padLeft(2, '0'),
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
         ),
         SizedBox(
@@ -62,11 +66,12 @@ class _CartCounterState extends State<CartCounter> {
             onPressed: () => {
               setState(() {
                 item_default++;
+                CartCounter(item_num: item_default);
               })
             },
             child: const Icon(
               Icons.add,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
         ),

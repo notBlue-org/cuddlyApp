@@ -1,14 +1,13 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types, prefer_const_constructors_in_immutables
 
 import 'package:diaryapp/constants/colors.dart';
-import 'package:diaryapp/models/Prod.dart';
-import 'package:diaryapp/models/cart_counter.dart';
-import 'package:flutter/cupertino.dart';
+
+import 'package:diaryapp/widgets/cart_counter.dart';
 import 'package:flutter/material.dart';
+import '../models/product.dart';
 
 class diaryItem extends StatelessWidget {
-  final Prod prod;
-  diaryItem(this.prod);
+  diaryItem(this.Product);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class diaryItem extends StatelessWidget {
                 padding: EdgeInsets.all(5),
                 width: 110,
                 height: 110,
-                child: Image.asset(prod.imgUrl, fit: BoxFit.fitHeight)),
+                child: Image.asset(Product., fit: BoxFit.fitHeight)),
             Expanded(
                 child: Container(
               padding: EdgeInsets.only(top: 20, left: 10, right: 10),

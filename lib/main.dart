@@ -1,12 +1,17 @@
-import 'package:diaryapp/screens/home.dart';
+import 'package:diaryapp/providers/cart.dart';
+import 'package:diaryapp/screens/cart_screen.dart';
 import 'package:diaryapp/screens/login.dart';
-import 'package:diaryapp/screens/order_summary.dart';
+// import 'package:diaryapp/screens/order_summary.dart';
 import 'package:diaryapp/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:diaryapp/screens/splashScreen.dart';
+import './screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './firebase/firebase_options.dart';
+import './screens/products_overview_screen.dart';
+import './providers/products_provider.dart';
+import 'package:provider/provider.dart';
+import './providers/cart_counter_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,16 +28,22 @@ class DiaryApp extends StatefulWidget {
 class _DiaryAppState extends State<DiaryApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const MainScreen(),
-      routes: {
-        '/shopping_home': (ctx) => const HomePage(),
-        '/order_summary': (ctx) => const OrderSummary(),
-        '/login_page': (ctx) => const LoginScreen(),
-        '/profile_page': (ctx) => const ProfileScreen(),
-
-
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => Products()),
+        ChangeNotifierProvider(create: (context) => Cart()),
+        ChangeNotifierProvider(create: (context) => CartCounterMove())
+      ],
+      child: MaterialApp(
+        home: const MainScreen(),
+        routes: {
+          '/shopping_home': (ctx) => ProductsOverViewScreen(),
+          // '/order_summary': (ctx) => const OrderSummary(),
+          '/login_page': (ctx) => const LoginScreen(),
+          '/profile_page': (ctx) => const ProfileScreen(),
+          '/cart_screen': (ctx) => const CartScreen(),
+        },
+      ),
     );
   }
 }
@@ -53,11 +64,10 @@ class _MainScreenState extends State<MainScreen> {
 
     if (user != null) {
       Navigator.of(context).pushReplacementNamed(
-        '/shopping_home',
+        '/login_page',
         arguments: {'user': user},
       );
-    }
-    else{
+    } else {
       Navigator.of(context).pushReplacementNamed(
         '/login_page',
       );
