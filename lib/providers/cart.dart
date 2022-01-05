@@ -30,7 +30,6 @@ class Cart with ChangeNotifier {
     _items.forEach((key, value) {
       total += value.price * value.quantity;
     });
-    print(_items);
     return total;
   }
 
