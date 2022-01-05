@@ -1,22 +1,20 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, must_be_immutable, avoid_print, use_key_in_widget_constructors
 
+import 'package:diaryapp/providers/cart_counter_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartCounter extends StatefulWidget {
-  num item_num;
-  CartCounter({this.item_num = 0}) {
-    print(item_num);
-  }
-
+  final id;
+  CartCounter({required this.id});
   @override
   _CartCounterState createState() => _CartCounterState();
 }
 
 class _CartCounterState extends State<CartCounter> {
-  late num item_default = widget.item_num;
-
   @override
   Widget build(BuildContext context) {
+    var itemData = Provider.of<CartCounterMove>(context);
     return Row(
       children: [
         SizedBox(
@@ -30,11 +28,11 @@ class _CartCounterState extends State<CartCounter> {
               padding: EdgeInsets.zero,
             ),
             onPressed: () => {
-              if (item_default > 0)
+              if (itemData.displayCount(widget.id) > 0)
                 {
                   setState(() {
-                    item_default--;
-                    CartCounter(item_num: item_default);
+                    itemData.removeItem(widget.id);
+                    // CartCounter(item_num: item_default);
                   }),
                 }
             },
@@ -47,7 +45,7 @@ class _CartCounterState extends State<CartCounter> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            item_default.toString().padLeft(2, '0'),
+            itemData.displayCount(widget.id).toString().padLeft(2, '0'),
             style: TextStyle(
               color: Colors.white,
             ),
@@ -65,8 +63,8 @@ class _CartCounterState extends State<CartCounter> {
             ),
             onPressed: () => {
               setState(() {
-                item_default++;
-                CartCounter(item_num: item_default);
+                itemData.addItem(widget.id);
+                // CartCounter(item_num: item_default);
               })
             },
             child: const Icon(

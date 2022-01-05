@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, empty_statements
 
 import 'package:flutter/foundation.dart';
 
@@ -30,17 +30,18 @@ class Cart with ChangeNotifier {
     _items.forEach((key, value) {
       total += value.price * value.quantity;
     });
+    print(_items);
     return total;
   }
 
-  void addItem(String productId, double price, String title) {
+  void addItem(String productId, double price, String title, int q) {
     if (_items.containsKey(productId)) {
       _items.update(
           productId,
           (existingCartItem) => CartItem(
               id: existingCartItem.id,
               price: existingCartItem.price,
-              quantity: existingCartItem.quantity + 1,
+              quantity: existingCartItem.quantity + q,
               title: existingCartItem.title));
     } else {
       _items.putIfAbsent(
