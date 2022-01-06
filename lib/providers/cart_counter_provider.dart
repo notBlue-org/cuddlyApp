@@ -8,12 +8,12 @@ class ItemCount {
 }
 
 class CartCounterMove with ChangeNotifier {
-  late Map<String, ItemCount> stark = {};
+  late Map<String, ItemCount> tempCartItem = {};
 
   int displayCount(String id) {
     int value;
-    if (stark.containsKey(id)) {
-      value = stark[id]!.count;
+    if (tempCartItem.containsKey(id)) {
+      value = tempCartItem[id]!.count;
       return value;
     } else {
       return 0;
@@ -21,17 +21,17 @@ class CartCounterMove with ChangeNotifier {
   }
 
   void addItem(String id) {
-    if (stark.containsKey(id)) {
-      stark.update(
+    if (tempCartItem.containsKey(id)) {
+      tempCartItem.update(
           id, (existingValue) => ItemCount(count: existingValue.count + 1));
     } else {
-      stark.putIfAbsent(id, () => ItemCount());
+      tempCartItem.putIfAbsent(id, () => ItemCount());
     }
   }
 
   void removeItem(String id) {
-    if (stark.containsKey(id)) {
-      stark.update(
+    if (tempCartItem.containsKey(id)) {
+      tempCartItem.update(
           id, (existingValue) => ItemCount(count: existingValue.count - 1));
     }
   }

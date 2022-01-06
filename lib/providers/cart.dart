@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison, empty_statements
+// ignore_for_file: unnecessary_null_comparison, empty_statements, prefer_final_fields
 
 import 'package:flutter/foundation.dart';
 
@@ -48,7 +48,7 @@ class Cart with ChangeNotifier {
           () => CartItem(
               id: DateTime.now().toString(),
               price: price,
-              quantity: 1,
+              quantity: q,
               title: title));
     }
     notifyListeners();

@@ -1,7 +1,7 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, must_be_immutable, use_key_in_widget_constructors
 import 'dart:ui';
 
-import 'package:diaryapp/widgets/cart_counter.dart';
+import 'package:diaryapp/widgets/item_counter.dart';
 import 'package:diaryapp/providers/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +11,7 @@ class ProductItem extends StatelessWidget {
   final String id;
   final String title;
   final String imageUrl;
+  final String description;
   final double price;
   int quantity;
 
@@ -19,40 +20,97 @@ class ProductItem extends StatelessWidget {
     required this.title,
     required this.imageUrl,
     required this.price,
+    required this.description,
     this.quantity = 0,
   });
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context, listen: false);
     var itemData = Provider.of<CartCounterMove>(context);
-    return GridTile(
-      child: Image.network(imageUrl, fit: BoxFit.fill),
-      footer: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: GridTileBar(
-          leading: CartCounter(id: id),
-          trailing: Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.add_to_photos),
-                color: Colors.white,
-                onPressed: () => {
-                  // print(id)
-                  cart.addItem(id, price, title, itemData.displayCount(id))
-                },
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 110,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: SizedBox(
+                height: 110,
+                width: 110,
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.fill,
+                ),
               ),
-              IconButton(
-                icon: const Icon(Icons.exit_to_app),
-                color: Colors.white,
-                onPressed: () => {},
+            ),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            height: 1.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(description,
+                        style: TextStyle(color: Colors.black, height: 1.5)),
+                    Row(
+                      children: [
+                        const Text(
+                          '\$',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          '${price}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-          backgroundColor: Colors.black87,
-          title: Text(
-            title,
-            textAlign: TextAlign.center,
-          ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: ItemCounter(id: id),
+                ),
+                OutlinedButton(
+                  onPressed: () => {
+                    if (itemData.displayCount(id) > 0)
+                      {
+                        cart.addItem(
+                            id, price, title, itemData.displayCount(id))
+                      }
+                  },
+                  child: Text('Add to cart'),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

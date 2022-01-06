@@ -38,7 +38,6 @@ class _DiaryAppState extends State<DiaryApp> {
         home: const MainScreen(),
         routes: {
           '/shopping_home': (ctx) => ProductsOverViewScreen(),
-          // '/order_summary': (ctx) => const OrderSummary(),
           '/login_page': (ctx) => const LoginScreen(),
           '/profile_page': (ctx) => const ProfileScreen(),
           '/cart_screen': (ctx) => const CartScreen(),
@@ -69,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
       );
     } else {
       Navigator.of(context).pushReplacementNamed(
-        '/login_page',
+        '/shopping_home',
       );
     }
     return firebaseApp;

@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
 
 class Product {
   final String id;
@@ -24,7 +23,7 @@ class Products with ChangeNotifier {
       id: 'p1',
       brand: 'company1',
       title: 'Red Shirt',
-      description: 'A red shirt - it is pretty red!',
+      description: '1 box 100 items',
       price: 29.00,
       imageUrl:
           'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
@@ -33,7 +32,7 @@ class Products with ChangeNotifier {
       id: 'p2',
       brand: 'company1',
       title: 'Trousers',
-      description: 'A nice pair of trousers.',
+      description: '1 box 100 items.',
       price: 59.00,
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg',
@@ -42,7 +41,7 @@ class Products with ChangeNotifier {
       id: 'p3',
       brand: 'company1',
       title: 'Yellow Scarf',
-      description: 'Warm and cozy - exactly what you need for the winter.',
+      description: '1 box 50 items',
       price: 19.00,
       imageUrl:
           'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
@@ -51,7 +50,7 @@ class Products with ChangeNotifier {
       id: 'p4',
       brand: 'company1',
       title: 'A Pan',
-      description: 'Prepare any meal you want.',
+      description: '1 box 80 items.',
       price: 49.00,
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
