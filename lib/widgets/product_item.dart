@@ -1,11 +1,12 @@
 // ignore_for_file: avoid_print, must_be_immutable, use_key_in_widget_constructors
 import 'dart:ui';
 
-import 'package:diaryapp/widgets/item_counter.dart';
+// import 'package:diaryapp/widgets/item_counter.dart';
 import 'package:diaryapp/providers/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:diaryapp/providers/cart_counter_provider.dart';
+import './item_counter.dart';
 
 class ProductItem extends StatelessWidget {
   final String id;
