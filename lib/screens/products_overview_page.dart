@@ -2,6 +2,7 @@
 
 import 'package:diaryapp/providers/cart.dart';
 import 'package:diaryapp/screens/login_page.dart';
+import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/product_item.dart';
@@ -11,22 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/products_provider.dart';
 
-class ProductsOverViewScreen extends StatelessWidget {
+class ProductsOverViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavDrawer(),
       appBar: AppBar(
-        leading: GestureDetector(
-            onTap: () async {
-              await FirebaseAuth.instance.signOut();
-
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const LoginPage(),
-                ),
-              );
-            },
-            child: const Icon(Icons.logout)),
         title: const Text('THE APP BAR'),
         actions: [
           Consumer<Cart>(

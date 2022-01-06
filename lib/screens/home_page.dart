@@ -1,4 +1,5 @@
 import 'package:diaryapp/screens/login_page.dart';
+import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,6 +9,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavDrawer(),
+      appBar: AppBar(
+        title: const Text('Home'),
+      ),
       body: Center(
         child: Column(
           children: [

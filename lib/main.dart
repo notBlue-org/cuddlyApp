@@ -1,14 +1,10 @@
 import 'package:diaryapp/providers/cart.dart';
-import 'package:diaryapp/screens/cart_screen.dart';
-import 'package:diaryapp/screens/login_page.dart';
-// import 'package:diaryapp/screens/order_summary.dart';
-import 'package:diaryapp/screens/profile.dart';
+import 'package:diaryapp/utils/route_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import './screens/splash_screen.dart';
+import 'screens/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './firebase/firebase_options.dart';
-import './screens/products_overview_screen.dart';
 import './providers/products_provider.dart';
 import 'package:provider/provider.dart';
 import './providers/cart_counter_provider.dart';
@@ -34,14 +30,9 @@ class _DiaryAppState extends State<DiaryApp> {
         ChangeNotifierProvider(create: (context) => Cart()),
         ChangeNotifierProvider(create: (context) => CartCounterMove())
       ],
-      child: MaterialApp(
-        home: const MainScreen(),
-        routes: {
-          '/shopping_home': (ctx) => ProductsOverViewScreen(),
-          '/login_page': (ctx) => const LoginPage(),
-          '/profile_page': (ctx) => const ProfileScreen(),
-          '/cart_screen': (ctx) => const CartScreen(),
-        },
+      child: const MaterialApp(
+        home: MainScreen(),
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }
@@ -63,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
 
     if (user != null) {
       Navigator.of(context).pushReplacementNamed(
-        '/shopping_home',
+        '/home_page',
         // arguments: {'user': user},
       );
     } else {

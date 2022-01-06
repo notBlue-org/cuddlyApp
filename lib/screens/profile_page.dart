@@ -1,31 +1,27 @@
 import 'package:diaryapp/screens/login_page.dart';
 import 'package:diaryapp/utils/login.dart';
+import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
 
   // final User user;
   // const ProfileScreen({required this.user});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _HomeScreenState extends State<ProfileScreen> {
+class _ProfilePageState extends State<ProfilePage> {
   bool _isSendingVerification = false;
-  bool _isSigningOut = false;
+  User? _currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
-    final routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, User>;
-    var _currentUser = routeArgs['user'];
-    
-    return MaterialApp(
-      title: 'Profile Page',
-      home: Scaffold(
+    return Scaffold(
+        drawer: const NavDrawer(),
         appBar: AppBar(
           title: const Text('Profile Page'),
         ),
@@ -38,11 +34,11 @@ class _HomeScreenState extends State<ProfileScreen> {
               style: Theme.of(context).textTheme.bodyText1,
             ),
             Text(
-              'Email: ${_currentUser.email}',
+              'Email: ${_currentUser?.email}',
               style: Theme.of(context).textTheme.bodyText1,
             ),
             const SizedBox(height: 16.0),
-            _currentUser.emailVerified
+            _currentUser!.emailVerified
                 ? Text(
                     'Email verified',
                     style: Theme.of(context)
@@ -79,7 +75,8 @@ class _HomeScreenState extends State<ProfileScreen> {
                       IconButton(
                         icon: const Icon(Icons.refresh),
                         onPressed: () async {
-                          User? user = await FireAuth.refreshUser(_currentUser!);
+                          User? user =
+                              await FireAuth.refreshUser(_currentUser!);
 
                           if (user != null) {
                             setState(() {
@@ -102,8 +99,6 @@ class _HomeScreenState extends State<ProfileScreen> {
                 },
                 child: const Text('Sign out'))
           ],
-        )),
-      ),
-    );
+        )));
   }
 }

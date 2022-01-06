@@ -1,16 +1,18 @@
 import 'package:diaryapp/providers/cart.dart';
+import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/order_summary.dart';
 import '../widgets/cart_item.dart';
 
-class CartScreen extends StatelessWidget {
-  const CartScreen({Key? key}) : super(key: key);
+class CartPage extends StatelessWidget {
+  const CartPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
     return Scaffold(
+      drawer: const NavDrawer(),
       appBar: AppBar(
         title: const Text('Cart'),
       ),

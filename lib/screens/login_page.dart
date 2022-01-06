@@ -132,8 +132,7 @@ Widget _loginButton(BuildContext context) {
               email: loginText, password: passwordText, context: context);
           if (user != null) {
             Navigator.of(context).pushReplacementNamed(
-              '/profile_page',
-              arguments: user,
+              '/home_page',
             );
           }
         }
