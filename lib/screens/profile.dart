@@ -1,4 +1,4 @@
-import 'package:diaryapp/screens/login.dart';
+import 'package:diaryapp/screens/login_page.dart';
 import 'package:diaryapp/utils/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +96,7 @@ class _HomeScreenState extends State<ProfileScreen> {
 
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
+                      builder: (context) => const LoginPage(),
                     ),
                   );
                 },

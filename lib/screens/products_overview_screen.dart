@@ -1,6 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:diaryapp/providers/cart.dart';
+import 'package:diaryapp/screens/login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/product_item.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,17 @@ class ProductsOverViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
+
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const LoginPage(),
+                ),
+              );
+            },
+            child: const Icon(Icons.logout)),
         title: const Text('THE APP BAR'),
         actions: [
           Consumer<Cart>(

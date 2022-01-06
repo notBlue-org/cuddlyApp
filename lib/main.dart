@@ -1,6 +1,6 @@
 import 'package:diaryapp/providers/cart.dart';
 import 'package:diaryapp/screens/cart_screen.dart';
-import 'package:diaryapp/screens/login.dart';
+import 'package:diaryapp/screens/login_page.dart';
 // import 'package:diaryapp/screens/order_summary.dart';
 import 'package:diaryapp/screens/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,7 +38,7 @@ class _DiaryAppState extends State<DiaryApp> {
         home: const MainScreen(),
         routes: {
           '/shopping_home': (ctx) => ProductsOverViewScreen(),
-          '/login_page': (ctx) => const LoginScreen(),
+          '/login_page': (ctx) => const LoginPage(),
           '/profile_page': (ctx) => const ProfileScreen(),
           '/cart_screen': (ctx) => const CartScreen(),
         },

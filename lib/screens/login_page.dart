@@ -10,34 +10,13 @@ final _loginId = TextEditingController();
 final _passwordId = TextEditingController();
 final _formKey = GlobalKey<FormState>();
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-<<<<<<< HEAD
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      body: Stack(alignment: Alignment.center, children: [
-        Positioned(
-          top: -10,
-          child: WaveSvg(),
-        ),
-        // waveBar(),
-        Positioned(
-          top: MediaQuery.of(context).size.height / 6 + 100,
-          child: Login(),
-        ),
-        Positioned(
-          bottom: -310,
-          child: BottomWave(),
-        )
-      ]),
-    );
-=======
     return GestureDetector(
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
@@ -51,7 +30,7 @@ class LoginScreen extends StatelessWidget {
           body: Stack(alignment: Alignment.center, children: [
             Positioned(
               top: -10,
-              child: wave_svg(),
+              child: WaveSvg(),
             ),
             // waveBar(),
             Positioned(
@@ -64,7 +43,6 @@ class LoginScreen extends StatelessWidget {
             )
           ]),
         ));
->>>>>>> 2d5770b3ca70440d2bbea85624b7b92667c1a856
   }
 }
 
@@ -136,18 +114,6 @@ Widget _loginButton(BuildContext context) {
         ),
       ),
       onPressed: () async {
-<<<<<<< HEAD
-        User? user = await FireAuth.signInUsingEmailPassword(
-            email: loginId.text, password: password.text, context: context);
-        if (user != null) {
-          Navigator.of(context).pushReplacementNamed(
-            '/shopping_home',
-            arguments: {'user': user},
-          );
-        } else {
-          const snackBar =
-              SnackBar(content: Text('Login Failed! Please Try Again!'));
-=======
         FocusScopeNode currentFocus = FocusScope.of(context);
         currentFocus.unfocus();
         String loginText = _loginId.text.trim();
@@ -159,7 +125,6 @@ Widget _loginButton(BuildContext context) {
 
         if (_validationResult != null) {
           var snackBar = SnackBar(content: Text(_validationResult));
->>>>>>> 2d5770b3ca70440d2bbea85624b7b92667c1a856
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           return;
         } else {
@@ -168,7 +133,7 @@ Widget _loginButton(BuildContext context) {
           if (user != null) {
             Navigator.of(context).pushReplacementNamed(
               '/profile_page',
-              arguments: {'user': user},
+              arguments: user,
             );
           }
         }
