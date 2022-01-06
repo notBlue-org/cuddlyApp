@@ -63,12 +63,12 @@ class _MainScreenState extends State<MainScreen> {
 
     if (user != null) {
       Navigator.of(context).pushReplacementNamed(
-        '/login_page',
-        arguments: {'user': user},
+        '/shopping_home',
+        // arguments: {'user': user},
       );
     } else {
       Navigator.of(context).pushReplacementNamed(
-        '/shopping_home',
+        '/login_page',
       );
     }
     return firebaseApp;
