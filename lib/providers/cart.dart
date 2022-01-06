@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_null_comparison, empty_statements, prefer_final_fields
-
 import 'package:flutter/foundation.dart';
 
 class CartItem {
@@ -16,7 +14,7 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  late Map<String, CartItem> _items = {};
+  late final Map<String, CartItem> _items = {};
   Map<String, CartItem> get items {
     return {..._items};
   }

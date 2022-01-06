@@ -1,8 +1,9 @@
-import 'package:diaryapp/screens/home_page.dart';
+import 'package:diaryapp/screens/app/home_page.dart';
+import 'package:diaryapp/screens/app/order_pages/cart_page.dart';
+import 'package:diaryapp/screens/app/order_pages/products_overview_page.dart';
 import 'package:diaryapp/screens/login_page.dart';
-import 'package:diaryapp/screens/order_summary_page.dart';
-import 'package:diaryapp/screens/products_overview_page.dart';
-import 'package:diaryapp/screens/profile_page.dart';
+import 'package:diaryapp/screens/app/order_summary_page.dart';
+import 'package:diaryapp/screens/app/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -11,9 +12,11 @@ class RouteGenerator {
       case '/home_page':
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/order_page':
-        return MaterialPageRoute(builder: (_) => ProductsOverViewPage());
+        return MaterialPageRoute(builder: (_) => const OrderPage());
       case '/order_summary_page':
         return MaterialPageRoute(builder: (_) => const OrderSummaryPage());
+      case '/cart_page':
+        return MaterialPageRoute(builder: (_) => const CartPage());
       case '/profile_page':
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case '/login_page':

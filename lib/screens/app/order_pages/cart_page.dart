@@ -1,9 +1,9 @@
 import 'package:diaryapp/providers/cart.dart';
+import 'package:diaryapp/widgets/cart_item.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
+import 'package:diaryapp/widgets/order_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/order_summary.dart';
-import '../widgets/cart_item.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);

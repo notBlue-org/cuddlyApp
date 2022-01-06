@@ -1,5 +1,3 @@
-// ignore_for_file: void_checks
-
 import 'package:flutter/foundation.dart';
 
 class ItemCount {
