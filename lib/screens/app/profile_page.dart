@@ -1,8 +1,6 @@
 import 'package:diaryapp/providers/users.dart';
-import 'package:diaryapp/screens/login_page.dart';
 import 'package:diaryapp/utils/misc.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

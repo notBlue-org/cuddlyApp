@@ -1,6 +1,5 @@
 import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/providers/users.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
