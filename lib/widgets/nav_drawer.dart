@@ -1,4 +1,6 @@
 import 'package:diaryapp/constants/colors.dart';
+import 'package:diaryapp/screens/login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -52,6 +54,16 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {
               Navigator.of(context).pushReplacementNamed(
                 '/profile_page',
+              )
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Sign Out'),
+            onTap: () async => {
+              await FirebaseAuth.instance.signOut(),
+              Navigator.of(context).pushReplacementNamed(
+                '/login_page',
               )
             },
           ),

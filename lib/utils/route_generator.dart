@@ -1,6 +1,6 @@
 import 'package:diaryapp/screens/app/home_page.dart';
 import 'package:diaryapp/screens/app/order_pages/cart_page.dart';
-import 'package:diaryapp/screens/app/order_pages/products_overview_page.dart';
+import 'package:diaryapp/screens/app/order_pages/order_page.dart';
 import 'package:diaryapp/screens/login_page.dart';
 import 'package:diaryapp/screens/app/order_summary_page.dart';
 import 'package:diaryapp/screens/app/profile_page.dart';

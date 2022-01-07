@@ -51,6 +51,7 @@ class Login extends StatelessWidget {
 
   final FireAuth authInst = FireAuth();
 
+  
   @override
   Widget build(BuildContext context) {
     return Form(
