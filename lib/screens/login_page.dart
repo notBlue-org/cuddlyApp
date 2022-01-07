@@ -1,7 +1,9 @@
+import 'package:diaryapp/providers/users.dart';
+import 'package:diaryapp/utils/misc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:diaryapp/utils/login.dart';
+import 'package:provider/provider.dart';
 import '../static_assets/wave_svg.dart';
 import '../static_assets/bottom_wave.dart';
 
@@ -35,7 +37,7 @@ class LoginPage extends StatelessWidget {
             // waveBar(),
             Positioned(
               top: MediaQuery.of(context).size.height / 6 + 100,
-              child: Login(),
+              child: const Login(),
             ),
             Positioned(
               bottom: -310,
@@ -47,11 +49,9 @@ class LoginPage extends StatelessWidget {
 }
 
 class Login extends StatelessWidget {
-  Login({Key? key}) : super(key: key);
+  const Login({Key? key}) : super(key: key);
 
-  final FireAuth authInst = FireAuth();
 
-  
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -100,6 +100,19 @@ Widget _passwordField() {
 }
 
 Widget _loginButton(BuildContext context) {
+  void _loginUser(BuildContext context, String email, String password) async {
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    try {
+      if (await _currentUser.signIn(context, email, password)) {
+        Navigator.of(context).pushReplacementNamed(
+          '/home_page',
+        );
+      }
+    } catch (e) {
+      Misc.createSnackbar(context, 'Error: $e.code');
+    }
+  }
+
   return Container(
     margin: const EdgeInsets.symmetric(
       vertical: 20,
@@ -114,7 +127,7 @@ Widget _loginButton(BuildContext context) {
           fontSize: 26,
         ),
       ),
-      onPressed: () async {
+      onPressed: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
         currentFocus.unfocus();
         String loginText = _loginId.text.trim();
@@ -125,17 +138,10 @@ Widget _loginButton(BuildContext context) {
             email: loginText, password: passwordText);
 
         if (_validationResult != null) {
-          var snackBar = SnackBar(content: Text(_validationResult));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Misc.createSnackbar(context, _validationResult);
           return;
         } else {
-          User? user = await FireAuth.signInUsingEmailPassword(
-              email: loginText, password: passwordText, context: context);
-          if (user != null) {
-            Navigator.of(context).pushReplacementNamed(
-              '/home_page',
-            );
-          }
+          _loginUser(context, _loginId.text.trim(), _passwordId.text.trim());
         }
       },
     ),

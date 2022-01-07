@@ -1,22 +1,13 @@
+import 'package:diaryapp/providers/users.dart';
 import 'package:diaryapp/screens/login_page.dart';
-import 'package:diaryapp/utils/login.dart';
+import 'package:diaryapp/utils/misc.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
-
-  // final User user;
-  // const ProfileScreen({required this.user});
-
-  @override
-  _ProfilePageState createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  bool _isSendingVerification = false;
-  User? _currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -25,80 +16,107 @@ class _ProfilePageState extends State<ProfilePage> {
         appBar: AppBar(
           title: const Text('Profile Page'),
         ),
-        body: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Name: ${_currentUser!.displayName}',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            Text(
-              'Email: ${_currentUser?.email}',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            const SizedBox(height: 16.0),
-            _currentUser!.emailVerified
-                ? Text(
-                    'Email verified',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(color: Colors.green),
-                  )
-                : Text(
-                    'Email not verified',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(color: Colors.red),
-                  ),
-            const SizedBox(height: 16.0),
-            _isSendingVerification
-                ? const CircularProgressIndicator()
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () async {
-                          setState(() {
-                            _isSendingVerification = true;
-                          });
-                          await _currentUser!.sendEmailVerification();
-                          setState(() {
-                            _isSendingVerification = false;
-                          });
-                        },
-                        child: const Text('Verify email'),
-                      ),
-                      const SizedBox(width: 8.0),
-                      IconButton(
-                        icon: const Icon(Icons.refresh),
-                        onPressed: () async {
-                          User? user =
-                              await FireAuth.refreshUser(_currentUser!);
+        body: const Center(child: ProfileBody()));
+  }
+}
 
-                          if (user != null) {
-                            setState(() {
-                              _currentUser = user;
-                            });
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-            ElevatedButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
+class ProfileBody extends StatelessWidget {
+  const ProfileBody({Key? key}) : super(key: key);
 
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    ),
-                  );
-                },
-                child: const Text('Sign out'))
-          ],
-        )));
+  @override
+  Widget build(BuildContext context) {
+    final _currentUser = Provider.of<CurrentUser>(context);
+
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Text(
+        'Name: ${_currentUser.getName}',
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
+      Text(
+        'User Class: ${_currentUser.getType}',
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
+      Text(
+        'Email: ${_currentUser.getEmail}',
+        style: Theme.of(context).textTheme.bodyText1,
+      ),
+      const SizedBox(height: 16.0),
+      _currentUser.getIsEmailVerified
+          ? Text(
+              'Email verified',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Colors.green),
+            )
+          : Text(
+              'Email not verified',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Colors.red),
+            ),
+      const VerificationBody(),
+      ElevatedButton(
+          onPressed: () async {
+            await FirebaseAuth.instance.signOut();
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const LoginPage(),
+              ),
+            );
+          },
+          child: const Text('Sign out'))
+    ]);
+  }
+}
+
+class VerificationBody extends StatefulWidget {
+  const VerificationBody({Key? key}) : super(key: key);
+
+  @override
+  _VerificationBodyState createState() => _VerificationBodyState();
+}
+
+class _VerificationBodyState extends State<VerificationBody> {
+  bool _isSendingVerification = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final _currentUser = Provider.of<CurrentUser>(context);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(height: 16.0),
+        _isSendingVerification
+            ? const CircularProgressIndicator()
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (_currentUser.getIsEmailVerified) {
+                        Misc.createSnackbar(
+                            context, "Email has been verified already.");
+                        return;
+                      } else {
+                        Misc.createSnackbar(context,
+                            "Email sent! Follow instructions in the email to verify your email.");
+                      }
+                      setState(() {
+                        _isSendingVerification = true;
+                      });
+                      await _currentUser.verifyEmail();
+                      setState(() {
+                        _isSendingVerification = false;
+                      });
+                    },
+                    child: const Text('Verify email'),
+                  ),
+                  const SizedBox(width: 8.0),
+                ],
+              ),
+      ],
+    );
   }
 }

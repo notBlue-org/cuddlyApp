@@ -1,4 +1,5 @@
 import 'package:diaryapp/providers/cart.dart';
+import 'package:diaryapp/providers/users.dart';
 import 'package:diaryapp/utils/route_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/splash_screen_page.dart';
@@ -28,6 +29,7 @@ class _DiaryAppState extends State<DiaryApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => Products()),
         ChangeNotifierProvider(create: (context) => Cart()),
+        ChangeNotifierProvider(create: (context) => CurrentUser()),
       ],
       child: const MaterialApp(
         home: MainScreen(),
@@ -54,7 +56,6 @@ class _MainScreenState extends State<MainScreen> {
     if (user != null) {
       Navigator.of(context).pushReplacementNamed(
         '/home_page',
-        // arguments: {'user': user},
       );
     } else {
       Navigator.of(context).pushReplacementNamed(

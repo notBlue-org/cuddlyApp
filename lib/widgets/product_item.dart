@@ -1,10 +1,7 @@
 // ignore_for_file: avoid_print, must_be_immutable, use_key_in_widget_constructors
-import 'dart:ui';
 
 // import 'package:diaryapp/widgets/item_counter.dart';
-import 'package:diaryapp/providers/cart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 // import 'package:diaryapp/providers/cart_counter_provider.dart';
 import './item_counter.dart';
 
@@ -26,7 +23,6 @@ class ProductItem extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -68,7 +64,7 @@ class ProductItem extends StatelessWidget {
                       ],
                     ),
                     Text(description,
-                        style: TextStyle(color: Colors.black, height: 1.5)),
+                        style: const TextStyle(color: Colors.black, height: 1.5)),
                     Row(
                       children: [
                         const Text(
@@ -79,7 +75,7 @@ class ProductItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${price}',
+                          '$price',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 22,
