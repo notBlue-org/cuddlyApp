@@ -1,20 +1,25 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, must_be_immutable, avoid_print, use_key_in_widget_constructors, prefer_typing_uninitialized_variables, prefer_const_constructors_in_immutables
 
-import 'package:diaryapp/providers/cart_counter_provider.dart';
+import 'package:diaryapp/providers/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ItemCounter extends StatefulWidget {
-  final id;
-  ItemCounter({required this.id});
+class ItemCounter extends StatelessWidget {
+  final String id;
+  final String title;
+  final String imageUrl;
+  final String description;
+  final double price;
+  ItemCounter(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.price,
+      required this.imageUrl});
   @override
-  _CartCounterState createState() => _CartCounterState();
-}
-
-class _CartCounterState extends State<ItemCounter> {
   @override
   Widget build(BuildContext context) {
-    var itemData = Provider.of<CartCounterMove>(context);
+    var itemData = Provider.of<Cart>(context);
     return Row(
       children: [
         SizedBox(
@@ -28,12 +33,7 @@ class _CartCounterState extends State<ItemCounter> {
               padding: EdgeInsets.zero,
             ),
             onPressed: () => {
-              if (itemData.displayCount(widget.id) > 0)
-                {
-                  setState(() {
-                    itemData.removeItem(widget.id);
-                  }),
-                }
+              if (itemData.dispQuantity(id) > 0) {itemData.removeItem(id)}
             },
             child: const Icon(
               Icons.remove,
@@ -44,7 +44,7 @@ class _CartCounterState extends State<ItemCounter> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            itemData.displayCount(widget.id).toString().padLeft(2, '0'),
+            itemData.dispQuantity(id).toString().padLeft(2, '0'),
             style: TextStyle(
               color: Colors.black,
             ),
@@ -61,9 +61,11 @@ class _CartCounterState extends State<ItemCounter> {
               padding: EdgeInsets.zero,
             ),
             onPressed: () => {
-              setState(() {
-                itemData.addItem(widget.id);
-              })
+              itemData.addItem(
+                id,
+                price,
+                title,
+              )
             },
             child: const Icon(
               Icons.add,

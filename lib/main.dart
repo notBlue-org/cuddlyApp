@@ -7,7 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import './firebase/firebase_options.dart';
 import './providers/products_provider.dart';
 import 'package:provider/provider.dart';
-import './providers/cart_counter_provider.dart';
+// import './providers/cart_counter_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +28,6 @@ class _DiaryAppState extends State<DiaryApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => Products()),
         ChangeNotifierProvider(create: (context) => Cart()),
-        ChangeNotifierProvider(create: (context) => CartCounterMove())
       ],
       child: const MaterialApp(
         home: MainScreen(),

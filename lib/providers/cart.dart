@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 class CartItem {
   final String id;
   final String title;
-  final int quantity;
+  int quantity;
   final double price;
   CartItem({
     required this.id,
@@ -19,6 +19,16 @@ class Cart with ChangeNotifier {
     return {..._items};
   }
 
+  int dispQuantity(String productId) {
+    int value;
+    if (_items.containsKey(productId)) {
+      value = _items[productId]!.quantity;
+    } else {
+      value = 0;
+    }
+    return value;
+  }
+
   int get itemCount {
     return _items.length;
   }
@@ -31,14 +41,14 @@ class Cart with ChangeNotifier {
     return total;
   }
 
-  void addItem(String productId, double price, String title, int q) {
+  void addItem(String productId, double price, String title) {
     if (_items.containsKey(productId)) {
       _items.update(
           productId,
           (existingCartItem) => CartItem(
               id: existingCartItem.id,
               price: existingCartItem.price,
-              quantity: existingCartItem.quantity + q,
+              quantity: existingCartItem.quantity + 1,
               title: existingCartItem.title));
     } else {
       _items.putIfAbsent(
@@ -46,14 +56,29 @@ class Cart with ChangeNotifier {
           () => CartItem(
               id: DateTime.now().toString(),
               price: price,
-              quantity: q,
+              quantity: 1,
               title: title));
     }
     notifyListeners();
   }
 
-  void removeItem(String id) {
-    _items.remove(id);
+  void removeItem(String productId) {
+    if (_items.containsKey(productId)) {
+      _items.update(
+          productId,
+          (existingCartItem) => CartItem(
+              id: existingCartItem.id,
+              price: existingCartItem.price,
+              quantity: existingCartItem.quantity - 1,
+              title: existingCartItem.title));
+    } else {
+      _items.remove(productId);
+    }
+    notifyListeners();
+  }
+
+  void deleteItem(String productId) {
+    _items.remove(productId);
     notifyListeners();
   }
 }

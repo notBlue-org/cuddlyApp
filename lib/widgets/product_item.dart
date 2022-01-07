@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:diaryapp/providers/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:diaryapp/providers/cart_counter_provider.dart';
+// import 'package:diaryapp/providers/cart_counter_provider.dart';
 import './item_counter.dart';
 
 class ProductItem extends StatelessWidget {
@@ -27,7 +27,6 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context, listen: false);
-    var itemData = Provider.of<CartCounterMove>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -97,17 +96,12 @@ class ProductItem extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: ItemCounter(id: id),
-                ),
-                OutlinedButton(
-                  onPressed: () => {
-                    if (itemData.displayCount(id) > 0)
-                      {
-                        cart.addItem(
-                            id, price, title, itemData.displayCount(id))
-                      }
-                  },
-                  child: Text('Add to cart'),
+                  child: ItemCounter(
+                      id: id,
+                      title: title,
+                      description: description,
+                      price: price,
+                      imageUrl: imageUrl),
                 ),
               ],
             ),
