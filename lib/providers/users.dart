@@ -4,19 +4,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 
 class CurrentUser extends ChangeNotifier {
-  late User _user;
-  late String _uuid;
-  late String _email;
-  late String _name;
-  late String _type;
-  late bool _isEmailVerified;
+  late User? _user;
+  late String? _uuid;
+  late String? _email;
+  late String? _name;
+  late String? _type;
+  late bool? _isEmailVerified;
 
-  String get getUuid => _uuid;
-  String get getEmail => _email;
-  String get getName => _name;
-  bool get getIsEmailVerified => _isEmailVerified;
-  User get getUser => _user;
-  String get getType => _type;
+  String? get getUuid => _uuid;
+  String? get getEmail => _email;
+  String? get getName => _name;
+  bool? get getIsEmailVerified => _isEmailVerified;
+  User? get getUser => _user;
+  String? get getType => _type;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -32,15 +32,15 @@ class CurrentUser extends ChangeNotifier {
       if (userCredential.user != null) {
         isSignedIn = true;
         _user = userCredential.user!;
-        _uuid = _user.uid;
-        _email = _user.email!;
+        _uuid = _user!.uid;
+        _email = _user!.email!;
         _name = "";
         _type = "";
-        _isEmailVerified = _user.emailVerified;
+        _isEmailVerified = _user!.emailVerified;
 
         await _firestore
             .collection('Distributors')
-            .where('Email', isEqualTo: _user.email)
+            .where('Email', isEqualTo: _user!.email)
             .get()
             .then((QuerySnapshot data) {
           Map userDetails = data.docs.elementAt(0).data() as Map;
@@ -61,9 +61,23 @@ class CurrentUser extends ChangeNotifier {
   }
 
   Future<void> verifyEmail() async {
-    await _user.sendEmailVerification();
-    await _user.reload();
+    await _user!.sendEmailVerification();
+    await _user!.reload();
     _user = _auth.currentUser!;
-    _isEmailVerified = _user.emailVerified;
+    _isEmailVerified = _user!.emailVerified;
+    notifyListeners();
+  }
+
+  void signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    _user = null;
+    _uuid = null;
+    _email = null;
+    _name = null;
+    _type = null;
+    _isEmailVerified = null;
+    Navigator.of(context).pushReplacementNamed(
+      '/login_page',
+    );
   }
 }

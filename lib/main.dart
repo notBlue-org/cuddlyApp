@@ -50,10 +50,11 @@ class _MainScreenState extends State<MainScreen> {
     FirebaseApp firebaseApp = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    // final _currentUser = Provider.of<CurrentUser>(context, listen:false);
 
-    User? user = FirebaseAuth.instance.currentUser;
+    User? _currentUser = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
+    if (_currentUser != null) {
       Navigator.of(context).pushReplacementNamed(
         '/home_page',
       );

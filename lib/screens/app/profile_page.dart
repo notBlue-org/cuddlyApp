@@ -41,7 +41,7 @@ class ProfileBody extends StatelessWidget {
         style: Theme.of(context).textTheme.bodyText1,
       ),
       const SizedBox(height: 16.0),
-      _currentUser.getIsEmailVerified
+      _currentUser.getIsEmailVerified!
           ? Text(
               'Email verified',
               style: Theme.of(context)
@@ -59,12 +59,7 @@ class ProfileBody extends StatelessWidget {
       const VerificationBody(),
       ElevatedButton(
           onPressed: () async {
-            await FirebaseAuth.instance.signOut();
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const LoginPage(),
-              ),
-            );
+            _currentUser.signOut(context);
           },
           child: const Text('Sign out'))
     ]);
@@ -95,7 +90,7 @@ class _VerificationBodyState extends State<VerificationBody> {
                 children: [
                   ElevatedButton(
                     onPressed: () async {
-                      if (_currentUser.getIsEmailVerified) {
+                      if (_currentUser.getIsEmailVerified!) {
                         Misc.createSnackbar(
                             context, "Email has been verified already.");
                         return;
