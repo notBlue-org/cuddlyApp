@@ -1,15 +1,12 @@
-import 'package:diaryapp/providers/users.dart';
+import 'package:diaryapp/utils/login.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _currentUser = Provider.of<CurrentUser>(context, listen: false);
-
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
@@ -21,7 +18,7 @@ class HomePage extends StatelessWidget {
             const Text('data'),
             ElevatedButton(
                 onPressed: () async {
-                  _currentUser.signOut(context);
+                  FireAuth.signOut(context);
                 },
                 child: const Text('Sign out'))
           ],

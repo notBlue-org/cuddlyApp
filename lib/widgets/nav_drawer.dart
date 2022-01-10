@@ -1,15 +1,12 @@
 import 'package:diaryapp/constants/colors.dart';
-import 'package:diaryapp/providers/users.dart';
+import 'package:diaryapp/utils/login.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _currentUser = Provider.of<CurrentUser>(context, listen: false);
-
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -62,7 +59,9 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Sign Out'),
-            onTap: () async => {_currentUser.signOut(context)},
+            onTap: () async => {
+              FireAuth.signOut(context),
+            },
           ),
         ],
       ),

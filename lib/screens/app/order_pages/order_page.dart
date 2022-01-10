@@ -1,6 +1,6 @@
 import 'package:diaryapp/providers/cart.dart';
 import 'package:diaryapp/providers/products_provider.dart';
-import 'package:diaryapp/widgets/filter_widget.dart';
+// import 'package:diaryapp/widgets/filter_widget.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:diaryapp/widgets/product_item.dart';
 import 'package:flutter/material.dart';

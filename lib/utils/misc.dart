@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diaryapp/models/user.dart';
+import 'package:diaryapp/utils/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Validator {
@@ -23,5 +27,22 @@ class Misc {
   static void createSnackbar(BuildContext context, String text) {
     var snackBar = SnackBar(content: Text(text));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  static Future<AppUser> getUser() async {
+    final User? _currentUser = FirebaseAuth.instance.currentUser;
+    String _name = '';
+    String _type = '';
+    await FirebaseFirestore.instance
+        .collection('Distributors')
+        .where("Email", isEqualTo: _currentUser!.email)
+        .get()
+        .then((QuerySnapshot data) {
+      Map userDetails = data.docs.elementAt(0).data() as Map;
+
+      _name = userDetails["Name"];
+      _type = userDetails["Type"];
+    });
+    return AppUser(_currentUser, _name, _type);
   }
 }

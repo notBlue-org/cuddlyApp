@@ -1,9 +1,8 @@
-import 'package:diaryapp/providers/users.dart';
+import 'package:diaryapp/utils/login.dart';
 import 'package:diaryapp/utils/misc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import '../static_assets/wave_svg.dart';
 import '../static_assets/bottom_wave.dart';
 
@@ -50,7 +49,6 @@ class LoginPage extends StatelessWidget {
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +99,10 @@ Widget _passwordField() {
 
 Widget _loginButton(BuildContext context) {
   void _loginUser(BuildContext context, String email, String password) async {
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    User? _currentUser = await FireAuth.signInUsingEmailPassword(
+        context: context, email: email, password: password);
     try {
-      if (await _currentUser.signIn(context, email, password)) {
+      if (_currentUser != null) {
         Navigator.of(context).pushReplacementNamed(
           '/home_page',
         );
@@ -147,3 +146,4 @@ Widget _loginButton(BuildContext context) {
     ),
   );
 }
+
