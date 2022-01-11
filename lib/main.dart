@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import './firebase/firebase_options.dart';
 import './providers/products_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +48,6 @@ class _MainScreenState extends State<MainScreen> {
     FirebaseApp firebaseApp = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    // final _currentUser = Provider.of<CurrentUser>(context, listen:false);
 
     User? _currentUser = FirebaseAuth.instance.currentUser;
 
@@ -68,6 +68,9 @@ class _MainScreenState extends State<MainScreen> {
     return FutureBuilder(
       future: _initializeFirebase(),
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SplashScreen();
+        }
         return const SplashScreen();
       },
     );

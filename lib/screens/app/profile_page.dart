@@ -24,8 +24,6 @@ class ProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final User? _currentUser = FirebaseAuth.instance.currentUser;
-    final Future<AppUser> _appUser = Misc.getUser();
 
     return FutureBuilder<AppUser>(
       future: Misc.getUser(),
@@ -89,18 +87,16 @@ class ProfileBody extends StatelessWidget {
 }
 
 class VerificationBody extends StatefulWidget {
-  final User _currentUser;
-  const VerificationBody(this._currentUser, {Key? key}) : super(key: key);
+  late User _currentUser;
+  VerificationBody(this._currentUser, {Key? key}) : super(key: key);
 
   @override
-  _VerificationBodyState createState() => _VerificationBodyState(_currentUser);
+  _VerificationBodyState createState() => _VerificationBodyState();
 }
 
 class _VerificationBodyState extends State<VerificationBody> {
   bool _isSendingVerification = false;
-  User _currentUser;
 
-  _VerificationBodyState(this._currentUser);
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +114,7 @@ class _VerificationBodyState extends State<VerificationBody> {
                       setState(() {
                         _isSendingVerification = true;
                       });
-                      await _currentUser.sendEmailVerification();
+                      await widget._currentUser.sendEmailVerification();
                       setState(() {
                         _isSendingVerification = false;
                       });
@@ -129,11 +125,11 @@ class _VerificationBodyState extends State<VerificationBody> {
                   IconButton(
                     icon: const Icon(Icons.refresh),
                     onPressed: () async {
-                      User? user = await FireAuth.refreshUser(_currentUser);
+                      User? user = await FireAuth.refreshUser(widget._currentUser);
 
                       if (user != null) {
                         setState(() {
-                          _currentUser = user;
+                          widget._currentUser = user;
                         });
                       }
                     },
