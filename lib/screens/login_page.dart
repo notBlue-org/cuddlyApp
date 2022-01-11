@@ -105,8 +105,6 @@ class LoginButton extends StatefulWidget {
 }
 
 class _LoginButtonState extends State<LoginButton> {
-  // bool _signingIn = false;
-
   void _loginUser(BuildContext context) async {
     String email = _loginId.text.trim();
     String password = _passwordId.text.trim();
@@ -118,16 +116,12 @@ class _LoginButtonState extends State<LoginButton> {
       Misc.createSnackbar(context, _validationResult);
       return;
     } else {
-      // setState(() {
-      //   _signingIn = true;
-      // });
       Misc.showLoadingDialog(context, _keyLoader);
       User? _currentUser = await FireAuth.signInUsingEmailPassword(
           context: context, email: email, password: password);
       Navigator.of(context, rootNavigator: true).pop();
-      
+
       try {
-        
         if (_currentUser != null) {
           Navigator.of(context).pushReplacementNamed(
             '/home_page',
@@ -138,10 +132,6 @@ class _LoginButtonState extends State<LoginButton> {
       }
     }
   }
-
-  // _loadingButton() {
-  //   return _signingIn ? const CircularProgressIndicator() : const Text('Login');
-  // }
 
   @override
   Widget build(BuildContext context) {

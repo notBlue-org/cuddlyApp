@@ -1,4 +1,5 @@
 import 'package:diaryapp/models/user.dart';
+import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/utils/login.dart';
 import 'package:diaryapp/utils/misc.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
@@ -11,11 +12,21 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
         drawer: const NavDrawer(),
         appBar: AppBar(
-          title: const Text('Profile Page'),
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          elevation: 0.0,
+          title: const Text("Profile Page"),
         ),
-        body: const Center(child: ProfileBody()));
+        body: Column(children: [
+          Positioned(
+            top: -10,
+            child: CustomWaveSvg(),
+          ),
+          const ProfileBody()
+        ]));
   }
 }
 
@@ -24,7 +35,6 @@ class ProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder<AppUser>(
       future: Misc.getUser(),
       builder: (
@@ -37,44 +47,46 @@ class ProfileBody extends StatelessWidget {
           if (snapshot.hasError) {
             return const Text('Error');
           } else if (snapshot.hasData) {
-            return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Name: ${snapshot.data!.name}',
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  Text(
-                    'User Class: ${snapshot.data!.type}',
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  Text(
-                    'Email: ${snapshot.data!.user.email}',
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  const SizedBox(height: 16.0),
-                  snapshot.data!.user.emailVerified
-                      ? Text(
-                          'Email verified',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(color: Colors.green),
-                        )
-                      : Text(
-                          'Email not verified',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .copyWith(color: Colors.red),
-                        ),
-                  VerificationBody(snapshot.data!.user),
-                  ElevatedButton(
-                      onPressed: () async {
-                        FireAuth.signOut(context);
-                      },
-                      child: const Text('Sign out'))
-                ]);
+            return Center(
+              child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Name: ${snapshot.data!.name}',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    Text(
+                      'User Class: ${snapshot.data!.type}',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    Text(
+                      'Email: ${snapshot.data!.user.email}',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    const SizedBox(height: 16.0),
+                    snapshot.data!.user.emailVerified
+                        ? Text(
+                            'Email verified',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(color: Colors.green),
+                          )
+                        : Text(
+                            'Email not verified',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(color: Colors.red),
+                          ),
+                    VerificationBody(snapshot.data!.user),
+                    ElevatedButton(
+                        onPressed: () async {
+                          FireAuth.signOut(context);
+                        },
+                        child: const Text('Sign out'))
+                  ]),
+            );
           } else {
             return const Text('Empty data');
           }
@@ -96,7 +108,6 @@ class VerificationBody extends StatefulWidget {
 
 class _VerificationBodyState extends State<VerificationBody> {
   bool _isSendingVerification = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +136,8 @@ class _VerificationBodyState extends State<VerificationBody> {
                   IconButton(
                     icon: const Icon(Icons.refresh),
                     onPressed: () async {
-                      User? user = await FireAuth.refreshUser(widget._currentUser);
+                      User? user =
+                          await FireAuth.refreshUser(widget._currentUser);
 
                       if (user != null) {
                         setState(() {

@@ -1,3 +1,4 @@
+import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/utils/login.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +9,21 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text('Home'),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        elevation: 0.0,
+        title: const Text("Home"),
       ),
       body: Center(
         child: Column(
           children: [
+            Positioned(
+              top: -10,
+              child: CustomWaveSvg(),
+            ),
             const Text('data'),
             ElevatedButton(
                 onPressed: () async {

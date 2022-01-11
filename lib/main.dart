@@ -7,7 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import './firebase/firebase_options.dart';
 import './providers/products_provider.dart';
 import 'package:provider/provider.dart';
-import 'dart:io';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
