@@ -1,7 +1,16 @@
+import 'package:diaryapp/widgets/FinalOrder.dart';
 import 'package:flutter/material.dart';
 import '../providers/cart.dart';
 
 class OrderSummary extends StatelessWidget {
+  Redirect(BuildContext context){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FinalOrder()),
+    );
+
+  }
+
   const OrderSummary({
     Key? key,
     required this.cart,
@@ -25,11 +34,13 @@ class OrderSummary extends StatelessWidget {
                 label: Text('\$${cart.totalAmount}'),
                 backgroundColor: Theme.of(context).primaryColor),
             ElevatedButton(
-                onPressed: () => {},
+
                 child: const Text(
                   'Order now',
-                  style: TextStyle(color: Colors.white),
-                )),
+                  style: TextStyle(color: Colors.white)),
+                onPressed: () => {
+                  Redirect(context)
+                }),
           ],
         ),
       ),
