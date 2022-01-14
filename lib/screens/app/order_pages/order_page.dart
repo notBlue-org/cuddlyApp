@@ -42,9 +42,14 @@ class ProductGrid extends StatelessWidget {
   }
 }
 
-class FutureProductGrid extends StatelessWidget {
+class FutureProductGrid extends StatefulWidget {
   const FutureProductGrid({Key? key}) : super(key: key);
 
+  @override
+  State<FutureProductGrid> createState() => _FutureProductGridState();
+}
+
+class _FutureProductGridState extends State<FutureProductGrid> {
   @override
   Widget build(BuildContext context) {
     final productData = Provider.of<Products>(context);
@@ -75,11 +80,11 @@ class ProductList extends StatefulWidget {
 
 class _ProductListState extends State<ProductList> {
   int selectedIndex = 0;
-  
+
   @override
   Widget build(BuildContext context) {
     final productData = Provider.of<Products>(context);
-    var productList = productData.items;
+    var productList = productData.filterItems;
     var categories = productData.categories;
 
     return Expanded(
