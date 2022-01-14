@@ -1,4 +1,5 @@
 import 'package:diaryapp/static_assets/appbar_wave.dart';
+import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -10,19 +11,11 @@ class OrderSummaryPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       drawer: const NavDrawer(),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        elevation: 0.0,
-        title: const Text("Order Summary"),
-      ),
+      appBar: custAppBar("Order Summary"),
       body: Center(
         child: Column(
           children: [
-            Positioned(
-              top: -10,
-              child: CustomWaveSvg(),
-            ),
+            CustomWaveSvg(),
             const Text('All Orders Will Be displayed here'),
           ],
         ),

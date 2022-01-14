@@ -2,6 +2,7 @@ import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/providers/cart.dart';
 import 'package:diaryapp/providers/products_provider.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
+import 'package:diaryapp/widgets/cust_appbar.dart';
 // import 'package:diaryapp/widgets/filter_widget.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:diaryapp/widgets/product_item.dart';
@@ -16,22 +17,7 @@ class OrderPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       drawer: const NavDrawer(),
-      appBar: AppBar(
-        title: const Text('New Order'),
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        elevation: 0.0,
-        // actions: [
-        //   Consumer<Cart>(
-        //     builder: (context, value, child) => IconButton(
-        //       icon: const Icon(Icons.shopping_cart),
-        //       onPressed: () => {
-        //         Navigator.of(context).pushNamed('/cart_page'),
-        //       },
-        //     ),
-        //   )
-        // ],
-      ),
+      appBar: custAppBar("New Order"),
       body: const ProductGrid(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -65,10 +51,7 @@ class _ProductGridState extends State<ProductGrid> {
     final productData = Provider.of<Products>(context);
     var productList = productData.filterItems;
     return Column(children: [
-      Positioned(
-        top: -10,
-        child: CustomWaveSvg(),
-      ),
+      CustomWaveSvg(),
       Container(
         margin: const EdgeInsets.all(8),
         height: 40,

@@ -31,13 +31,13 @@ class Misc {
     final User? _currentUser = FirebaseAuth.instance.currentUser;
     String _name = '';
     String _type = '';
+
     await FirebaseFirestore.instance
         .collection('Distributors')
         .where("Email", isEqualTo: _currentUser!.email)
         .get()
         .then((QuerySnapshot data) {
       Map userDetails = data.docs.elementAt(0).data() as Map;
-
       _name = userDetails["Name"];
       _type = userDetails["Type"];
     });

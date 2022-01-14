@@ -1,6 +1,7 @@
 import 'package:diaryapp/providers/cart.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/cart_item.dart';
+import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/order_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,18 +14,10 @@ class CartPage extends StatelessWidget {
     final cart = Provider.of<Cart>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        elevation: 0.0,
-        title: const Text("Cart"),
-      ),
+      appBar: custAppBar("Cart"),
       body: Column(
         children: [
-          Positioned(
-            top: -10,
-            child: CustomWaveSvg(),
-          ),
+          CustomWaveSvg(),
           OrderSummary(cart: cart),
           Expanded(
             child: ListView.builder(

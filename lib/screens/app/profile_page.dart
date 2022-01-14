@@ -2,6 +2,7 @@ import 'package:diaryapp/models/user.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/utils/login.dart';
 import 'package:diaryapp/utils/misc.dart';
+import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,19 +15,8 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
         extendBodyBehindAppBar: true,
         drawer: const NavDrawer(),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          elevation: 0.0,
-          title: const Text("Profile Page"),
-        ),
-        body: Column(children: [
-          Positioned(
-            top: -10,
-            child: CustomWaveSvg(),
-          ),
-          const ProfileBody()
-        ]));
+        appBar: custAppBar("Profile Page"),
+        body: Column(children: [CustomWaveSvg(), const ProfileBody()]));
   }
 }
 
