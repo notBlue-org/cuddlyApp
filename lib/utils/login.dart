@@ -26,6 +26,7 @@ class FireAuth {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
+    //
     return user;
   }
 

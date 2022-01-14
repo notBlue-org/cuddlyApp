@@ -21,16 +21,6 @@ class OrderPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         elevation: 0.0,
-        // actions: [
-        //   Consumer<Cart>(
-        //     builder: (context, value, child) => IconButton(
-        //       icon: const Icon(Icons.shopping_cart),
-        //       onPressed: () => {
-        //         Navigator.of(context).pushNamed('/cart_page'),
-        //       },
-        //     ),
-        //   )
-        // ],
       ),
       body: const ProductGrid(),
       floatingActionButton: FloatingActionButton(
@@ -54,7 +44,7 @@ class ProductGrid extends StatefulWidget {
 class _ProductGridState extends State<ProductGrid> {
   int selectedIndex = 0;
   List categories = [
-    'company1',
+    'Malabar',
     'company2',
     'company3',
     'company4',
@@ -63,59 +53,81 @@ class _ProductGridState extends State<ProductGrid> {
   @override
   Widget build(BuildContext context) {
     final productData = Provider.of<Products>(context);
-    var productList = productData.filterItems;
-    return Column(children: [
-      Positioned(
-        top: -10,
-        child: CustomWaveSvg(),
-      ),
-      Container(
-        margin: const EdgeInsets.all(8),
-        height: 40,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: categories.length,
-          itemBuilder: (context, index) => GestureDetector(
-            onTap: () => {
-              setState(() {
-                selectedIndex = index;
-                productData.filter(brand: categories[index]);
-              })
-            },
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(
-                left: 10,
-                // At end item it add extra 20 right  padding
-                right: index == categories.length - 1 ? 10 : 0,
+    // productData.getData();
+    var state;
+    return FutureBuilder(
+      future: productData.getData(),
+      builder: (context, snapshot) {
+        state = snapshot.connectionState;
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: const CircularProgressIndicator());
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Text('Error');
+          } else if (snapshot.hasData) {
+            var productList = productData.filterItems;
+            return Column(children: [
+              Positioned(
+                top: -10,
+                child: CustomWaveSvg(),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                color: index == selectedIndex ? Colors.pink : Colors.lightBlue,
-                borderRadius: BorderRadius.circular(30),
+              Container(
+                margin: const EdgeInsets.all(8),
+                height: 40,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () => {
+                      setState(() {
+                        selectedIndex = index;
+                        productData.filter(brand: categories[index]);
+                      })
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                        left: 10,
+                        // At end item it add extra 20 right  padding
+                        right: index == categories.length - 1 ? 10 : 0,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: index == selectedIndex
+                            ? Colors.pink
+                            : Colors.lightBlue,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Text(
+                        categories[index],
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              child: Text(
-                categories[index],
-                style: const TextStyle(color: Colors.black),
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: (ctx, index) => ProductItem(
+                    id: productList[index].id,
+                    title: productList[index].title,
+                    imageUrl: productList[index].imageUrl,
+                    price: productList[index].price,
+                    description: productList[index].description,
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  itemCount: productList.length,
+                  scrollDirection: Axis.vertical,
+                ),
               ),
-            ),
-          ),
-        ),
-      ),
-      Expanded(
-        child: ListView.builder(
-          itemBuilder: (ctx, index) => ProductItem(
-            id: productList[index].id,
-            title: productList[index].title,
-            imageUrl: productList[index].imageUrl,
-            price: productList[index].price,
-            description: productList[index].description,
-          ),
-          padding: const EdgeInsets.all(10),
-          itemCount: productList.length,
-          scrollDirection: Axis.vertical,
-        ),
-      ),
-    ]);
+            ]);
+          } else {
+            return const Text('No data');
+          }
+        } else {
+          return Text('State: ${snapshot.connectionState}');
+        }
+      },
+    );
   }
 }
