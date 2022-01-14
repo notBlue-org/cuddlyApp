@@ -40,7 +40,7 @@ class ProductGrid extends StatefulWidget {
 class _ProductGridState extends State<ProductGrid> {
   int selectedIndex = 0;
   List categories = [
-    'company1',
+    'Malabar',
     'company2',
     'company3',
     'company4',
@@ -85,19 +85,34 @@ class _ProductGridState extends State<ProductGrid> {
           ),
         ),
       ),
-      Expanded(
-        child: ListView.builder(
-          itemBuilder: (ctx, index) => ProductItem(
-            id: productList[index].id,
-            title: productList[index].title,
-            imageUrl: productList[index].imageUrl,
-            price: productList[index].price,
-            description: productList[index].description,
-          ),
-          padding: const EdgeInsets.all(10),
-          itemCount: productList.length,
-          scrollDirection: Axis.vertical,
-        ),
+      FutureBuilder(
+        future: productData.getData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              return Expanded(
+                child: ListView.builder(
+                  itemBuilder: (ctx, index) => ProductItem(
+                    id: productList[index].id,
+                    title: productList[index].title,
+                    imageUrl: productList[index].imageUrl,
+                    price: productList[index].price,
+                    description: productList[index].description,
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  itemCount: productList.length,
+                  scrollDirection: Axis.vertical,
+                ),
+              );
+            } else {
+              return const Text('ERROR');
+            }
+          }else
+        },
       ),
     ]);
   }
