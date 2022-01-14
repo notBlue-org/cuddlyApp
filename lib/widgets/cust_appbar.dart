@@ -10,7 +10,6 @@ custAppBar(String title) {
       statusBarIconBrightness: Brightness.light,
     ),
     titleSpacing: 0,
-    automaticallyImplyLeading: false,
     backgroundColor: Colors.transparent,
     shadowColor: Colors.transparent,
     elevation: 0.0,
