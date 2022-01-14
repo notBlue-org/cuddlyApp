@@ -79,13 +79,14 @@ class ProductList extends StatefulWidget {
 }
 
 class _ProductListState extends State<ProductList> {
-  int selectedIndex = 0;
+  // late int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
     final productData = Provider.of<Products>(context);
     var productList = productData.filterItems;
     var categories = productData.categories;
+    int selectedIndex = productData.selectedIndex;
 
     return Expanded(
       child: Column(children: [
@@ -98,7 +99,7 @@ class _ProductListState extends State<ProductList> {
             itemBuilder: (context, index) => GestureDetector(
               onTap: () => {
                 setState(() {
-                  selectedIndex = index;
+                  productData.updateIndex(index);
                   productData.filter(brand: categories[index]);
                 })
               },

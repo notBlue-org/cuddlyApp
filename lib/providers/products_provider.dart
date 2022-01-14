@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 
 class Product {
   final String id;
@@ -22,6 +23,7 @@ class Product {
 class Products with ChangeNotifier {
   late List<Product> _items = [];
   late List<String> _categories = [];
+  int _selectedIndex = 0;
 
   List<Product> get items {
     return [..._items];
@@ -29,6 +31,13 @@ class Products with ChangeNotifier {
 
   List<String> get categories {
     return [..._categories];
+  }
+
+  int get selectedIndex => _selectedIndex;
+
+  updateIndex(int index) {
+    _selectedIndex = index;
+    notifyListeners();
   }
 
   Future getData() async {
