@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'dart:math';
 
 class OrderButton extends StatelessWidget {
   const OrderButton({Key? key}) : super(key: key);
@@ -21,17 +21,26 @@ class OrderButton extends StatelessWidget {
       return orders;
     }
 
+    Otp(){
+      var rng = new Random();
+      int  rand = rng.nextInt(8888)+1000 ;
+      String stringValue = rand.toString();
+      return stringValue;
+    }
+
     Future<void> addUser() {
       return order
           .add({
             'ProductList': getOrders(),
             'Status': 'Ordered',
             'Total Price': orderData.totalAmount,
-            'OTP': "",
+            'OTP': Otp(),
           })
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
     }
+
+
 
     return ElevatedButton(
         onPressed: () {

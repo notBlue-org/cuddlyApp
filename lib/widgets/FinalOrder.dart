@@ -27,13 +27,13 @@ class _FinalOrderState extends State<FinalOrder> {
     razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
   }
 
-  void handlerPaymentSuccess(){
-    print("Payment success");
+  void handlerPaymentSuccess(Future<void> addUser){
+   addUser ;
 
   }
 
-  void handlerErrorFailure(Future<void> addUser){
-    addUser;
+  void handlerErrorFailure(){
+    print("Payment success");
 
   }
 
