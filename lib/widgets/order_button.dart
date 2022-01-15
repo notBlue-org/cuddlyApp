@@ -1,12 +1,12 @@
+import 'package:diaryapp/widgets/FinalOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 class OrderButton extends StatelessWidget {
-  const OrderButton({
-    Key? key,
-  }) : super(key: key);
+  const OrderButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,9 @@ class OrderButton extends StatelessWidget {
 
     return ElevatedButton(
         onPressed: () {
-          addUser();
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FinalOrder(orderData.totalAmount,addUser())));
         },
         child: const Text(
           'Order now',
