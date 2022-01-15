@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../providers/cart.dart';
+import 'order_button.dart';
 
 class OrderSummary extends StatelessWidget {
   const OrderSummary({
@@ -24,12 +26,7 @@ class OrderSummary extends StatelessWidget {
             Chip(
                 label: Text('\$${cart.totalAmount}'),
                 backgroundColor: Theme.of(context).primaryColor),
-            ElevatedButton(
-                onPressed: () => {},
-                child: const Text(
-                  'Order now',
-                  style: TextStyle(color: Colors.white),
-                )),
+            const OrderButton(),
           ],
         ),
       ),
