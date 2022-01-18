@@ -1,4 +1,4 @@
-import 'package:diaryapp/providers/cart.dart';
+import 'package:diaryapp/providers/cart_provider.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/cart_item.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';

@@ -1,4 +1,3 @@
-import 'package:diaryapp/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

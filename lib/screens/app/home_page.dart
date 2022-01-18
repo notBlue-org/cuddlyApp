@@ -1,4 +1,3 @@
-import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/utils/login.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';

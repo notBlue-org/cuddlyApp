@@ -1,7 +1,7 @@
 import 'package:diaryapp/widgets/FinalOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/cart.dart';
+import '../providers/cart_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
@@ -39,8 +39,6 @@ class OrderButton extends StatelessWidget {
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
     }
-
-
 
     return ElevatedButton(
         onPressed: () {
