@@ -5,11 +5,15 @@ class CartItem {
   final String title;
   int quantity;
   final double price;
+  final String imgUrl;
+  final String desciption;
   CartItem({
     required this.id,
     required this.price,
     required this.quantity,
     required this.title,
+    required this.imgUrl,
+    required this.desciption,
   });
 }
 
@@ -42,7 +46,8 @@ class Cart with ChangeNotifier {
     return total;
   }
 
-  void addItem(String productId, double price, String title) {
+  void addItem(String productId, double price, String title, String imgUrl,
+      String description) {
     if (_items.containsKey(productId)) {
       _items.update(
           productId,
@@ -50,12 +55,19 @@ class Cart with ChangeNotifier {
               id: existingCartItem.id,
               price: existingCartItem.price,
               quantity: existingCartItem.quantity + 1,
-              title: existingCartItem.title));
+              title: existingCartItem.title,
+              imgUrl: existingCartItem.imgUrl,
+              desciption: existingCartItem.desciption));
     } else {
       _items.putIfAbsent(
           productId,
-          () =>
-              CartItem(id: productId, price: price, quantity: 1, title: title));
+          () => CartItem(
+              id: productId,
+              price: price,
+              quantity: 1,
+              title: title,
+              imgUrl: imgUrl,
+              desciption: description));
     }
     notifyListeners();
   }
@@ -68,7 +80,9 @@ class Cart with ChangeNotifier {
               id: existingCartItem.id,
               price: existingCartItem.price,
               quantity: existingCartItem.quantity - 1,
-              title: existingCartItem.title));
+              title: existingCartItem.title,
+              imgUrl: existingCartItem.imgUrl,
+              desciption: existingCartItem.desciption));
     } else {
       _items.remove(productId);
     }

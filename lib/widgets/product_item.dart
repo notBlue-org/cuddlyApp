@@ -64,11 +64,14 @@ class ProductItem extends StatelessWidget {
                       ],
                     ),
                     Text(description,
-                        style: const TextStyle(color: Colors.black, height: 1.5)),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            height: 1.5,
+                            overflow: TextOverflow.ellipsis)),
                     Row(
                       children: [
                         const Text(
-                          '\$',
+                          'Rs ',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,

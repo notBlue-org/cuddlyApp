@@ -5,8 +5,8 @@ import '../providers/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
-class OrderButton extends StatelessWidget {
-  const OrderButton({Key? key}) : super(key: key);
+class OnlineOrderButton extends StatelessWidget {
+  const OnlineOrderButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,9 @@ class OrderButton extends StatelessWidget {
       return orders;
     }
 
-    Otp(){
+    Otp() {
       var rng = new Random();
-      int  rand = rng.nextInt(8888)+1000 ;
+      int rand = rng.nextInt(8888) + 1000;
       String stringValue = rand.toString();
       return stringValue;
     }
@@ -40,17 +40,23 @@ class OrderButton extends StatelessWidget {
           .catchError((error) => print("Failed to add user: $error"));
     }
 
-
-
-    return ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => FinalOrder(orderData.totalAmount,addUser())));
-        },
-        child: const Text(
-          'Order now',
-          style: TextStyle(color: Colors.white),
-        ));
+    return SizedBox(
+      width: 150,
+      height: 55,
+      child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        FinalOrder(orderData.totalAmount, addUser())));
+          },
+          style: ElevatedButton.styleFrom(primary: const Color(0xff23233c)),
+          child: const Text(
+            'Pay Online using Razorpay',
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          )),
+    );
   }
 }
