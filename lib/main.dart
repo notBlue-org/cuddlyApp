@@ -1,7 +1,6 @@
-import 'package:diaryapp/providers/cart.dart';
+import 'package:diaryapp/providers/cart_provider.dart';
 import 'package:diaryapp/utils/route_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'screens/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -50,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
     );
 
     User? _currentUser = FirebaseAuth.instance.currentUser;
-
+    
     if (_currentUser != null) {
       Navigator.of(context).pushReplacementNamed(
         '/home_page',
