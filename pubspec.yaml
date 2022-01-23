@@ -21,11 +21,15 @@ dependencies:
   cloud_firestore: ^3.1.5
   firebase_app_check: ^0.0.6+3
   razorpay_flutter: ^1.2.3
+  hive: ^2.0.5
+  hive_flutter: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
+  build_runner: ^1.12.2
+  hive_generator: ^1.0.1
 
 flutter:
   uses-material-design: true

@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diaryapp/hive/user_stored.dart';
+import 'package:diaryapp/screens/boxes.dart';
 import 'package:diaryapp/utils/login.dart';
 import 'package:diaryapp/utils/misc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -120,6 +123,21 @@ class _LoginButtonState extends State<LoginButton> {
       User? _currentUser = await FireAuth.signInUsingEmailPassword(
           context: context, email: email, password: password);
       Navigator.of(context, rootNavigator: true).pop();
+
+      // Added by Adi
+      await FirebaseFirestore.instance
+          .collection('Distributors')
+          .where("Email", isEqualTo: _currentUser!.email)
+          .get()
+          .then((QuerySnapshot data) {
+        Map userDetails = data.docs.elementAt(0).data() as Map;
+        final userData = UserStore();
+        userData.id = data.docs.elementAt(0).id;
+        userData.username = userDetails["Name"];
+        userData.type = userDetails["Type"];
+        final box = Boxes.getUserStore();
+        box.put(0, userData);
+      });
 
       try {
         if (_currentUser != null) {

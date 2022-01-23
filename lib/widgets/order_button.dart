@@ -1,5 +1,8 @@
-import 'package:diaryapp/widgets/FinalOrder.dart';
+import 'package:diaryapp/hive/user_stored.dart';
+import 'package:diaryapp/screens/boxes.dart';
+import 'package:diaryapp/widgets/payment_gateway.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,35 +31,43 @@ class OnlineOrderButton extends StatelessWidget {
       return stringValue;
     }
 
-    Future<void> addUser() {
+    Future<void> addUser(String id) {
       return order
           .add({
+            'DistributorID': id,
             'ProductList': getOrders(),
             'Status': 'Ordered',
             'Total Price': orderData.totalAmount,
             'OTP': Otp(),
+            'PaymentType': 'Online'
           })
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
     }
 
-    return SizedBox(
-      width: 150,
-      height: 55,
-      child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        FinalOrder(orderData.totalAmount, addUser())));
-          },
-          style: ElevatedButton.styleFrom(primary: const Color(0xff23233c)),
-          child: const Text(
-            'Pay Online using Razorpay',
-            style: TextStyle(color: Colors.white),
-            textAlign: TextAlign.center,
-          )),
+    return ValueListenableBuilder<Box<UserStore>>(
+      valueListenable: Boxes.getUserStore().listenable(),
+      builder: (context, box, _) {
+        final user = box.values.toList().cast<UserStore>();
+        return SizedBox(
+          width: 150,
+          height: 55,
+          child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Gateway(orderData.totalAmount,
+                            addUser(user.elementAt(0).id))));
+              },
+              style: ElevatedButton.styleFrom(primary: const Color(0xff23233c)),
+              child: const Text(
+                'Pay Online using Razorpay',
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              )),
+        );
+      },
     );
   }
 }
