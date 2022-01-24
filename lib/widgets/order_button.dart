@@ -1,5 +1,5 @@
 import 'package:diaryapp/hive/user_stored.dart';
-import 'package:diaryapp/screens/boxes.dart';
+import 'package:diaryapp/models/boxes.dart';
 import 'package:diaryapp/widgets/payment_gateway.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/hive/user_stored.dart';
-import 'package:diaryapp/screens/boxes.dart';
+import 'package:diaryapp/models/boxes.dart';
 import 'package:diaryapp/utils/login.dart';
 import 'package:diaryapp/utils/misc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -135,6 +135,8 @@ class _LoginButtonState extends State<LoginButton> {
         userData.id = data.docs.elementAt(0).id;
         userData.username = userDetails["Name"];
         userData.type = userDetails["Type"];
+        userData.email = userDetails['Email'];
+        userData.brands = userDetails['Brand'].split(',');
         final box = Boxes.getUserStore();
         box.put(0, userData);
       });

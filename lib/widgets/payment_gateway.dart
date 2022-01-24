@@ -18,7 +18,7 @@ class _FinalOrderState extends State<Gateway> {
   void initState() {
     super.initState();
 
-    razorpay = new Razorpay();
+    razorpay = Razorpay();
     razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
     razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerErrorFailure);
     razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);

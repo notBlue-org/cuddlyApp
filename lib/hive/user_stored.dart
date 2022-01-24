@@ -10,4 +10,8 @@ class UserStore extends HiveObject {
   late String id;
   @HiveField(2)
   late String type;
+  @HiveField(3)
+  late String email;
+  @HiveField(4)
+  late List<String> brands;
 }
