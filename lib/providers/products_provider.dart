@@ -61,18 +61,18 @@ class Products with ChangeNotifier {
           .get()
           .then((QuerySnapshot data) {
         _productDocsDefault = data.docs;
-      });
-
-      await FirebaseFirestore.instance
-          .collection("Distributors")
-          .doc(_userDetails.id)
-          .collection(_brand)
-          .get()
-          .then((QuerySnapshot data) {
-        for (var product in data.docs) {
-          Map _product = product.data() as Map;
-          _productDocsUserMap[product.id] = double.parse(_product["Price"]);
-        }
+      }).then((_) {
+        FirebaseFirestore.instance
+            .collection("Distributors")
+            .doc(_userDetails.id)
+            .collection(_brand)
+            .get()
+            .then((QuerySnapshot data) {
+          for (var product in data.docs) {
+            Map _product = product.data() as Map;
+            _productDocsUserMap[product.id] = double.parse(_product["Price"]);
+          }
+        });
       });
 
       if (_productDocsUserMap.isEmpty) {
