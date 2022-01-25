@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../models/user_stored.dart';
+part of 'user_stored.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
@@ -19,19 +19,25 @@ class UserStoreAdapter extends TypeAdapter<UserStore> {
     return UserStore()
       ..username = fields[0] as String
       ..id = fields[1] as String
-      ..type = fields[2] as String;
+      ..type = fields[2] as String
+      ..email = fields[3] as String
+      ..brands = (fields[4] as List).cast<String>();
   }
 
   @override
   void write(BinaryWriter writer, UserStore obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.username)
       ..writeByte(1)
       ..write(obj.id)
       ..writeByte(2)
-      ..write(obj.type);
+      ..write(obj.type)
+      ..writeByte(3)
+      ..write(obj.email)
+      ..writeByte(4)
+      ..write(obj.brands);
   }
 
   @override

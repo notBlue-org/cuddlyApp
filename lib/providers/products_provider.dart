@@ -45,13 +45,16 @@ class Products with ChangeNotifier {
   Future getData() async {
     List<Product> _productList = [];
     final box = Boxes.getUserStore();
+
     var _userDetails = box.values.toList().elementAt(0);
 
     var _productDocsDefault = [];
     Map _productDocsUserMap = {};
 
     for (var _brand in _userDetails.brands) {
-      _categories.add(_brand);
+      if (!_categories.contains(_brand)) {
+        _categories.add(_brand);
+      }
 
       await FirebaseFirestore.instance
           .collection(_brand)
@@ -72,7 +75,6 @@ class Products with ChangeNotifier {
         }
       });
 
-
       if (_productDocsUserMap.isEmpty) {
         for (var product in _productDocsDefault) {
           Map _product = product.data() as Map;
@@ -87,23 +89,22 @@ class Products with ChangeNotifier {
       } else {
         for (var product in _productDocsDefault) {
           Map _product = product.data() as Map;
-          if(_productDocsUserMap.containsKey(product.id)){
+          if (_productDocsUserMap.containsKey(product.id)) {
             _productList.add(Product(
-              id: product.id,
-              brand: _brand,
-              title: _product['Name'],
-              description: _product['Description'],
-              imageUrl: _product['ImageURI'],
-              price: _productDocsUserMap[product.id]));
-          }
-          else{
+                id: product.id,
+                brand: _brand,
+                title: _product['Name'],
+                description: _product['Description'],
+                imageUrl: _product['ImageURI'],
+                price: _productDocsUserMap[product.id]));
+          } else {
             _productList.add(Product(
-              id: product.id,
-              brand: _brand,
-              title: _product['Name'],
-              description: _product['Description'],
-              imageUrl: _product['ImageURI'],
-              price: double.parse(_product['Price'])));
+                id: product.id,
+                brand: _brand,
+                title: _product['Name'],
+                description: _product['Description'],
+                imageUrl: _product['ImageURI'],
+                price: double.parse(_product['Price'])));
           }
         }
       }
@@ -113,7 +114,7 @@ class Products with ChangeNotifier {
     return _productList;
   }
 
-  var _filterItems=[];
+  var _filterItems = [];
 
   Products() {
     getData().then((value) => _filterItems =
