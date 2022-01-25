@@ -1,15 +1,14 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diaryapp/hive/user_stored.dart';
+import 'package:diaryapp/models/user_stored.dart';
 import 'package:diaryapp/providers/cart.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
-import 'package:diaryapp/widgets/cart_item.dart';
+import 'package:diaryapp/widgets/order_widgets/cart_item.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
-import 'package:diaryapp/widgets/order_button.dart';
-import 'package:diaryapp/widgets/order_summary.dart';
+import 'package:diaryapp/widgets/order_widgets/order_button.dart';
+import 'package:diaryapp/widgets/order_widgets/order_summary.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +32,7 @@ class CartPage extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.only(top: 10),
               shrinkWrap: true,
               itemCount: cart.itemCount,
               itemBuilder: (ctx, i) => CartItemWid(

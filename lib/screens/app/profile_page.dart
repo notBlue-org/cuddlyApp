@@ -1,11 +1,12 @@
-import 'package:diaryapp/models/user.dart';
+import 'package:diaryapp/constants/colors.dart';
+import 'package:diaryapp/models/user_stored.dart';
+import 'package:diaryapp/models/boxes.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/utils/login.dart';
-import 'package:diaryapp/utils/misc.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -25,120 +26,37 @@ class ProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<AppUser>(
-      future: Misc.getUser(),
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<AppUser> snapshot,
-      ) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
-        } else if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
-            return const Text('Error');
-          } else if (snapshot.hasData) {
-            return Center(
-              child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Name: ${snapshot.data!.name}',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Text(
-                      'User Class: ${snapshot.data!.type}',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Text(
-                      'Email: ${snapshot.data!.user.email}',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    const SizedBox(height: 16.0),
-                    snapshot.data!.user.emailVerified
-                        ? Text(
-                            'Email verified',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(color: Colors.green),
-                          )
-                        : Text(
-                            'Email not verified',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(color: Colors.red),
-                          ),
-                    VerificationBody(snapshot.data!.user),
-                    ElevatedButton(
-                        onPressed: () async {
-                          FireAuth.signOut(context);
-                        },
-                        child: const Text('Sign out'))
-                  ]),
-            );
-          } else {
-            return const Text('Empty data');
-          }
-        } else {
-          return Text('State: ${snapshot.connectionState}');
-        }
+    return ValueListenableBuilder<Box<UserStore>>(
+      valueListenable: Boxes.getUserStore().listenable(),
+      builder: (context, box, _) {
+        final userDetails = box.values.toList().cast<UserStore>();
+        return Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Name: ${userDetails.elementAt(0).username}',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                Text(
+                  'User Class: ${userDetails.elementAt(0).type}',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                Text(
+                  'Email: ${userDetails.elementAt(0).email}',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: kButtonColor),
+                    onPressed: () async {
+                      FireAuth.signOut(context);
+                    },
+                    child: const Text('Sign out'))
+              ]),
+        );
       },
-    );
-  }
-}
-
-class VerificationBody extends StatefulWidget {
-  late User _currentUser;
-  VerificationBody(this._currentUser, {Key? key}) : super(key: key);
-
-  @override
-  _VerificationBodyState createState() => _VerificationBodyState();
-}
-
-class _VerificationBodyState extends State<VerificationBody> {
-  bool _isSendingVerification = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const SizedBox(height: 16.0),
-        _isSendingVerification
-            ? const CircularProgressIndicator()
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      setState(() {
-                        _isSendingVerification = true;
-                      });
-                      await widget._currentUser.sendEmailVerification();
-                      setState(() {
-                        _isSendingVerification = false;
-                      });
-                    },
-                    child: const Text('Verify email'),
-                  ),
-                  const SizedBox(width: 8.0),
-                  IconButton(
-                    icon: const Icon(Icons.refresh),
-                    onPressed: () async {
-                      User? user =
-                          await FireAuth.refreshUser(widget._currentUser);
-
-                      if (user != null) {
-                        setState(() {
-                          widget._currentUser = user;
-                        });
-                      }
-                    },
-                  ),
-                ],
-              ),
-      ],
     );
   }
 }

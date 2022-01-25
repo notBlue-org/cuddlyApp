@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class Gateway extends StatefulWidget {
-  Future<void> addUser;
+  final Future<void> addUser;
   double total_amount;
   Gateway(this.total_amount, this.addUser, {Key? key}) : super(key: key);
   @override

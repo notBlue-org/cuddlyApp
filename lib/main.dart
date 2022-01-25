@@ -1,4 +1,4 @@
-import 'package:diaryapp/hive/user_stored.dart';
+import 'package:diaryapp/models/user_stored.dart';
 import 'package:diaryapp/providers/cart.dart';
 import 'package:diaryapp/utils/route_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,9 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 import './firebase/firebase_options.dart';
 import './providers/products_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import './hive/user_stored.dart';
+import 'models/user_stored.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

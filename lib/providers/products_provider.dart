@@ -1,6 +1,9 @@
+import 'package:diaryapp/models/boxes.dart';
+import 'package:diaryapp/models/user_stored.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Product {
   final String id;
@@ -21,7 +24,7 @@ class Product {
 
 class Products with ChangeNotifier {
   late List<Product> _items = [];
-  late List<String> _categories = [];
+  late final List<String> _categories = [];
   int _selectedIndex = 0;
 
   List<Product> get items {
@@ -40,32 +43,78 @@ class Products with ChangeNotifier {
   }
 
   Future getData() async {
-    List<Product> tmpList = [];
-    await FirebaseFirestore.instance
-        .collection('Product_Specification')
-        .get()
-        .then((QuerySnapshot data) {
-      var _productList = data.docs;
-      for (var product in _productList) {
-        Map tmp = product.data() as Map;
-        tmpList.add(Product(
-            id: product.id,
-            brand: tmp['Company'],
-            title: tmp['Name'],
-            description: tmp['Description'],
-            imageUrl: tmp['ImageURI'],
-            price: double.parse(tmp['Price'])));
-        if (!_categories.contains(tmp['Company'])) {
-          _categories.add(tmp['Company']);
+    List<Product> _productList = [];
+    final box = Boxes.getUserStore();
+    var _userDetails = box.values.toList().elementAt(0);
+
+    var _productDocsDefault = [];
+    Map _productDocsUserMap = {};
+
+    for (var _brand in _userDetails.brands) {
+      _categories.add(_brand);
+
+      await FirebaseFirestore.instance
+          .collection(_brand)
+          .get()
+          .then((QuerySnapshot data) {
+        _productDocsDefault = data.docs;
+      });
+
+      await FirebaseFirestore.instance
+          .collection("Distributors")
+          .doc(_userDetails.id)
+          .collection(_brand)
+          .get()
+          .then((QuerySnapshot data) {
+        for (var product in data.docs) {
+          Map _product = product.data() as Map;
+          _productDocsUserMap[product.id] = double.parse(_product["Price"]);
+        }
+      });
+
+
+      if (_productDocsUserMap.isEmpty) {
+        for (var product in _productDocsDefault) {
+          Map _product = product.data() as Map;
+          _productList.add(Product(
+              id: product.id,
+              brand: _brand,
+              title: _product['Name'],
+              description: _product['Description'],
+              imageUrl: _product['ImageURI'],
+              price: double.parse(_product['Price'])));
+        }
+      } else {
+        for (var product in _productDocsDefault) {
+          Map _product = product.data() as Map;
+          if(_productDocsUserMap.containsKey(product.id)){
+            _productList.add(Product(
+              id: product.id,
+              brand: _brand,
+              title: _product['Name'],
+              description: _product['Description'],
+              imageUrl: _product['ImageURI'],
+              price: _productDocsUserMap[product.id]));
+          }
+          else{
+            _productList.add(Product(
+              id: product.id,
+              brand: _brand,
+              title: _product['Name'],
+              description: _product['Description'],
+              imageUrl: _product['ImageURI'],
+              price: double.parse(_product['Price'])));
+          }
         }
       }
-    });
+    }
 
-    _items = tmpList;
-    return tmpList;
+    _items = _productList;
+    return _productList;
   }
 
-  var _filterItems;
+  var _filterItems=[];
+
   Products() {
     getData().then((value) => _filterItems =
         _items.where((element) => element.brand == 'Malabar').toList());

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diaryapp/hive/user_stored.dart';
+import 'package:diaryapp/models/user_stored.dart';
 import 'package:diaryapp/models/boxes.dart';
 import 'package:diaryapp/utils/login.dart';
 import 'package:diaryapp/utils/misc.dart';
@@ -113,6 +113,7 @@ class _LoginButtonState extends State<LoginButton> {
     String password = _passwordId.text.trim();
 
     FocusScope.of(context).unfocus();
+
     String? _validationResult = Validator.validate(
         email: _loginId.text.trim(), password: _passwordId.text.trim());
     if (_validationResult != null) {
@@ -130,23 +131,27 @@ class _LoginButtonState extends State<LoginButton> {
           .where("Email", isEqualTo: _currentUser!.email)
           .get()
           .then((QuerySnapshot data) {
-        Map userDetails = data.docs.elementAt(0).data() as Map;
+        Map _currentUserFirestore = data.docs.elementAt(0).data() as Map;
+
         final userData = UserStore();
         userData.id = data.docs.elementAt(0).id;
-        userData.username = userDetails["Name"];
-        userData.type = userDetails["Type"];
-        userData.email = userDetails['Email'];
-        userData.brands = userDetails['Brand'].split(',');
+        userData.username = _currentUserFirestore["Name"];
+        userData.type = _currentUserFirestore["Type"];
+        userData.email = _currentUserFirestore['Email'];
+        List<String> _brands = _currentUserFirestore['Brand'].split(',');
+        for (var brand in _brands) {
+          brand = brand.trim();
+        }
+        userData.brands = _brands;
+        
         final box = Boxes.getUserStore();
         box.put(0, userData);
       });
 
       try {
-        if (_currentUser != null) {
-          Navigator.of(context).pushReplacementNamed(
-            '/home_page',
-          );
-        }
+        Navigator.of(context).pushReplacementNamed(
+          '/home_page',
+        );
       } catch (e) {
         Misc.createSnackbar(context, 'Error: $e.code');
       }

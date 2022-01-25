@@ -1,10 +1,10 @@
-import 'package:diaryapp/hive/user_stored.dart';
+import 'package:diaryapp/models/user_stored.dart';
 import 'package:diaryapp/models/boxes.dart';
-import 'package:diaryapp/widgets/payment_gateway.dart';
+import 'package:diaryapp/widgets/order_widgets/payment_gateway.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import '../providers/cart.dart';
+import '../../providers/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
@@ -24,8 +24,8 @@ class OnlineOrderButton extends StatelessWidget {
       return orders;
     }
 
-    Otp() {
-      var rng = new Random();
+    generateOtp() {
+      var rng = Random();
       int rand = rng.nextInt(8888) + 1000;
       String stringValue = rand.toString();
       return stringValue;
@@ -38,7 +38,7 @@ class OnlineOrderButton extends StatelessWidget {
             'ProductList': getOrders(),
             'Status': 'Ordered',
             'Total Price': orderData.totalAmount,
-            'OTP': Otp(),
+            'OTP': generateOtp(),
             'PaymentType': 'Online'
           })
           .then((value) => print("User Added"))

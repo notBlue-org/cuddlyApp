@@ -41,7 +41,7 @@ class NavDrawer extends StatelessWidget {
                 endIndent: 30.0,
               ),
               _getListTile(context, Icons.list_alt_rounded, 'All Orders',
-                  '/order_summary_page'),
+                  '/order_history_page'),
               const Divider(
                 color: Colors.white,
                 indent: 10.0,
