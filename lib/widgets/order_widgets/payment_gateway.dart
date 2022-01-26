@@ -5,8 +5,8 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class Gateway extends StatefulWidget {
   final Future<void> addUser;
-  double total_amount;
-  Gateway(this.total_amount, this.addUser, {Key? key}) : super(key: key);
+  final double total_amount;
+  const Gateway(this.total_amount, this.addUser, {Key? key}) : super(key: key);
   @override
   _FinalOrderState createState() => _FinalOrderState();
 }

@@ -84,7 +84,7 @@ class CoDButton extends StatelessWidget {
       return orders;
     }
 
-    Otp() {
+    generateOtp() {
       var rng = Random();
       int rand = rng.nextInt(8888) + 1000;
       String stringValue = rand.toString();
@@ -98,7 +98,7 @@ class CoDButton extends StatelessWidget {
             'ProductList': getOrders(),
             'Status': 'Ordered',
             'Total Price': orderData.totalAmount,
-            'OTP': Otp(),
+            'OTP': generateOtp(),
             'PaymentType': 'COD'
           })
           .then((value) => print("User Added by COD"))

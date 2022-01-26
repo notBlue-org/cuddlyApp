@@ -1,9 +1,7 @@
 import 'package:diaryapp/models/boxes.dart';
-import 'package:diaryapp/models/user_stored.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class Product {
   final String id;
