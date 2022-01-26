@@ -41,9 +41,9 @@ class _DiaryAppState extends State<DiaryApp> {
         ChangeNotifierProvider(create: (context) => Products()),
         ChangeNotifierProvider(create: (context) => Cart()),
       ],
-      child: const MaterialApp(
-        home: MainScreen(),
-        // theme: ThemeData(scaffoldBackgroundColor: Colors.white),
+      child: MaterialApp(
+        home: const MainScreen(),
+        theme: ThemeData(fontFamily: 'Poppins'),
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
     );
 
     User? _currentUser = FirebaseAuth.instance.currentUser;
-    
+
     if (_currentUser != null) {
       Navigator.of(context).pushReplacementNamed(
         '/home_page',

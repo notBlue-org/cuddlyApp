@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/models/user_stored.dart';
 import 'package:diaryapp/models/boxes.dart';
 import 'package:diaryapp/utils/login.dart';
@@ -30,23 +31,38 @@ class LoginPage extends StatelessWidget {
           }
         },
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          extendBodyBehindAppBar: true,
-          body: Stack(alignment: Alignment.center, children: [
-            Positioned(
-              top: -10,
-              child: WaveSvg(),
-            ),
-            Positioned(
-              top: MediaQuery.of(context).size.height / 6 + 100,
-              child: const Login(),
-            ),
-            Positioned(
-              bottom: -310,
-              child: BottomWave(),
-            )
-          ]),
-        ));
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
+            body: Center(
+                child: Column(children: [
+              SizedBox(
+                  height: 150,
+                  child:
+                      Stack(children: [Positioned(top: 0, child: WaveSvg())])),
+              const Expanded(
+                child: SizedBox(),
+              ),
+              const Text(
+                "Welcome",
+                style: TextStyle(
+                  color: kButtonColor,
+                  fontFamily: 'Poppins',
+                  fontSize: 30,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Login(),
+              const Expanded(
+                child: SizedBox(),
+              ),
+              Expanded(
+                  child: Stack(children: [
+                Positioned(bottom: -250, child: BottomWave())
+              ])),
+            ]))));
   }
 }
 
@@ -62,9 +78,12 @@ class Login extends StatelessWidget {
           children: <Widget>[
             _usernameField(width),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             _passwordField(width),
+            const SizedBox(
+              height: 20,
+            ),
             const LoginButton(),
           ],
         ));
@@ -112,7 +131,7 @@ Widget _passwordField(width) {
         boxShadow: const [
           BoxShadow(
             color: Color.fromRGBO(13, 21, 129, 0.03),
-            blurRadius: 100.0,
+            blurRadius: 5.0,
             offset: Offset(0, 10.0),
             spreadRadius: 2,
           ),
@@ -120,6 +139,7 @@ Widget _passwordField(width) {
     // color: Colors.white,
     child: Center(
       child: TextFormField(
+        obscureText: true,
         textAlign: TextAlign.center,
         decoration: const InputDecoration.collapsed(
           hintText: 'Password',
@@ -197,7 +217,7 @@ class _LoginButtonState extends State<LoginButton> {
       margin: const EdgeInsets.symmetric(
         vertical: 20,
       ),
-      width: 0.6 * width,
+      width: 0.8 * width,
       height: 50,
       child: ElevatedButton(
         child: const Text('Login'),
@@ -205,10 +225,12 @@ class _LoginButtonState extends State<LoginButton> {
           _loginUser(context);
         },
         style: ElevatedButton.styleFrom(
-          primary: const Color(0xff23233c),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          primary: kButtonColor,
           textStyle: const TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 26,
+            fontFamily: 'google sans',
+            fontSize: 20,
           ),
         ),
       ),
