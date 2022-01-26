@@ -78,7 +78,6 @@ _getField(width, label, value) {
             boxShadow: const [
               BoxShadow(
                 color: Color.fromRGBO(13, 21, 129, 0.03),
-                // rgba(13,21,129,0.03137254901960784 )
                 blurRadius: 100.0,
                 offset: Offset(0, 10.0),
                 spreadRadius: 2,
