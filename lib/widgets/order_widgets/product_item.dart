@@ -3,7 +3,7 @@
 // import 'package:diaryapp/widgets/item_counter.dart';
 import 'package:flutter/material.dart';
 // import 'package:diaryapp/providers/cart_counter_provider.dart';
-import './item_counter.dart';
+import 'item_counter.dart';
 
 class ProductItem extends StatelessWidget {
   final String id;
@@ -36,8 +36,8 @@ class ProductItem extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: SizedBox(
-                height: 110,
-                width: 110,
+                height: 80,
+                width: 80,
                 child: Image.network(
                   imageUrl,
                   fit: BoxFit.fill,
@@ -53,12 +53,14 @@ class ProductItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          title,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            height: 1.0,
+                        Center(
+                          child: Text(
+                            title,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              height: 1.0,
+                            ),
                           ),
                         ),
                       ],

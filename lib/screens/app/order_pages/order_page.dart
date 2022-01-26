@@ -3,7 +3,7 @@ import 'package:diaryapp/providers/products_provider.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
-import 'package:diaryapp/widgets/product_item.dart';
+import 'package:diaryapp/widgets/order_widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

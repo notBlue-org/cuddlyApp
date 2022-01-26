@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../providers/cart_provider.dart';
-import 'order_button.dart';
+import '../../providers/cart.dart';
 
 class OrderSummary extends StatelessWidget {
   const OrderSummary({

@@ -1,4 +1,5 @@
-import 'package:diaryapp/providers/cart_provider.dart';
+import 'package:diaryapp/models/user_stored.dart';
+import 'package:diaryapp/providers/cart.dart';
 import 'package:diaryapp/utils/route_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/splash_screen_page.dart';
@@ -7,9 +8,15 @@ import 'package:firebase_core/firebase_core.dart';
 import './firebase/firebase_options.dart';
 import './providers/products_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'models/user_stored.dart';
 
-void main() {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  WidgetsFlutterBinding.ensureInitialized();
+  Hive.registerAdapter(UserStoreAdapter());
+  await Hive.openBox<UserStore>('user');
   runApp(const DiaryApp());
 }
 
@@ -21,6 +28,12 @@ class DiaryApp extends StatefulWidget {
 }
 
 class _DiaryAppState extends State<DiaryApp> {
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
