@@ -1,5 +1,5 @@
 import 'package:diaryapp/models/user_stored.dart';
-import 'package:diaryapp/providers/cart.dart';
+import 'package:diaryapp/providers/cart_provider.dart';
 import 'package:diaryapp/utils/route_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/splash_screen_page.dart';
@@ -43,6 +43,7 @@ class _DiaryAppState extends State<DiaryApp> {
       ],
       child: const MaterialApp(
         home: MainScreen(),
+        // theme: ThemeData(scaffoldBackgroundColor: Colors.white),
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );

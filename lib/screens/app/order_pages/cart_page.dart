@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/models/user_stored.dart';
-import 'package:diaryapp/providers/cart.dart';
+import 'package:diaryapp/providers/cart_provider.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/order_widgets/cart_item.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
@@ -25,7 +25,10 @@ class CartPage extends StatelessWidget {
       appBar: custAppBar("Cart"),
       body: Column(
         children: [
-          CustomWaveSvg(),
+          SizedBox(
+              height: 150,
+              child: Stack(
+                  children: [Positioned(top: 0, child: CustomWaveSvg())])),
           const Text(
             "Order Details",
             style: TextStyle(fontSize: 30),

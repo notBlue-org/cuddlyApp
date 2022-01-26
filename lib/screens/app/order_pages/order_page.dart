@@ -35,7 +35,10 @@ class ProductGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        CustomWaveSvg(),
+        SizedBox(
+            height: 150,
+            child:
+                Stack(children: [Positioned(top: 0, child: CustomWaveSvg())])),
         const FutureProductGrid(),
       ],
     );
@@ -112,13 +115,12 @@ class _ProductListState extends State<ProductList> {
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                  color:
-                      index == selectedIndex ? Colors.pink : Colors.lightBlue,
+                  color: index == selectedIndex ? kPrimaryColor : kButtonColor,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Text(
                   categories[index],
-                  style: const TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ),

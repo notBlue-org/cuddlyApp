@@ -1,5 +1,5 @@
+import 'package:diaryapp/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
-import '../../providers/cart.dart';
 
 class OrderSummary extends StatelessWidget {
   const OrderSummary({

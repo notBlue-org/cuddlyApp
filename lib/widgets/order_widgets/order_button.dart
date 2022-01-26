@@ -1,10 +1,10 @@
 import 'package:diaryapp/models/user_stored.dart';
 import 'package:diaryapp/models/boxes.dart';
+import 'package:diaryapp/providers/cart_provider.dart';
 import 'package:diaryapp/widgets/order_widgets/payment_gateway.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../providers/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 

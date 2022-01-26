@@ -4,7 +4,6 @@ import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class OrderHistoryPage extends StatelessWidget {
   const OrderHistoryPage({Key? key}) : super(key: key);
@@ -18,7 +17,10 @@ class OrderHistoryPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            CustomWaveSvg(),
+            SizedBox(
+                height: 150,
+                child: Stack(
+                    children: [Positioned(top: 0, child: CustomWaveSvg())])),
             const Text('All Orders Will Be displayed here'),
           ],
         ),

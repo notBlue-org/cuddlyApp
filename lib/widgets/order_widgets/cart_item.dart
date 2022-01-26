@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, use_key_in_widget_constructors
 
+import 'package:diaryapp/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import '../../providers/cart.dart';
 
 class CartItemWid extends StatelessWidget {
   final String id;

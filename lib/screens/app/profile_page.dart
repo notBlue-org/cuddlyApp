@@ -17,7 +17,13 @@ class ProfilePage extends StatelessWidget {
         extendBodyBehindAppBar: true,
         drawer: const NavDrawer(),
         appBar: custAppBar("Profile Page"),
-        body: Column(children: [CustomWaveSvg(), const ProfileBody()]));
+        body: Column(children: [
+          SizedBox(
+              height: 150,
+              child: Stack(
+                  children: [Positioned(top: 0, child: CustomWaveSvg())])),
+          const ProfileBody()
+        ]));
   }
 }
 

@@ -116,7 +116,7 @@ class Products with ChangeNotifier {
 
   Products() {
     getData().then((value) => _filterItems =
-        _items.where((element) => element.brand == 'Malabar').toList());
+        _items.where((element) => element.brand == _categories.elementAt(0)).toList());
   }
 
   void filter({String brand = 'company1'}) {
