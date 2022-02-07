@@ -10,13 +10,14 @@ class ItemCounter extends StatelessWidget {
   final String imageUrl;
   final String description;
   final double price;
-  ItemCounter({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.price,
-    required this.imageUrl,
-  });
+  final String brand;
+  ItemCounter(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.price,
+      required this.imageUrl,
+      required this.brand});
   @override
   @override
   Widget build(BuildContext context) {
@@ -61,8 +62,9 @@ class ItemCounter extends StatelessWidget {
               ),
               padding: EdgeInsets.zero,
             ),
-            onPressed: () =>
-                {itemData.addItem(id, price, title, imageUrl, description)},
+            onPressed: () => {
+              itemData.addItem(id, price, title, imageUrl, description, brand)
+            },
             child: const Icon(
               Icons.add,
               color: Colors.black,

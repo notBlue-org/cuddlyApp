@@ -135,6 +135,7 @@ class _ProductListState extends State<ProductList> {
               imageUrl: productList[index].imageUrl,
               price: productList[index].price,
               description: productList[index].description,
+              brand: productList[index].brand,
             ),
             padding: const EdgeInsets.all(10),
             itemCount: productList.length,

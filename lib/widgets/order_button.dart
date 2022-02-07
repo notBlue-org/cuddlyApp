@@ -39,7 +39,8 @@ class OnlineOrderButton extends StatelessWidget {
             'Status': 'Ordered',
             'Total Price': orderData.totalAmount,
             'OTP': generateOtp(),
-            'PaymentType': 'Online'
+            'PaymentType': 'Online',
+            'Date': DateTime.now(),
           })
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
