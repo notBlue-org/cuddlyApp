@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/models/user_stored.dart';
+import 'package:diaryapp/providers/brand.dart';
 import 'package:diaryapp/providers/cart_provider.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/order_widgets/cart_item.dart';
@@ -79,10 +80,10 @@ class CoDButton extends StatelessWidget {
     var orderData = Provider.of<Cart>(context);
     Map<String, CartItem> tmp = orderData.items;
     CollectionReference order = FirebaseFirestore.instance.collection('Orders');
-    Map<String, int> orders = {};
-    Map<String, int> getOrders() {
+    Map<String, List> orders = {};
+    Map<String, List> getOrders() {
       for (var i in tmp.values) {
-        orders[i.id] = i.quantity;
+        orders[i.id] = [i.quantity, i.brand];
       }
       return orders;
     }
@@ -102,10 +103,11 @@ class CoDButton extends StatelessWidget {
             'Status': 'Ordered',
             'Total Price': orderData.totalAmount,
             'OTP': generateOtp(),
-            'PaymentType': 'COD'
+            'PaymentType': 'COD',
+            'Date': DateTime.now(),
           })
           .then((value) => print("User Added by COD"))
-          .catchError((error) => print("Failed to add user: $error"));
+          .catchError((error) => print("$error"));
     }
 
     return ValueListenableBuilder<Box<UserStore>>(

@@ -13,42 +13,43 @@ class OnlineOrderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var orderData = Provider.of<Cart>(context);
-    Map<String, CartItem> tmp = orderData.items;
-    CollectionReference order = FirebaseFirestore.instance.collection('Orders');
-    Map<String, int> orders = {};
-    Map<String, int> getOrders() {
-      for (var i in tmp.values) {
-        orders[i.id] = i.quantity;
-      }
-      return orders;
-    }
-
-    generateOtp() {
-      var rng = Random();
-      int rand = rng.nextInt(8888) + 1000;
-      String stringValue = rand.toString();
-      return stringValue;
-    }
-
-    Future<void> addUser(String id) {
-      return order
-          .add({
-            'DistributorID': id,
-            'ProductList': getOrders(),
-            'Status': 'Ordered',
-            'Total Price': orderData.totalAmount,
-            'OTP': generateOtp(),
-            'PaymentType': 'Online',
-            'Date': DateTime.now(),
-          })
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
-    }
-
     return ValueListenableBuilder<Box<UserStore>>(
       valueListenable: Boxes.getUserStore().listenable(),
       builder: (context, box, _) {
+        var orderData = Provider.of<Cart>(context);
+        Map<String, CartItem> tmp = orderData.items;
+        CollectionReference order =
+            FirebaseFirestore.instance.collection('Orders');
+        Map<String, List> orders = {};
+        Map<String, List> getOrders() {
+          for (var i in tmp.values) {
+            orders[i.id] = [i.quantity, i.brand];
+          }
+          return orders;
+        }
+
+        generateOtp() {
+          var rng = Random();
+          int rand = rng.nextInt(8888) + 1000;
+          String stringValue = rand.toString();
+          return stringValue;
+        }
+
+        Future<void> addUser(String id) {
+          return order
+              .add({
+                'DistributorID': id,
+                'ProductList': getOrders(),
+                'Status': 'Ordered',
+                'Total Price': orderData.totalAmount,
+                'OTP': generateOtp(),
+                'PaymentType': 'Online',
+                'Date': DateTime.now(),
+              })
+              .then((value) => print("User Added"))
+              .catchError((error) => print("Failed to add user: $error"));
+        }
+
         final user = box.values.toList().cast<UserStore>();
         return SizedBox(
           width: 150,
