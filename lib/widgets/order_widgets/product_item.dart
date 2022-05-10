@@ -11,16 +11,17 @@ class ProductItem extends StatelessWidget {
   final String imageUrl;
   final String description;
   final double price;
+  final String brand;
   int quantity;
 
-  ProductItem({
-    required this.id,
-    required this.title,
-    required this.imageUrl,
-    required this.price,
-    required this.description,
-    this.quantity = 0,
-  });
+  ProductItem(
+      {required this.id,
+      required this.title,
+      required this.imageUrl,
+      required this.price,
+      required this.description,
+      this.quantity = 0,
+      required this.brand});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -98,11 +99,13 @@ class ProductItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: ItemCounter(
-                      id: id,
-                      title: title,
-                      description: description,
-                      price: price,
-                      imageUrl: imageUrl),
+                    id: id,
+                    title: title,
+                    description: description,
+                    price: price,
+                    imageUrl: imageUrl,
+                    brand: brand,
+                  ),
                 ),
               ],
             ),
