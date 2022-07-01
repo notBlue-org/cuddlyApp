@@ -1,4 +1,6 @@
+import 'package:diaryapp/models/order_instance.dart';
 import 'package:diaryapp/screens/app/home_page.dart';
+import 'package:diaryapp/screens/app/order_history_details.dart';
 import 'package:diaryapp/screens/app/order_pages/cart_page.dart';
 import 'package:diaryapp/screens/app/order_pages/order_page.dart';
 import 'package:diaryapp/screens/login_page.dart';
@@ -21,6 +23,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case '/login_page':
         return MaterialPageRoute(builder: (_) => const LoginPage());
+      case '/order_history_details_page':
+        final Object? args = settings.arguments;
+        return MaterialPageRoute(
+            builder: (_) => OrderHistoryDetailsPage(args));
       default:
         return _errorRoute();
     }

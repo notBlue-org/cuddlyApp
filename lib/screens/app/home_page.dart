@@ -39,7 +39,9 @@ class HomePage extends StatelessWidget {
 
             ElevatedButton(
                 onPressed: () async {
-                  FireAuth.signOut(context);
+                  Navigator.of(context).pushNamed(
+                    '/order_page',
+                  );
                 },
                 style: ElevatedButton.styleFrom(primary: kButtonColor),
                 child: const Text('Order Now!')),

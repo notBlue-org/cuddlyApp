@@ -36,22 +36,26 @@ class ProfileBody extends StatelessWidget {
       valueListenable: Boxes.getUserStore().listenable(),
       builder: (context, box, _) {
         final userDetails = box.values.toList().cast<UserStore>();
+        double width = MediaQuery.of(context).size.width;
+
         return Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'Name: ${userDetails.elementAt(0).username}',
-                  style: Theme.of(context).textTheme.bodyText1,
+                ..._getField(width, "Distributor Name",
+                    userDetails.elementAt(0).username),
+                const SizedBox(
+                  height: 10,
                 ),
-                Text(
-                  'User Class: ${userDetails.elementAt(0).type}',
-                  style: Theme.of(context).textTheme.bodyText1,
+                ..._getField(
+                    width, "User Class", userDetails.elementAt(0).type),
+                const SizedBox(
+                  height: 10,
                 ),
-                Text(
-                  'Email: ${userDetails.elementAt(0).email}',
-                  style: Theme.of(context).textTheme.bodyText1,
+                ..._getField(width, "Email", userDetails.elementAt(0).email),
+                const SizedBox(
+                  height: 20,
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
@@ -65,4 +69,41 @@ class ProfileBody extends StatelessWidget {
       },
     );
   }
+}
+
+_getField(width, label, value) {
+  return [
+    Container(
+      padding: EdgeInsets.fromLTRB(0.1 * width, 0, 0, 0),
+      alignment: Alignment.centerLeft,
+      child: Text(
+        label,
+        textAlign: TextAlign.left,
+        style:
+            const TextStyle(color: kButtonColor, fontWeight: FontWeight.bold),
+      ),
+    ),
+    const SizedBox(
+      height: 5,
+    ),
+    Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromRGBO(13, 21, 129, 0.03),
+                blurRadius: 100.0,
+                offset: Offset(0, 10.0),
+                spreadRadius: 2,
+              ),
+            ]),
+        height: 50,
+        width: 0.8 * width,
+        padding: const EdgeInsets.all(15),
+        child: Text(
+          value,
+          style: const TextStyle(color: kButtonColor),
+        ))
+  ];
 }
