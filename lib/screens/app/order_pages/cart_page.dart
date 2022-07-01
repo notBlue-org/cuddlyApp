@@ -12,6 +12,7 @@ import 'package:diaryapp/widgets/order_widgets/order_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import '../../../models/boxes.dart';
 
@@ -56,7 +57,7 @@ class CartPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: const [
-                OnlineOrderButton(),
+                // OnlineOrderButton(),
                 Padding(
                   padding: EdgeInsets.only(left: 8.0),
                   child: CoDButton(),
@@ -96,6 +97,33 @@ class CoDButton extends StatelessWidget {
     }
 
     Future<void> addUserCOD(String id) {
+      DateTime now = DateTime.now();
+      String day = now.day.toString().length == 2
+          ? now.day.toString()
+          : '0' + now.day.toString();
+      String month = now.month.toString().length == 2
+          ? now.month.toString()
+          : '0' + now.month.toString();
+      String hour = now.hour.toString().length == 2
+          ? now.hour.toString()
+          : '0' + now.hour.toString();
+      String minute = now.minute.toString().length == 2
+          ? now.minute.toString()
+          : '0' + now.minute.toString();
+      String seconds = now.second.toString().length == 2
+          ? now.second.toString()
+          : '0' + now.second.toString();
+      String orderTime = day +
+          "-" +
+          month +
+          "-" +
+          now.year.toString().substring(2, 4) +
+          "," +
+          hour +
+          "-" +
+          minute +
+          "-" +
+          seconds;
       return order
           .add({
             'DistributorID': id,
@@ -104,9 +132,9 @@ class CoDButton extends StatelessWidget {
             'Total Price': orderData.totalAmount,
             'OTP': generateOtp(),
             'PaymentType': 'COD',
-            'Date': DateTime.now(),
+            'Date': orderTime,
           })
-          .then((value) => print("User Added by COD"))
+          .then((value) => print(orderTime))
           .catchError((error) => print("$error"));
     }
 
