@@ -161,7 +161,6 @@ class CoDButton extends StatelessWidget {
   }
 }
 
-
 class OnlineOrderButton extends StatelessWidget {
   const OnlineOrderButton({Key? key}) : super(key: key);
 
