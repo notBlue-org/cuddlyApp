@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/models/user_stored.dart';
 // import 'package:diaryapp/providers/brand.dart';
 import 'package:diaryapp/providers/cart_provider.dart';
+import 'package:diaryapp/screens/app/sucess_pages/sucess_page.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/order_widgets/cart_item.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
@@ -148,6 +149,8 @@ class CoDButton extends StatelessWidget {
           child: ElevatedButton(
               onPressed: () {
                 addUserCOD(user.elementAt(0).id);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => SucessPage()));
               },
               style: ElevatedButton.styleFrom(primary: const Color(0xff23233c)),
               child: const Text(
