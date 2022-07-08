@@ -80,8 +80,22 @@ class CoDButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var orderData = Provider.of<Cart>(context);
+    DateTime now = DateTime.now();
+    String day = now.day.toString().length == 2
+        ? now.day.toString()
+        : '0' + now.day.toString();
+    String month = now.month.toString().length == 2
+        ? now.month.toString()
+        : '0' + now.month.toString();
+    String orderDate = 'Orders_' +
+        day +
+        "-" +
+        month +
+        "-" +
+        now.year.toString().substring(2, 4);
     Map<String, CartItem> tmp = orderData.items;
-    CollectionReference order = FirebaseFirestore.instance.collection('Orders');
+    CollectionReference order =
+        FirebaseFirestore.instance.collection(orderDate);
     Map<String, List> orders = {};
     Map<String, List> getOrders() {
       for (var i in tmp.values) {
@@ -121,9 +135,9 @@ class CoDButton extends StatelessWidget {
           now.year.toString().substring(2, 4) +
           "," +
           hour +
-          "-" +
+          ":" +
           minute +
-          "-" +
+          ":" +
           seconds;
       return order
           .add({

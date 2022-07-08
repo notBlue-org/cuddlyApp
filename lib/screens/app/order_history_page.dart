@@ -28,7 +28,6 @@ class OrderHistoryPageBody extends StatefulWidget {
 
 class OrderHistoryPageBodyState extends State<OrderHistoryPageBody> {
   late Future<List<OrderInstance>> _getData;
-
   @override
   void initState() {
     _getData = _getOrderData();
@@ -57,7 +56,7 @@ class OrderHistoryPageBodyState extends State<OrderHistoryPageBody> {
                       itemBuilder: (ctx, index) => _listContainer(
                           snapshot.data!.elementAt(index), context),
                       padding: const EdgeInsets.all(10),
-                      itemCount: 4,
+                      itemCount: snapshot.data?.length,
                       scrollDirection: Axis.vertical,
                     ),
                   );
@@ -84,7 +83,7 @@ _listContainer(OrderInstance data, BuildContext context) {
     padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
     child: Container(
       constraints:
-          const BoxConstraints(minHeight: 80, minWidth: double.infinity),
+          const BoxConstraints(minHeight: 90, minWidth: double.infinity),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -164,14 +163,14 @@ _listContainer(OrderInstance data, BuildContext context) {
                   const SizedBox(
                     width: 45,
                   ),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          '/order_history_details_page',
-                          arguments: data,
-                        );
-                      },
-                      child: const Icon(Icons.arrow_forward_ios))
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.of(context).pushNamed(
+                  //         '/order_history_details_page',
+                  //         arguments: data,
+                  //       );
+                  //     },
+                  //     child: const Icon(Icons.arrow_forward_ios))
                 ]),
           ),
           // ),
@@ -195,21 +194,37 @@ Future<List<OrderInstance>> _getOrderData() async {
   var _userDetails = box.values.toList().elementAt(0);
 
   List<OrderInstance> _orderList = [];
-  await FirebaseFirestore.instance
-      .collection('Orders')
-      .where("DistributorID", isEqualTo: _userDetails.id)
-      .get()
-      .then((QuerySnapshot data) {
-    for (var doc in data.docs) {
-      var dataD = doc.data() as Map;
-      _orderList.add(OrderInstance(
-          id: doc.id,
-          paymentType: dataD["PaymentType"],
-          otp: dataD["OTP"],
-          productList: dataD["ProductList"],
-          status: dataD["Status"],
-          totalPrice: dataD["Total Price"]));
-    }
-  });
+  DateTime now = DateTime.now();
+  String month = now.month.toString().length == 2
+      ? now.month.toString()
+      : '0' + now.month.toString();
+  for (var i = now.day; i > 0; i--) {
+    String day = i.toString().length == 2 ? i.toString() : '0' + i.toString();
+    String orderDate = 'Orders_' +
+        day +
+        "-" +
+        month +
+        "-" +
+        now.year.toString().substring(2, 4);
+    await FirebaseFirestore.instance
+        .collection(orderDate)
+        .where("DistributorID", isEqualTo: _userDetails.id)
+        .get()
+        .then((QuerySnapshot data) {
+      for (var doc in data.docs) {
+        var dataD = doc.data() as Map;
+        _orderList.add(OrderInstance(
+            id: doc.id,
+            paymentType: dataD["PaymentType"],
+            otp: dataD["OTP"],
+            productList: dataD["ProductList"],
+            status: dataD["Status"],
+            totalPrice: dataD["Total Price"]));
+      }
+    });
+    // print(_orderList);
+    // print(orderDate);
+  }
+
   return _orderList;
 }
