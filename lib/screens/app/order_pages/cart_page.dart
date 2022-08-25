@@ -111,7 +111,28 @@ class CoDButton extends StatelessWidget {
       return stringValue;
     }
 
-    Future<void> addUserCOD(String id) {
+    Future<String> generateOrderId() async {
+      var collection = FirebaseFirestore.instance.collection('Variable');
+      var docSnapshot = await collection.doc('variable').get();
+      if (docSnapshot.exists) {
+        Map<String, dynamic>? data = docSnapshot.data();
+        var orderId = data!['orderId'];
+        var orderIdInt = int.parse(orderId.substring(3)) + 1;
+        var orderIdString = orderId.substring(0, 3) + orderIdInt.toString();
+        collection
+            .doc('variable')
+            .update({'orderId': orderIdString})
+            .then((_) => {})
+            .catchError((error) => {});
+        return orderIdString;
+      }
+      return '';
+    }
+
+    Future<void> addUserCOD(String id) async {
+      var temp = await generateOrderId();
+      // DocumentReference<Map<String, dynamic>> order =
+
       DateTime now = DateTime.now();
       String day = now.day.toString().length == 2
           ? now.day.toString()
@@ -139,8 +160,10 @@ class CoDButton extends StatelessWidget {
           minute +
           ":" +
           seconds;
-      return order
-          .add({
+      return FirebaseFirestore.instance
+          .collection(orderDate)
+          .doc(temp)
+          .set({
             'DistributorID': id,
             'ProductList': getOrders(),
             'Status': 'Ordered',
@@ -162,9 +185,12 @@ class CoDButton extends StatelessWidget {
           height: 55,
           child: ElevatedButton(
               onPressed: () {
+                generateOrderId();
                 addUserCOD(user.elementAt(0).id);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => SucessPage()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SucessPage()));
               },
               style: ElevatedButton.styleFrom(primary: const Color(0xff23233c)),
               child: const Text(
@@ -178,66 +204,70 @@ class CoDButton extends StatelessWidget {
   }
 }
 
-class OnlineOrderButton extends StatelessWidget {
-  const OnlineOrderButton({Key? key}) : super(key: key);
+// TODO: Online button that is not needed anymore
+//
+//
+//
+// class OnlineOrderButton extends StatelessWidget {
+//   const OnlineOrderButton({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    var orderData = Provider.of<Cart>(context);
-    Map<String, CartItem> tmp = orderData.items;
-    CollectionReference order = FirebaseFirestore.instance.collection('Orders');
-    Map<String, int> orders = {};
-    Map<String, int> getOrders() {
-      for (var i in tmp.values) {
-        orders[i.id] = i.quantity;
-      }
-      return orders;
-    }
+//   @override
+//   Widget build(BuildContext context) {
+//     var orderData = Provider.of<Cart>(context);
+//     Map<String, CartItem> tmp = orderData.items;
+//     CollectionReference order = FirebaseFirestore.instance.collection('Orders');
+//     Map<String, int> orders = {};
+//     Map<String, int> getOrders() {
+//       for (var i in tmp.values) {
+//         orders[i.id] = i.quantity;
+//       }
+//       return orders;
+//     }
 
-    generateOtp() {
-      var rng = Random();
-      int rand = rng.nextInt(8888) + 1000;
-      String stringValue = rand.toString();
-      return stringValue;
-    }
+//     generateOtp() {
+//       var rng = Random();
+//       int rand = rng.nextInt(8888) + 1000;
+//       String stringValue = rand.toString();
+//       return stringValue;
+//     }
 
-    Future<void> addUser(String id) {
-      return order
-          .add({
-            'DistributorID': id,
-            'ProductList': getOrders(),
-            'Status': 'Ordered',
-            'Total Price': orderData.totalAmount,
-            'OTP': generateOtp(),
-            'PaymentType': 'Online'
-          })
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
-    }
+//     Future<void> addUser(String id) {
+//       return order
+//           .add({
+//             'DistributorID': id,
+//             'ProductList': getOrders(),
+//             'Status': 'Ordered',
+//             'Total Price': orderData.totalAmount,
+//             'OTP': generateOtp(),
+//             'PaymentType': 'Online'
+//           })
+//           .then((value) => print("User Added"))
+//           .catchError((error) => print("Failed to add user: $error"));
+//     }
 
-    return ValueListenableBuilder<Box<UserStore>>(
-      valueListenable: Boxes.getUserStore().listenable(),
-      builder: (context, box, _) {
-        final user = box.values.toList().cast<UserStore>();
-        return SizedBox(
-          width: 150,
-          height: 55,
-          child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Gateway(orderData.totalAmount,
-                            addUser(user.elementAt(0).id))));
-              },
-              style: ElevatedButton.styleFrom(primary: const Color(0xff23233c)),
-              child: const Text(
-                'Pay Online using Razorpay',
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,
-              )),
-        );
-      },
-    );
-  }
-}
+//     return ValueListenableBuilder<Box<UserStore>>(
+//       valueListenable: Boxes.getUserStore().listenable(),
+//       builder: (context, box, _) {
+//         final user = box.values.toList().cast<UserStore>();
+//         return SizedBox(
+//           width: 150,
+//           height: 55,
+//           child: ElevatedButton(
+//               onPressed: () {
+//                 Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                         builder: (context) => Gateway(orderData.totalAmount,
+//                             addUser(user.elementAt(0).id))));
+//               },
+//               style: ElevatedButton.styleFrom(primary: const Color(0xff23233c)),
+//               child: const Text(
+//                 'Pay Online using Razorpay',
+//                 style: TextStyle(color: Colors.white),
+//                 textAlign: TextAlign.center,
+//               )),
+//         );
+//       },
+//     );
+//   }
+// }
