@@ -21,13 +21,14 @@ class UserStoreAdapter extends TypeAdapter<UserStore> {
       ..id = fields[1] as String
       ..type = fields[2] as String
       ..email = fields[3] as String
-      ..brands = (fields[4] as List).cast<String>();
+      ..brands = (fields[4] as List).cast<String>()
+      ..isB2B = fields[5] as bool;
   }
 
   @override
   void write(BinaryWriter writer, UserStore obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.username)
       ..writeByte(1)
@@ -37,7 +38,9 @@ class UserStoreAdapter extends TypeAdapter<UserStore> {
       ..writeByte(3)
       ..write(obj.email)
       ..writeByte(4)
-      ..write(obj.brands);
+      ..write(obj.brands)
+      ..writeByte(5)
+      ..write(obj.isB2B);
   }
 
   @override

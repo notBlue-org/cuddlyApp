@@ -14,4 +14,6 @@ class UserStore extends HiveObject {
   late String email;
   @HiveField(4)
   late List<String> brands;
+  @HiveField(5)
+  late bool isB2B;
 }

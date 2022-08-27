@@ -94,8 +94,8 @@ class CoDButton extends StatelessWidget {
         "-" +
         now.year.toString().substring(2, 4);
     Map<String, CartItem> tmp = orderData.items;
-    CollectionReference order =
-        FirebaseFirestore.instance.collection(orderDate);
+    // CollectionReference order =
+    //     FirebaseFirestore.instance.collection(orderDate);
     Map<String, List> orders = {};
     Map<String, List> getOrders() {
       for (var i in tmp.values) {
@@ -114,16 +114,38 @@ class CoDButton extends StatelessWidget {
     Future<String> generateOrderId() async {
       var collection = FirebaseFirestore.instance.collection('Variable');
       var docSnapshot = await collection.doc('variable').get();
+      DateTime now = DateTime.now();
+
+      String day = now.day.toString().length == 2
+          ? now.day.toString()
+          : '0' + now.day.toString();
+      String month = now.month.toString().length == 2
+          ? now.month.toString()
+          : '0' + now.month.toString();
+      String time = now.year.toString() + month + day;
+      var orderIdString;
       if (docSnapshot.exists) {
         Map<String, dynamic>? data = docSnapshot.data();
-        var orderId = data!['orderId'];
-        var orderIdInt = int.parse(orderId.substring(3)) + 1;
-        var orderIdString = orderId.substring(0, 3) + orderIdInt.toString();
-        collection
-            .doc('variable')
-            .update({'orderId': orderIdString})
-            .then((_) => {})
-            .catchError((error) => {});
+        final box = Boxes.getUserStore();
+        final isB2b = box.values.toList().elementAt(0).isB2B;
+        if (isB2b) {
+          var orderIdInt = int.parse(data!['B2B']) + 1;
+          orderIdString = 'B2B' + time + orderIdInt.toString().substring(1, 8);
+          collection
+              .doc('variable')
+              .update({'B2B': orderIdInt.toString()})
+              .then((_) => {})
+              .catchError((error) => {});
+        } else {
+          var orderIdInt = int.parse(data!['B2C']) + 1;
+          orderIdString = 'B2B' + time + orderIdInt.toString().substring(1, 8);
+          collection
+              .doc('variable')
+              .update({'B2C': orderIdInt.toString()})
+              .then((_) => {})
+              .catchError((error) => {});
+        }
+
         return orderIdString;
       }
       return '';

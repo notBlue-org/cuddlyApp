@@ -53,7 +53,6 @@ class Products with ChangeNotifier {
       if (!_categories.contains(_brand)) {
         _categories.add(_brand);
       }
-
       await FirebaseFirestore.instance
           .collection(_brand)
           .get()

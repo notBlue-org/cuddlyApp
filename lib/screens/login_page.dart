@@ -189,7 +189,15 @@ class _LoginButtonState extends State<LoginButton> {
         userData.username = _currentUserFirestore["Name"];
         userData.type = _currentUserFirestore["Type"];
         userData.email = _currentUserFirestore['Email'];
+        if (_currentUserFirestore['GST Type'] == 'Regular') {
+          userData.isB2B = true;
+        } else {
+          userData.isB2B = false;
+        }
+
+        print(userData.isB2B);
         List<String> _brands = _currentUserFirestore['Brand'].split(',');
+
         for (var brand in _brands) {
           brand = brand.trim();
         }
