@@ -122,7 +122,7 @@ class CoDButton extends StatelessWidget {
       String month = now.month.toString().length == 2
           ? now.month.toString()
           : '0' + now.month.toString();
-      String time = now.year.toString().substring(2,4) + month + day;
+      String time = now.year.toString().substring(2, 4) + month + day;
       var orderIdString;
       if (docSnapshot.exists) {
         Map<String, dynamic>? data = docSnapshot.data();
@@ -138,7 +138,7 @@ class CoDButton extends StatelessWidget {
               .catchError((error) => {});
         } else {
           var orderIdInt = int.parse(data!['B2C']) + 1;
-          orderIdString = 'B2B' + time + orderIdInt.toString().substring(1, 8);
+          orderIdString = 'B2C' + time + orderIdInt.toString().substring(1, 8);
           collection
               .doc('variable')
               .update({'B2C': orderIdInt.toString()})
