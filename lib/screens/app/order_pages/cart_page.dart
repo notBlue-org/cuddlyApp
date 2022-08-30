@@ -122,7 +122,7 @@ class CoDButton extends StatelessWidget {
       String month = now.month.toString().length == 2
           ? now.month.toString()
           : '0' + now.month.toString();
-      String time = now.year.toString() + month + day;
+      String time = now.year.toString().substring(2,4) + month + day;
       var orderIdString;
       if (docSnapshot.exists) {
         Map<String, dynamic>? data = docSnapshot.data();
