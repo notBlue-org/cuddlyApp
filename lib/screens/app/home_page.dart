@@ -1,17 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/static_assets/home_bottom_wave.dart';
 import 'package:diaryapp/utils/login.dart';
+
 import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/boxes.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:diaryapp/models/user_stored.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(
+    // final user = box.values.toList().cast<UserStore>();
+    final box = Boxes.getUserStore();
+    final username = box.values.toList().elementAt(0).username;
+    final id=box.values.toList().elementAt(0).id;
+    return Scaffold( 
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       drawer: const NavDrawer(),
@@ -19,16 +30,16 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            // Expanded(child: Stack(children: [Positioned(top:0,child: CustomWaveSvg())])),
             SizedBox(
                 height: 150,
                 child: Stack(
                     children: [Positioned(top: 0, child: CustomWaveSvg())])),
-            ..._getField(width, "Distributor Name", "Das V"),
+            
+            ..._getField(width, "Distributor Name", username.toString()),
             const SizedBox(
               height: 10,
             ),
-            ..._getField(width, "Amount Due", "Rs. 1200/-"),
+            ..._getField(width, "Amount Due", 'Hello'),
             const SizedBox(
               height: 10,
             ),
@@ -36,7 +47,6 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-
             ElevatedButton(
                 onPressed: () async {
                   Navigator.of(context).pushNamed(
@@ -45,7 +55,6 @@ class HomePage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(primary: kButtonColor),
                 child: const Text('Order Now!')),
-            // const Expanded(child: SizedBox(height: 10,),),
             Expanded(
                 child: Stack(children: [
               Positioned(bottom: 0, child: HomeBottomWave())

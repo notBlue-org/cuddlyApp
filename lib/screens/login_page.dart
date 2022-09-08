@@ -183,7 +183,6 @@ class _LoginButtonState extends State<LoginButton> {
           .get()
           .then((QuerySnapshot data) {
         Map _currentUserFirestore = data.docs.elementAt(0).data() as Map;
-
         final userData = UserStore();
         userData.id = data.docs.elementAt(0).id;
         userData.username = _currentUserFirestore["Name"];
