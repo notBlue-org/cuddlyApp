@@ -28,8 +28,12 @@ class HomePage extends StatelessWidget {
       drawer: const NavDrawer(),
       appBar: custAppBar("Home"),
       body: Center(
-        child: Column(
+        child: FutureBuilder<List<dynamic>>(future: Future.wait([_getCrate(id),_getAmount(id)]),builder: (context, snapshot) {
+          // final data=snapshot.data as Map;
+          if (ConnectionState.done==snapshot.connectionState){
+            return Column(
           children: [
+            // Expanded(child: Stack(children: [Positioned(top:0,child: CustomWaveSvg())])),
             SizedBox(
                 height: 150,
                 child: Stack(
@@ -39,11 +43,11 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            ..._getField(width, "Amount Due", 'Hello'),
+            ..._getField(width, "Amount Due", snapshot.data![1].toString()),
             const SizedBox(
               height: 10,
             ),
-            ..._getField(width, "Crates Remaining", "10"),
+            ..._getField(width, "Crates Remaining", snapshot.data![0].toString()),
             const SizedBox(
               height: 20,
             ),
@@ -55,12 +59,18 @@ class HomePage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(primary: kButtonColor),
                 child: const Text('Order Now!')),
+            // const Expanded(child: SizedBox(height: 10,),),
             Expanded(
                 child: Stack(children: [
               Positioned(bottom: 0, child: HomeBottomWave())
             ])),
           ],
-        ),
+        );
+          }
+          else{
+            return const CircularProgressIndicator();
+          }
+        },)
       ),
     );
   }
@@ -101,4 +111,17 @@ _getField(width, label, value) {
           style: const TextStyle(color: kButtonColor),
         ))
   ];
+}
+
+
+Future <String>_getCrate(id) async {
+    var  document = await FirebaseFirestore.instance.collection('Distributors').doc(id).get();
+    Map<String,dynamic>? value = document.data();
+    return value!['Crates'];
+}
+
+Future<String> _getAmount(id) async {
+    var  document = await FirebaseFirestore.instance.collection('Distributors').doc(id).get();
+    Map<String,dynamic>? value = document.data();
+    return value!['AmountDue'];
 }
