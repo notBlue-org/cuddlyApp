@@ -66,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
 
     if (_currentUser != null) {
       Navigator.of(context).pushReplacementNamed(
-        '/home_page',
+        '/reminder_page',
       );
     } else {
       Navigator.of(context).pushReplacementNamed(

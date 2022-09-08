@@ -7,6 +7,7 @@ import 'package:diaryapp/screens/login_page.dart';
 import 'package:diaryapp/screens/app/order_history_page.dart';
 import 'package:diaryapp/screens/app/profile_page.dart';
 import 'package:flutter/material.dart';
+import '../screens/app/reminder.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -23,10 +24,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case '/login_page':
         return MaterialPageRoute(builder: (_) => const LoginPage());
+      case '/reminder_page':
+        return MaterialPageRoute(builder: (_) => const ReminderPage());
       case '/order_history_details_page':
         final Object? args = settings.arguments;
-        return MaterialPageRoute(
-            builder: (_) => OrderHistoryDetailsPage(args));
+        return MaterialPageRoute(builder: (_) => OrderHistoryDetailsPage(args));
       default:
         return _errorRoute();
     }

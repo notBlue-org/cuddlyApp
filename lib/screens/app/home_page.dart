@@ -12,7 +12,6 @@ import '../../models/boxes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:diaryapp/models/user_stored.dart';
 
-
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
   @override
@@ -21,57 +20,58 @@ class HomePage extends StatelessWidget {
     // final user = box.values.toList().cast<UserStore>();
     final box = Boxes.getUserStore();
     final username = box.values.toList().elementAt(0).username;
-    final id=box.values.toList().elementAt(0).id;
-    return Scaffold( 
+    final id = box.values.toList().elementAt(0).id;
+    return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       drawer: const NavDrawer(),
       appBar: custAppBar("Home"),
       body: Center(
-        child: FutureBuilder<List<dynamic>>(future: Future.wait([_getCrate(id),_getAmount(id)]),builder: (context, snapshot) {
-          // final data=snapshot.data as Map;
-          if (ConnectionState.done==snapshot.connectionState){
+          child: FutureBuilder<List<dynamic>>(
+        future: Future.wait([_getCrate(id), _getAmount(id)]),
+        builder: (context, snapshot) {
+          if (ConnectionState.done == snapshot.connectionState) {
             return Column(
-          children: [
-            // Expanded(child: Stack(children: [Positioned(top:0,child: CustomWaveSvg())])),
-            SizedBox(
-                height: 150,
-                child: Stack(
-                    children: [Positioned(top: 0, child: CustomWaveSvg())])),
-            
-            ..._getField(width, "Distributor Name", username.toString()),
-            const SizedBox(
-              height: 10,
-            ),
-            ..._getField(width, "Amount Due", snapshot.data![1].toString()),
-            const SizedBox(
-              height: 10,
-            ),
-            ..._getField(width, "Crates Remaining", snapshot.data![0].toString()),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-                onPressed: () async {
-                  Navigator.of(context).pushNamed(
-                    '/order_page',
-                  );
-                },
-                style: ElevatedButton.styleFrom(primary: kButtonColor),
-                child: const Text('Order Now!')),
-            // const Expanded(child: SizedBox(height: 10,),),
-            Expanded(
-                child: Stack(children: [
-              Positioned(bottom: 0, child: HomeBottomWave())
-            ])),
-          ],
-        );
-          }
-          else{
+              children: [
+                SizedBox(
+                    height: 150,
+                    child: Stack(children: [
+                      Positioned(top: 0, child: CustomWaveSvg())
+                    ])),
+
+                ..._getField(width, "Distributor Name", username.toString()),
+                const SizedBox(
+                  height: 10,
+                ),
+                ..._getField(width, "Amount Due", snapshot.data![1].toString()),
+                const SizedBox(
+                  height: 10,
+                ),
+                ..._getField(
+                    width, "Crates Remaining", snapshot.data![0].toString()),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                    onPressed: () async {
+                      Navigator.of(context).pushNamed(
+                        '/order_page',
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(primary: kButtonColor),
+                    child: const Text('Order Now!')),
+                // const Expanded(child: SizedBox(height: 10,),),
+                Expanded(
+                    child: Stack(children: [
+                  Positioned(bottom: 0, child: HomeBottomWave())
+                ])),
+              ],
+            );
+          } else {
             return const CircularProgressIndicator();
           }
-        },)
-      ),
+        },
+      )),
     );
   }
 }
@@ -113,15 +113,16 @@ _getField(width, label, value) {
   ];
 }
 
-
-Future <String>_getCrate(id) async {
-    var  document = await FirebaseFirestore.instance.collection('Distributors').doc(id).get();
-    Map<String,dynamic>? value = document.data();
-    return value!['Crates'];
+Future<String> _getCrate(id) async {
+  var document =
+      await FirebaseFirestore.instance.collection('Distributors').doc(id).get();
+  Map<String, dynamic>? value = document.data();
+  return value!['Crates'];
 }
 
 Future<String> _getAmount(id) async {
-    var  document = await FirebaseFirestore.instance.collection('Distributors').doc(id).get();
-    Map<String,dynamic>? value = document.data();
-    return value!['AmountDue'];
+  var document =
+      await FirebaseFirestore.instance.collection('Distributors').doc(id).get();
+  Map<String, dynamic>? value = document.data();
+  return value!['AmountDue'];
 }
