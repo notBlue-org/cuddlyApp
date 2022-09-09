@@ -5,12 +5,14 @@ class OrderInstance {
   final Map productList;
   final String status;
   final double totalPrice;
-
+  final String route;
   OrderInstance(
       {required this.id,
       required this.paymentType,
       required this.otp,
       required this.productList,
       required this.status,
-      required this.totalPrice});
+      required this.totalPrice,
+      required this.route
+      });
 }

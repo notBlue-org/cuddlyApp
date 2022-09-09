@@ -19,7 +19,7 @@ class UserStoreAdapter extends TypeAdapter<UserStore> {
     return UserStore()
       ..username = fields[0] as String
       ..id = fields[1] as String
-      ..type = fields[2] as String
+      ..route = fields[2] as String
       ..email = fields[3] as String
       ..brands = (fields[4] as List).cast<String>()
       ..isB2B = fields[5] as bool;
@@ -34,7 +34,7 @@ class UserStoreAdapter extends TypeAdapter<UserStore> {
       ..writeByte(1)
       ..write(obj.id)
       ..writeByte(2)
-      ..write(obj.type)
+      ..write(obj.route)
       ..writeByte(3)
       ..write(obj.email)
       ..writeByte(4)

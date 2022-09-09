@@ -186,7 +186,7 @@ class _LoginButtonState extends State<LoginButton> {
         final userData = UserStore();
         userData.id = data.docs.elementAt(0).id;
         userData.username = _currentUserFirestore["Name"];
-        userData.type = _currentUserFirestore["Type"];
+        userData.route = _currentUserFirestore["Route"];
         userData.email = _currentUserFirestore['Email'];
         if (_currentUserFirestore['GST Type'] == 'Regular') {
           userData.isB2B = true;
@@ -195,12 +195,12 @@ class _LoginButtonState extends State<LoginButton> {
         }
 
         print(userData.isB2B);
-        List<String> _brands = _currentUserFirestore['Brand'].split(',');
+        List<String> brands = _currentUserFirestore['Brand'].split(',');
 
-        for (var brand in _brands) {
+        for (var brand in brands) {
           brand = brand.trim();
         }
-        userData.brands = _brands;
+        userData.brands = brands;
 
         final box = Boxes.getUserStore();
         box.put(0, userData);

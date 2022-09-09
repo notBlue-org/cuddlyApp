@@ -49,7 +49,7 @@ class ProfileBody extends StatelessWidget {
                   height: 10,
                 ),
                 ..._getField(
-                    width, "User Class", userDetails.elementAt(0).type),
+                    width, "Route", userDetails.elementAt(0).route),
                 const SizedBox(
                   height: 10,
                 ),

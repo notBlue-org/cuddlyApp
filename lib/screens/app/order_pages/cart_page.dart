@@ -4,14 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/models/user_stored.dart';
 // import 'package:diaryapp/providers/brand.dart';
 import 'package:diaryapp/providers/cart_provider.dart';
-import 'package:diaryapp/screens/app/sucess_pages/sucess_page.dart';
+import 'package:diaryapp/screens/app/success_pages/success_page.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/order_widgets/cart_item.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/order_widgets/order_summary.dart';
 import 'package:diaryapp/widgets/order_widgets/payment_gateway.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -93,6 +94,7 @@ class CoDButton extends StatelessWidget {
         month +
         "-" +
         now.year.toString().substring(2, 4);
+        
     Map<String, CartItem> tmp = orderData.items;
     // CollectionReference order =
     //     FirebaseFirestore.instance.collection(orderDate);
@@ -151,7 +153,7 @@ class CoDButton extends StatelessWidget {
       return '';
     }
 
-    Future<void> addUserCOD(String id) async {
+    Future<void> addUserCOD(String id, String route) async {
       var temp = await generateOrderId();
       // DocumentReference<Map<String, dynamic>> order =
 
@@ -193,6 +195,7 @@ class CoDButton extends StatelessWidget {
             'OTP': generateOtp(),
             'PaymentType': 'COD',
             'Date': orderTime,
+            'Route': route,
           })
           .then((value) => print(orderTime))
           .catchError((error) => print("$error"));
@@ -208,7 +211,7 @@ class CoDButton extends StatelessWidget {
           child: ElevatedButton(
               onPressed: () {
                 generateOrderId();
-                addUserCOD(user.elementAt(0).id);
+                addUserCOD(user.elementAt(0).id, user.elementAt(0).route);
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
