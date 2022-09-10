@@ -35,19 +35,39 @@ class OnlineOrderButton extends StatelessWidget {
           return stringValue;
         }
 
-        Future<void> addUser(String id) {
-          return order
-              .add({
-                'DistributorID': id,
-                'ProductList': getOrders(),
-                'Status': 'Ordered',
-                'Total Price': orderData.totalAmount,
-                'OTP': generateOtp(),
-                'PaymentType': 'Online',
-                'Date': DateTime.now(),
-              })
-              .then((value) => print("User Added"))
-              .catchError((error) => print("Failed to add user: $error"));
+        Future<void> addUser(String id) async {
+          var number;
+          // var collection =
+          //     FirebaseFirestore.instance.collection('Distributors');
+          // var querySnapshot = await collection.get();
+          // for (var queryDocumentSnapshot in querySnapshot.docs) {
+          //   Map<String, dynamic> data = queryDocumentSnapshot.data();
+          //   number = int.parse(data['AmountDue']);
+          // }
+          var document = await FirebaseFirestore.instance
+              .collection('Distributors')
+              .doc(id)
+              .get();
+          Map<String, dynamic>? data = document.data();
+          print(int.parse(data!['AmountDue']));
+          // print(number);
+          await FirebaseFirestore.instance
+              .collection('Distributors')
+              .doc(id)
+              .update({
+            'AmountDue': orderData.totalAmount.toString()
+          }).then((value) => order
+                  .add({
+                    'DistributorID': id,
+                    'ProductList': getOrders(),
+                    'Status': 'Ordered',
+                    'Total Price': (number + orderData.totalAmount).toString(),
+                    'OTP': generateOtp(),
+                    'PaymentType': 'Online',
+                    'Date': DateTime.now(),
+                  })
+                  .then((value) => print("User Added"))
+                  .catchError((error) => print("Failed to add user: $error")));
         }
 
         final user = box.values.toList().cast<UserStore>();

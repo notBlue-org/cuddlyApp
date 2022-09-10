@@ -94,16 +94,16 @@ class CoDButton extends StatelessWidget {
         month +
         "-" +
         now.year.toString().substring(2, 4);
-        
+
     Map<String, CartItem> tmp = orderData.items;
-    // CollectionReference order =
-    //     FirebaseFirestore.instance.collection(orderDate);
     Map<String, List> orders = {};
-    Map<String, List> getOrders() {
+    var crates = 0;
+    List<Object> getOrders() {
       for (var i in tmp.values) {
         orders[i.id] = [i.quantity, i.brand];
+        crates = crates + i.quantity;
       }
-      return orders;
+      return [orders, crates];
     }
 
     generateOtp() {
@@ -155,8 +155,6 @@ class CoDButton extends StatelessWidget {
 
     Future<void> addUserCOD(String id, String route) async {
       var temp = await generateOrderId();
-      // DocumentReference<Map<String, dynamic>> order =
-
       DateTime now = DateTime.now();
       String day = now.day.toString().length == 2
           ? now.day.toString()
@@ -184,12 +182,30 @@ class CoDButton extends StatelessWidget {
           minute +
           ":" +
           seconds;
+      var document = await FirebaseFirestore.instance
+          .collection('Distributors')
+          .doc(id)
+          .get();
+      Map<String, dynamic>? data = document.data();
+      var amtDue = double.parse(data!['AmountDue']);
+      var crateDue = int.parse(data!['Crates']);
+      var tempData = getOrders();
+      var orders = tempData[0];
+      var crates = int.parse(tempData[1].toString());
+      await FirebaseFirestore.instance
+          .collection('Distributors')
+          .doc(id)
+          .update({
+        'AmountDue': (amtDue + orderData.totalAmount).toString(),
+        'Crates': (crateDue + crates).toString()
+      });
+
       return FirebaseFirestore.instance
           .collection(orderDate)
           .doc(temp)
           .set({
             'DistributorID': id,
-            'ProductList': getOrders(),
+            'ProductList': orders,
             'Status': 'Ordered',
             'Total Price': orderData.totalAmount,
             'OTP': generateOtp(),

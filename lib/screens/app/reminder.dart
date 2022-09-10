@@ -41,7 +41,7 @@ class ReminderMain extends StatelessWidget {
           if (ConnectionState.done == snapshot.connectionState) {
             return Column(
               children: [
-                Text("Number of crates to be returned"),
+                const Text("Number of crates to be returned"),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -64,7 +64,7 @@ class ReminderMain extends StatelessWidget {
                         style: const TextStyle(color: kButtonColor),
                       )),
                 ),
-                Text("Amount that has to be paid"),
+                const Text("Amount that has to be paid"),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -93,7 +93,7 @@ class ReminderMain extends StatelessWidget {
                             builder: (context) => const HomePage(),
                           ),
                         ),
-                    child: Text('I agree'))
+                    child: const Text('I agree'))
               ],
             );
           } else {
