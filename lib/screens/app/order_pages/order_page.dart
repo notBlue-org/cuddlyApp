@@ -78,7 +78,7 @@ class ProductList extends StatefulWidget {
   const ProductList({Key? key}) : super(key: key);
 
   @override
-  _ProductListState createState() => _ProductListState();
+  State<ProductList> createState() => _ProductListState();
 }
 
 class _ProductListState extends State<ProductList> {

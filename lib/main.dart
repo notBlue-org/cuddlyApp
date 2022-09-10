@@ -24,7 +24,7 @@ class DiaryApp extends StatefulWidget {
   const DiaryApp({Key? key}) : super(key: key);
 
   @override
-  _DiaryAppState createState() => _DiaryAppState();
+  State<DiaryApp> createState() => _DiaryAppState();
 }
 
 class _DiaryAppState extends State<DiaryApp> {
@@ -53,7 +53,7 @@ class _DiaryAppState extends State<DiaryApp> {
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
   @override
-  _MainScreenState createState() => _MainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
@@ -61,10 +61,10 @@ class _MainScreenState extends State<MainScreen> {
     FirebaseApp firebaseApp = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    if (!mounted) return firebaseApp;
+    User? currentUser = FirebaseAuth.instance.currentUser;
 
-    User? _currentUser = FirebaseAuth.instance.currentUser;
-
-    if (_currentUser != null) {
+    if (currentUser != null) {
       Navigator.of(context).pushReplacementNamed(
         '/reminder_page',
       );

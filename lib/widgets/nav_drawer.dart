@@ -1,5 +1,4 @@
 import 'package:diaryapp/constants/colors.dart';
-import 'package:diaryapp/static_assets/appbar_invert_wave.dart';
 import 'package:diaryapp/utils/login.dart';
 import 'package:flutter/material.dart';
 

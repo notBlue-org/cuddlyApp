@@ -1,4 +1,3 @@
-import 'package:diaryapp/models/order_instance.dart';
 import 'package:diaryapp/screens/app/home_page.dart';
 import 'package:diaryapp/screens/app/order_history_details.dart';
 import 'package:diaryapp/screens/app/order_pages/cart_page.dart';

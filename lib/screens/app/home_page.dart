@@ -2,15 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/static_assets/home_bottom_wave.dart';
-import 'package:diaryapp/utils/login.dart';
-
 import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
-
 import '../../models/boxes.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:diaryapp/models/user_stored.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);

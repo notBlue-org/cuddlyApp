@@ -41,74 +41,74 @@ class Products with ChangeNotifier {
   }
 
   Future getData() async {
-    List<Product> _productList = [];
+    List<Product> productList = [];
     final box = Boxes.getUserStore();
 
-    var _userDetails = box.values.toList().elementAt(0);
+    var userDetails = box.values.toList().elementAt(0);
 
-    var _productDocsDefault = [];
-    Map _productDocsUserMap = {};
+    var productDocsDefault = [];
+    Map productDocsUserMap = {};
 
-    for (var _brand in _userDetails.brands) {
-      if (!_categories.contains(_brand)) {
-        _categories.add(_brand);
+    for (var brand in userDetails.brands) {
+      if (!_categories.contains(brand)) {
+        _categories.add(brand);
       }
       await FirebaseFirestore.instance
-          .collection(_brand)
+          .collection(brand)
           .get()
           .then((QuerySnapshot data) {
-        _productDocsDefault = data.docs;
+        productDocsDefault = data.docs;
       }).then((_) {
         FirebaseFirestore.instance
             .collection("Distributors")
-            .doc(_userDetails.id)
-            .collection(_brand)
+            .doc(userDetails.id)
+            .collection(brand)
             .get()
             .then((QuerySnapshot data) {
           for (var product in data.docs) {
-            Map _product = product.data() as Map;
-            _productDocsUserMap[product.id] = double.parse(_product["Price"]);
+            Map productMap = product.data() as Map;
+            productDocsUserMap[product.id] = double.parse(productMap["Price"]);
           }
         });
       });
 
-      if (_productDocsUserMap.isEmpty) {
-        for (var product in _productDocsDefault) {
-          Map _product = product.data() as Map;
-          _productList.add(Product(
+      if (productDocsUserMap.isEmpty) {
+        for (var product in productDocsDefault) {
+          Map productMap = product.data() as Map;
+          productList.add(Product(
               id: product.id,
-              brand: _brand,
-              title: _product['Name'],
-              description: _product['Description'],
-              imageUrl: _product['ImageURI'],
-              price: double.parse(_product['Price'])));
+              brand: brand,
+              title: productMap['Name'],
+              description: productMap['Description'],
+              imageUrl: productMap['ImageURI'],
+              price: double.parse(productMap['Price'])));
         }
       } else {
-        for (var product in _productDocsDefault) {
-          Map _product = product.data() as Map;
-          if (_productDocsUserMap.containsKey(product.id)) {
-            _productList.add(Product(
+        for (var product in productDocsDefault) {
+          Map productMap = product.data() as Map;
+          if (productDocsUserMap.containsKey(product.id)) {
+            productList.add(Product(
                 id: product.id,
-                brand: _brand,
-                title: _product['Name'],
-                description: _product['Description'],
-                imageUrl: _product['ImageURI'],
-                price: _productDocsUserMap[product.id]));
+                brand: brand,
+                title: productMap['Name'],
+                description: productMap['Description'],
+                imageUrl: productMap['ImageURI'],
+                price: productDocsUserMap[product.id]));
           } else {
-            _productList.add(Product(
+            productList.add(Product(
                 id: product.id,
-                brand: _brand,
-                title: _product['Name'],
-                description: _product['Description'],
-                imageUrl: _product['ImageURI'],
-                price: double.parse(_product['Price'])));
+                brand: brand,
+                title: productMap['Name'],
+                description: productMap['Description'],
+                imageUrl: productMap['ImageURI'],
+                price: double.parse(productMap['Price'])));
           }
         }
       }
     }
 
-    _items = _productList;
-    return _productList;
+    _items = productList;
+    return productList;
   }
 
   var _filterItems = [];

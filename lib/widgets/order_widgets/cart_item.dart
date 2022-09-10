@@ -30,14 +30,14 @@ class CartItemWid extends StatelessWidget {
       key: ValueKey(id),
       background: Container(
         color: Theme.of(context).errorColor,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
         child: const Icon(
           Icons.delete,
           color: Colors.white,
           size: 40,
         ),
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20),
-        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
       ),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
@@ -94,6 +94,7 @@ class DispItemCount extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Stack(
+        alignment: Alignment.center,
         children: [
           const SizedBox(
             width: 42.0,
@@ -107,7 +108,6 @@ class DispItemCount extends StatelessWidget {
             style: const TextStyle(color: Colors.white, fontSize: 20),
           )
         ],
-        alignment: Alignment.center,
       ),
     );
   }

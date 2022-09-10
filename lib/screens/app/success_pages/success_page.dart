@@ -1,14 +1,14 @@
 import 'package:diaryapp/screens/app/home_page.dart';
 import 'package:flutter/material.dart';
 
-class SucessPage extends StatefulWidget {
-  const SucessPage({Key? key}) : super(key: key);
+class SuccessPage extends StatefulWidget {
+  const SuccessPage({Key? key}) : super(key: key);
 
   @override
-  _SuccessState createState() => _SuccessState();
+  State<SuccessPage> createState() => _SuccessState();
 }
 
-class _SuccessState extends State<SucessPage> {
+class _SuccessState extends State<SuccessPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

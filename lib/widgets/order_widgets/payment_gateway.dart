@@ -8,7 +8,7 @@ class Gateway extends StatefulWidget {
   final double total_amount;
   const Gateway(this.total_amount, this.addUser, {Key? key}) : super(key: key);
   @override
-  _FinalOrderState createState() => _FinalOrderState();
+  State<Gateway> createState() => _FinalOrderState();
 }
 
 class _FinalOrderState extends State<Gateway> {

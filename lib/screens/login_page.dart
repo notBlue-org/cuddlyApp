@@ -155,7 +155,7 @@ class LoginButton extends StatefulWidget {
   const LoginButton({Key? key}) : super(key: key);
 
   @override
-  _LoginButtonState createState() => _LoginButtonState();
+  State<LoginButton> createState() => _LoginButtonState();
 }
 
 class _LoginButtonState extends State<LoginButton> {
@@ -165,37 +165,37 @@ class _LoginButtonState extends State<LoginButton> {
 
     FocusScope.of(context).unfocus();
 
-    String? _validationResult = Validator.validate(
+    String? validationResult = Validator.validate(
         email: _loginId.text.trim(), password: _passwordId.text.trim());
-    if (_validationResult != null) {
-      Misc.createSnackbar(context, _validationResult);
+    if (validationResult != null) {
+      Misc.createSnackbar(context, validationResult);
       return;
     } else {
       Misc.showLoadingDialog(context, _keyLoader);
-      User? _currentUser = await FireAuth.signInUsingEmailPassword(
+      User? currentUser = await FireAuth.signInUsingEmailPassword(
           context: context, email: email, password: password);
+      if (!mounted) return;
       Navigator.of(context, rootNavigator: true).pop();
 
       // Added by Adi
       await FirebaseFirestore.instance
           .collection('Distributors')
-          .where("Email", isEqualTo: _currentUser!.email)
+          .where("Email", isEqualTo: currentUser!.email)
           .get()
           .then((QuerySnapshot data) {
-        Map _currentUserFirestore = data.docs.elementAt(0).data() as Map;
+        Map currentUserFirestore = data.docs.elementAt(0).data() as Map;
         final userData = UserStore();
         userData.id = data.docs.elementAt(0).id;
-        userData.username = _currentUserFirestore["Name"];
-        userData.route = _currentUserFirestore["Route"];
-        userData.email = _currentUserFirestore['Email'];
-        if (_currentUserFirestore['GST Type'] == 'Regular') {
+        userData.username = currentUserFirestore["Name"];
+        userData.route = currentUserFirestore["Route"];
+        userData.email = currentUserFirestore['Email'];
+        if (currentUserFirestore['GST Type'] == 'Regular') {
           userData.isB2B = true;
         } else {
           userData.isB2B = false;
         }
 
-        print(userData.isB2B);
-        List<String> brands = _currentUserFirestore['Brand'].split(',');
+        List<String> brands = currentUserFirestore['Brand'].split(',');
 
         for (var brand in brands) {
           brand = brand.trim();
@@ -207,10 +207,12 @@ class _LoginButtonState extends State<LoginButton> {
       });
 
       try {
+        if (!mounted) return;
         Navigator.of(context).pushReplacementNamed(
           '/home_page',
         );
       } catch (e) {
+        if (!mounted) return;
         Misc.createSnackbar(context, 'Error: $e.code');
       }
     }
@@ -227,7 +229,6 @@ class _LoginButtonState extends State<LoginButton> {
       width: 0.8 * width,
       height: 50,
       child: ElevatedButton(
-        child: const Text('Login'),
         onPressed: () {
           _loginUser(context);
         },
@@ -240,6 +241,7 @@ class _LoginButtonState extends State<LoginButton> {
             fontSize: 20,
           ),
         ),
+        child: const Text('Login'),
       ),
     );
   }
