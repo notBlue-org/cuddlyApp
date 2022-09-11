@@ -106,6 +106,22 @@ class CoDButton extends StatelessWidget {
       return [orders, crates];
     }
 
+    isAfterTime() async {
+      final box = Boxes.getUserStore();
+      final id = box.values.toList().elementAt(0).id;
+      var cutOffTime = await FirebaseFirestore.instance
+          .collection('Distributors')
+          .doc(id)
+          .get()
+          .then((value) => value.data()!['CutoffTime']);
+
+      // Conveting String to date time formats
+      var actualTime =
+          DateFormat('kk:mm').parse(DateFormat('kk:mm').format(DateTime.now()));
+      var cutOffTimeParsed = DateFormat('kk:mm').parse(cutOffTime);
+      return actualTime.isBefore(cutOffTimeParsed);
+    }
+
     generateOtp() {
       var rng = Random();
       int rand = rng.nextInt(8888) + 1000;
@@ -213,7 +229,7 @@ class CoDButton extends StatelessWidget {
             'Date': orderTime,
             'Route': route,
           })
-          .then((value) => print(orderTime))
+          .then((value) => print('Order placed'))
           .catchError((error) => print("$error"));
     }
 
@@ -225,13 +241,21 @@ class CoDButton extends StatelessWidget {
           width: 150,
           height: 55,
           child: ElevatedButton(
-              onPressed: () {
-                generateOrderId();
-                addUserCOD(user.elementAt(0).id, user.elementAt(0).route);
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SucessPage()));
+              onPressed: () async {
+                if (await isAfterTime()) {
+                  generateOrderId();
+                  addUserCOD(user.elementAt(0).id, user.elementAt(0).route);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SucessPage()));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Ordering time is over'),
+                    ),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(primary: const Color(0xff23233c)),
               child: const Text(
