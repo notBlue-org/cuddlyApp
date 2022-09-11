@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/models/boxes.dart';
 import 'package:diaryapp/models/order_instance.dart';
@@ -191,29 +193,24 @@ String _otpGetter(var data) {
 Future<List<OrderInstance>> _getOrderData() async {
   final box = Boxes.getUserStore();
 
-  var _userDetails = box.values.toList().elementAt(0);
+  var userDetails = box.values.toList().elementAt(0);
 
-  List<OrderInstance> _orderList = [];
+  List<OrderInstance> orderList = [];
   DateTime now = DateTime.now();
   String month = now.month.toString().length == 2
       ? now.month.toString()
-      : '0' + now.month.toString();
+      : '0${now.month}';
   for (var i = now.day; i > 0; i--) {
-    String day = i.toString().length == 2 ? i.toString() : '0' + i.toString();
-    String orderDate = 'Orders_' +
-        day +
-        "-" +
-        month +
-        "-" +
-        now.year.toString().substring(2, 4);
+    String day = i.toString().length == 2 ? i.toString() : '0$i';
+    String orderDate = 'Orders_${day}-${month}-${now.year.toString().substring(2, 4)}';
     await FirebaseFirestore.instance
         .collection(orderDate)
-        .where("DistributorID", isEqualTo: _userDetails.id)
+        .where("DistributorID", isEqualTo: userDetails.id)
         .get()
         .then((QuerySnapshot data) {
       for (var doc in data.docs) {
         var dataD = doc.data() as Map;
-        _orderList.add(OrderInstance(
+        orderList.add(OrderInstance(
             id: doc.id,
             paymentType: dataD["PaymentType"],
             otp: dataD["OTP"],
@@ -227,5 +224,5 @@ Future<List<OrderInstance>> _getOrderData() async {
     // print(orderDate);
   }
 
-  return _orderList;
+  return orderList;
 }

@@ -1,21 +1,15 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/models/user_stored.dart';
-// import 'package:diaryapp/providers/brand.dart';
 import 'package:diaryapp/providers/cart_provider.dart';
 import 'package:diaryapp/screens/app/success_pages/success_page.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/order_widgets/cart_item.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/order_widgets/order_summary.dart';
-import 'package:diaryapp/widgets/order_widgets/payment_gateway.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
-
 import '../../../models/boxes.dart';
 
 class CartPage extends StatelessWidget {
@@ -82,18 +76,13 @@ class CoDButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var orderData = Provider.of<Cart>(context);
     DateTime now = DateTime.now();
-    String day = now.day.toString().length == 2
-        ? now.day.toString()
-        : '0' + now.day.toString();
+    String day =
+        now.day.toString().length == 2 ? now.day.toString() : '0${now.day}';
     String month = now.month.toString().length == 2
         ? now.month.toString()
-        : '0' + now.month.toString();
-    String orderDate = 'Orders_' +
-        day +
-        "-" +
-        month +
-        "-" +
-        now.year.toString().substring(2, 4);
+        : '0${now.month}';
+    String orderDate =
+        'Orders_$day-$month-${now.year.toString().substring(2, 4)}';
 
     Map<String, CartItem> tmp = orderData.items;
     Map<String, List> orders = {};
@@ -134,21 +123,20 @@ class CoDButton extends StatelessWidget {
       var docSnapshot = await collection.doc('variable').get();
       DateTime now = DateTime.now();
 
-      String day = now.day.toString().length == 2
-          ? now.day.toString()
-          : '0' + now.day.toString();
+      String day =
+          now.day.toString().length == 2 ? now.day.toString() : '0${now.day}';
       String month = now.month.toString().length == 2
           ? now.month.toString()
-          : '0' + now.month.toString();
+          : '0${now.month}';
       String time = now.year.toString().substring(2, 4) + month + day;
-      var orderIdString;
+      String orderIdString;
       if (docSnapshot.exists) {
         Map<String, dynamic>? data = docSnapshot.data();
         final box = Boxes.getUserStore();
         final isB2b = box.values.toList().elementAt(0).isB2B;
         if (isB2b) {
           var orderIdInt = int.parse(data!['B2B']) + 1;
-          orderIdString = 'B2B' + time + orderIdInt.toString().substring(1, 8);
+          orderIdString = 'B2B$time${orderIdInt.toString().substring(1, 8)}';
           collection
               .doc('variable')
               .update({'B2B': orderIdInt.toString()})
@@ -156,7 +144,7 @@ class CoDButton extends StatelessWidget {
               .catchError((error) => {});
         } else {
           var orderIdInt = int.parse(data!['B2C']) + 1;
-          orderIdString = 'B2C' + time + orderIdInt.toString().substring(1, 8);
+          orderIdString = 'B2C$time${orderIdInt.toString().substring(1, 8)}';
           collection
               .doc('variable')
               .update({'B2C': orderIdInt.toString()})
@@ -172,39 +160,29 @@ class CoDButton extends StatelessWidget {
     Future<void> addUserCOD(String id, String route) async {
       var temp = await generateOrderId();
       DateTime now = DateTime.now();
-      String day = now.day.toString().length == 2
-          ? now.day.toString()
-          : '0' + now.day.toString();
+      String day =
+          now.day.toString().length == 2 ? now.day.toString() : '0${now.day}';
       String month = now.month.toString().length == 2
           ? now.month.toString()
-          : '0' + now.month.toString();
+          : '0${now.month}';
       String hour = now.hour.toString().length == 2
           ? now.hour.toString()
-          : '0' + now.hour.toString();
+          : '0${now.hour}';
       String minute = now.minute.toString().length == 2
           ? now.minute.toString()
-          : '0' + now.minute.toString();
+          : '0${now.minute}';
       String seconds = now.second.toString().length == 2
           ? now.second.toString()
-          : '0' + now.second.toString();
-      String orderTime = day +
-          "-" +
-          month +
-          "-" +
-          now.year.toString().substring(2, 4) +
-          "," +
-          hour +
-          ":" +
-          minute +
-          ":" +
-          seconds;
+          : '0${now.second}';
+      String orderTime =
+          "$day-$month-${now.year.toString().substring(2, 4)},$hour:$minute:$seconds";
       var document = await FirebaseFirestore.instance
           .collection('Distributors')
           .doc(id)
           .get();
       Map<String, dynamic>? data = document.data();
       var amtDue = double.parse(data!['AmountDue']);
-      var crateDue = int.parse(data!['Crates']);
+      var crateDue = int.parse(data['Crates']);
       var tempData = getOrders();
       var orders = tempData[0];
       var crates = int.parse(tempData[1].toString());
@@ -248,7 +226,7 @@ class CoDButton extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SucessPage()));
+                          builder: (context) => const SuccessPage()));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(

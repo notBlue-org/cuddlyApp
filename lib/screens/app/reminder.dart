@@ -33,10 +33,10 @@ class ReminderMain extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     final box = Boxes.getUserStore();
-    var _userDetails = box.values.toList().elementAt(0);
+    var userDetails = box.values.toList().elementAt(0);
     return FutureBuilder<List<dynamic>>(
         future: Future.wait(
-            [_getAmount(_userDetails.id), _getCrate(_userDetails.id)]),
+            [_getAmount(userDetails.id), _getCrate(userDetails.id)]),
         builder: (context, snapshot) {
           if (ConnectionState.done == snapshot.connectionState) {
             return Column(
