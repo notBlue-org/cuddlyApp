@@ -171,21 +171,20 @@ class CoDButton extends StatelessWidget {
     Future<void> addUserCOD(String id, String route) async {
       var temp = await generateOrderId();
       DateTime now = DateTime.now();
-      String day = now.day.toString().length == 2
-          ? now.day.toString()
-          : '0' + now.day.toString();
+      String day =
+          now.day.toString().length == 2 ? now.day.toString() : '0${now.day}';
       String month = now.month.toString().length == 2
           ? now.month.toString()
-          : '0' + now.month.toString();
+          : '0${now.month}';
       String hour = now.hour.toString().length == 2
           ? now.hour.toString()
-          : '0' + now.hour.toString();
+          : '0${now.hour}';
       String minute = now.minute.toString().length == 2
           ? now.minute.toString()
-          : '0' + now.minute.toString();
+          : '0${now.minute}';
       String seconds = now.second.toString().length == 2
           ? now.second.toString()
-          : '0' + now.second.toString();
+          : '0${now.second}';
       String orderTime = day +
           "-" +
           month +
