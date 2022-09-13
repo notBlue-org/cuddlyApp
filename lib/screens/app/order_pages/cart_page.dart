@@ -185,17 +185,8 @@ class CoDButton extends StatelessWidget {
       String seconds = now.second.toString().length == 2
           ? now.second.toString()
           : '0${now.second}';
-      String orderTime = day +
-          "-" +
-          month +
-          "-" +
-          now.year.toString().substring(2, 4) +
-          "," +
-          hour +
-          ":" +
-          minute +
-          ":" +
-          seconds;
+      String orderTime =
+          "$day-$month-${now.year.toString().substring(2, 4)},$hour:$minute:$seconds";
       var document = await FirebaseFirestore.instance
           .collection('Distributors')
           .doc(id)

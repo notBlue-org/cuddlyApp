@@ -5,6 +5,7 @@ import 'package:diaryapp/static_assets/home_bottom_wave.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../models/boxes.dart';
 
 class HomePage extends StatelessWidget {
@@ -49,9 +50,18 @@ class HomePage extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () async {
-                      Navigator.of(context).pushNamed(
+                      if (await isAfterTime()){
+                        Navigator.of(context).pushNamed(
                         '/order_page',
                       );
+                      }else{
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Ordering time is over'),
+                    ),
+                  );
+                      }
+    
                     },
                     style: ElevatedButton.styleFrom(primary: kButtonColor),
                     child: const Text('Order Now!')),
@@ -107,7 +117,21 @@ _getField(width, label, value) {
         ))
   ];
 }
+    isAfterTime() async {
+      final box = Boxes.getUserStore();
+      final id = box.values.toList().elementAt(0).id;
+      var cutOffTime = await FirebaseFirestore.instance
+          .collection('Distributors')
+          .doc(id)
+          .get()
+          .then((value) => value.data()!['CutoffTime']);
 
+      // Conveting String to date time formats
+      var actualTime =
+          DateFormat('kk:mm').parse(DateFormat('kk:mm').format(DateTime.now()));
+      var cutOffTimeParsed = DateFormat('kk:mm').parse(cutOffTime);
+      return actualTime.isBefore(cutOffTimeParsed);
+    }
 Future<String> _getCrate(id) async {
   var document =
       await FirebaseFirestore.instance.collection('Distributors').doc(id).get();
