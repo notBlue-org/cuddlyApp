@@ -67,7 +67,11 @@ class Products with ChangeNotifier {
             .then((QuerySnapshot data) {
           for (var product in data.docs) {
             Map productMap = product.data() as Map;
-            productDocsUserMap[product.id] = double.parse(productMap["Price"]);
+            var price = double.parse(productMap['Price']);
+            var tax = double.parse(productMap['Tax']);
+            var final_price = ((tax / 100) * price) + price;
+            // print(final_price);
+            productDocsUserMap[product.id] = final_price;
           }
         });
       });
@@ -81,7 +85,10 @@ class Products with ChangeNotifier {
               title: productMap['Name'],
               description: productMap['Description'],
               imageUrl: productMap['ImageURI'],
-              price: double.parse(productMap['Price'])));
+              price: (((double.parse(productMap['Tax']) / 100) *
+                          double.parse(productMap['Price'])) +
+                      double.parse(productMap['Price']))
+                  .roundToDouble()));
         }
       } else {
         for (var product in productDocsDefault) {

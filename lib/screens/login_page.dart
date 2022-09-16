@@ -189,6 +189,7 @@ class _LoginButtonState extends State<LoginButton> {
         userData.username = currentUserFirestore["Name"];
         userData.route = currentUserFirestore["Route"];
         userData.email = currentUserFirestore['Email'];
+
         if (currentUserFirestore['GST Type'] == 'Regular') {
           userData.isB2B = true;
         } else {

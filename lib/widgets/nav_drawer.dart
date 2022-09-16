@@ -114,7 +114,8 @@ isAfterTime() async {
   var actualTime =
       DateFormat('kk:mm').parse(DateFormat('kk:mm').format(DateTime.now()));
   var cutOffTimeParsed = DateFormat('kk:mm').parse(cutOffTime);
-  return actualTime.isBefore(cutOffTimeParsed);
+  return true;
+  // return actualTime.isBefore(cutOffTimeParsed);
 }
 
 void showSnackBarAsBottomSheet(BuildContext context, String message) {
