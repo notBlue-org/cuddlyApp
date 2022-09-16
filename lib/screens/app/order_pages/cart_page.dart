@@ -80,6 +80,7 @@ class CoDButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var orderData = Provider.of<Cart>(context);
+    print(orderData);
     DateTime now = DateTime.now();
     String day = now.day.toString().length == 2
         ? now.day.toString()
@@ -95,11 +96,18 @@ class CoDButton extends StatelessWidget {
         now.year.toString().substring(2, 4);
 
     Map<String, CartItem> tmp = orderData.items;
-    Map<String, List> orders = {};
+    Map orders = {};
     var crates = 0;
     List<Object> getOrders() {
       for (var i in tmp.values) {
-        orders[i.id] = [i.quantity, i.brand];
+        orders = {
+          "Name": i.title,
+          "Quantity": i.quantity,
+          "Price": i.price,
+          // "imgUrl": i.imgUrl,
+          "Description": i.desciption
+        };
+        [i.quantity, i.brand];
         crates = crates + i.quantity;
       }
       return [orders, crates];
