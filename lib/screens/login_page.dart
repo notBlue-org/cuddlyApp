@@ -209,7 +209,7 @@ class _LoginButtonState extends State<LoginButton> {
       try {
         if (!mounted) return;
         Navigator.of(context).pushReplacementNamed(
-          '/home_page',
+          '/reminder_page',
         );
       } catch (e) {
         if (!mounted) return;
