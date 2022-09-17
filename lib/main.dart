@@ -9,7 +9,6 @@ import './firebase/firebase_options.dart';
 import './providers/products_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'models/user_stored.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

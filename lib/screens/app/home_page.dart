@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
                       }
     
                     },
-                    style: ElevatedButton.styleFrom(primary: kButtonColor),
+                    style: ElevatedButton.styleFrom(backgroundColor: kButtonColor),
                     child: const Text('Order Now!')),
                 // const Expanded(child: SizedBox(height: 10,),),
                 Expanded(

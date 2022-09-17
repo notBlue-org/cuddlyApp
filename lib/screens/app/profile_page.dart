@@ -59,7 +59,7 @@ class ProfileBody extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: kButtonColor),
+                    style: ElevatedButton.styleFrom(backgroundColor: kButtonColor),
                     onPressed: () async {
                       FireAuth.signOut(context);
                     },

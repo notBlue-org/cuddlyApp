@@ -126,7 +126,9 @@ void showSnackBarAsBottomSheet(BuildContext context, String message) {
       Future.delayed(const Duration(seconds: 5), () {
         try {
           Navigator.pop(context);
-        } on Exception {}
+        } on Exception {
+          print("Exception");
+        }
       });
       return Container(
           color: Colors.grey.shade800,
