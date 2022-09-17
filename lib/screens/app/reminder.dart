@@ -91,7 +91,7 @@ class ReminderMain extends StatelessWidget {
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Center(
                     child: Text(
-                      "I, hereby accept that the above information is correct",
+                      "I hereby accept that the above information is correct",
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
@@ -103,6 +103,8 @@ class ReminderMain extends StatelessWidget {
                             builder: (context) => const HomePage(),
                           ),
                         ),
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: kButtonColor),
                     child: const Text('I agree'))
               ],
             );

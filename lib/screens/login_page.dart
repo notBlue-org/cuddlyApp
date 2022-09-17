@@ -147,7 +147,6 @@ Widget _passwordField(width) {
         controller: _passwordId,
       ),
     ),
-    // ),
   );
 }
 

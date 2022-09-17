@@ -1,6 +1,7 @@
 import 'package:diaryapp/constants/colors.dart';
 import 'package:diaryapp/models/user_stored.dart';
 import 'package:diaryapp/models/boxes.dart';
+import 'package:diaryapp/screens/app/change_password_page.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/utils/login.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
@@ -32,6 +33,8 @@ class ProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // double width = MediaQuery.of(context).size.width;
+
     return ValueListenableBuilder<Box<UserStore>>(
       valueListenable: Boxes.getUserStore().listenable(),
       builder: (context, box, _) {
@@ -43,13 +46,11 @@ class ProfileBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ..._getField(width, "Distributor Name",
-                    userDetails.elementAt(0).username),
+                ..._getField(width, "Name", userDetails.elementAt(0).username),
                 const SizedBox(
                   height: 10,
                 ),
-                ..._getField(
-                    width, "Route", userDetails.elementAt(0).route),
+                ..._getField(width, "Route", userDetails.elementAt(0).route),
                 const SizedBox(
                   height: 10,
                 ),
@@ -58,12 +59,30 @@ class ProfileBody extends StatelessWidget {
                   height: 20,
                 ),
                 const SizedBox(height: 16.0),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: kButtonColor),
-                    onPressed: () async {
-                      FireAuth.signOut(context);
-                    },
-                    child: const Text('Sign out'))
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: kButtonColor),
+                        onPressed: () async {
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ChangePasswordPage(),
+                              ));
+                        },
+                        child: const Text('Change Password')),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: kButtonColor),
+                        onPressed: () async {
+                          FireAuth.signOut(context);
+                        },
+                        child: const Text('Sign out')),
+                  ],
+                )
               ]),
         );
       },
