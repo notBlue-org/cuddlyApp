@@ -65,53 +65,58 @@ class Products with ChangeNotifier {
             .collection(brand)
             .get()
             .then((QuerySnapshot data) {
-          for (var product in data.docs) {
-            Map productMap = product.data() as Map;
-            var price = double.parse(productMap['Price']);
-            var tax = double.parse(productMap['Tax']);
-            var final_price = ((tax / 100) * price) + price;
-            // print(final_price);
-            productDocsUserMap[product.id] = final_price;
-          }
+          // for (var product in data.docs) {
+          //   Map productMap = product.data() as Map;
+          //   var price = double.parse(productMap['Price']);
+          //   var tax = double.parse(productMap['Tax']);
+          //   var final_price = ((tax / 100) * price) + price;
+          //   // print(final_price);
+          //   productDocsUserMap[product.id] = final_price;
+          // }
         });
       });
 
-      if (productDocsUserMap.isEmpty) {
-        for (var product in productDocsDefault) {
-          Map productMap = product.data() as Map;
-          productList.add(Product(
-              id: product.id,
-              brand: brand,
-              title: productMap['Name'],
-              description: productMap['Description'],
-              imageUrl: productMap['ImageURI'],
-              price: (((double.parse(productMap['Tax']) / 100) *
-                          double.parse(productMap['Price'])) +
-                      double.parse(productMap['Price']))
-                  .roundToDouble()));
+      // if (productDocsUserMap.isEmpty) {
+      var customPriceKey = 'Price_${userDetails.id}';
+      for (var product in productDocsDefault) {
+        var price;
+        Map productMap = product.data() as Map;
+        if (productMap.containsKey(customPriceKey)) {
+          price = double.parse(productMap[customPriceKey]);
+        } else {
+          price = double.parse(productMap['Price']);
         }
-      } else {
-        for (var product in productDocsDefault) {
-          Map productMap = product.data() as Map;
-          if (productDocsUserMap.containsKey(product.id)) {
-            productList.add(Product(
-                id: product.id,
-                brand: brand,
-                title: productMap['Name'],
-                description: productMap['Description'],
-                imageUrl: productMap['ImageURI'],
-                price: productDocsUserMap[product.id]));
-          } else {
-            productList.add(Product(
-                id: product.id,
-                brand: brand,
-                title: productMap['Name'],
-                description: productMap['Description'],
-                imageUrl: productMap['ImageURI'],
-                price: double.parse(productMap['Price'])));
-          }
-        }
+        productList.add(Product(
+            id: product.id,
+            brand: brand,
+            title: productMap['Name'],
+            description: productMap['Description'],
+            imageUrl: productMap['ImageURI'],
+            price: (price).roundToDouble()));
       }
+      // }
+      // else {
+      //   for (var product in productDocsDefault) {
+      //     Map productMap = product.data() as Map;
+      //     if (productDocsUserMap.containsKey(product.id)) {
+      //       productList.add(Product(
+      //           id: product.id,
+      //           brand: brand,
+      //           title: productMap['Name'],
+      //           description: productMap['Description'],
+      //           imageUrl: productMap['ImageURI'],
+      //           price: productDocsUserMap[product.id]));
+      //     } else {
+      //       productList.add(Product(
+      //           id: product.id,
+      //           brand: brand,
+      //           title: productMap['Name'],
+      //           description: productMap['Description'],
+      //           imageUrl: productMap['ImageURI'],
+      //           price: double.parse(productMap['Price'])));
+      //     }
+      //   }
+      // }
     }
 
     _items = productList;
