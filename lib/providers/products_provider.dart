@@ -64,19 +64,9 @@ class Products with ChangeNotifier {
             .doc(userDetails.id)
             .collection(brand)
             .get()
-            .then((QuerySnapshot data) {
-          // for (var product in data.docs) {
-          //   Map productMap = product.data() as Map;
-          //   var price = double.parse(productMap['Price']);
-          //   var tax = double.parse(productMap['Tax']);
-          //   var final_price = ((tax / 100) * price) + price;
-          //   // print(final_price);
-          //   productDocsUserMap[product.id] = final_price;
-          // }
-        });
+            .then((QuerySnapshot data) {});
       });
 
-      // if (productDocsUserMap.isEmpty) {
       var customPriceKey = 'Price_${userDetails.id}';
       for (var product in productDocsDefault) {
         var price;
@@ -94,29 +84,6 @@ class Products with ChangeNotifier {
             imageUrl: productMap['ImageURI'],
             price: (price).roundToDouble()));
       }
-      // }
-      // else {
-      //   for (var product in productDocsDefault) {
-      //     Map productMap = product.data() as Map;
-      //     if (productDocsUserMap.containsKey(product.id)) {
-      //       productList.add(Product(
-      //           id: product.id,
-      //           brand: brand,
-      //           title: productMap['Name'],
-      //           description: productMap['Description'],
-      //           imageUrl: productMap['ImageURI'],
-      //           price: productDocsUserMap[product.id]));
-      //     } else {
-      //       productList.add(Product(
-      //           id: product.id,
-      //           brand: brand,
-      //           title: productMap['Name'],
-      //           description: productMap['Description'],
-      //           imageUrl: productMap['ImageURI'],
-      //           price: double.parse(productMap['Price'])));
-      //     }
-      //   }
-      // }
     }
 
     _items = productList;
