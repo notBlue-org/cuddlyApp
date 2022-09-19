@@ -85,17 +85,17 @@ class CoDButton extends StatelessWidget {
         'Orders_$day-$month-${now.year.toString().substring(2, 4)}';
 
     Map<String, CartItem> tmp = orderData.items;
-    Map orders = {};
+    var orders = [];
     var crates = 0;
     List<Object> getOrders() {
       for (var i in tmp.values) {
-        orders = {
+        orders.add({
           "ProductID": i.id,
           "Name": i.title,
           "Quantity": i.quantity,
           "Price": i.price,
           "Description": i.desciption
-        };
+        });
         [i.quantity, i.brand];
         crates = crates + i.quantity;
       }
