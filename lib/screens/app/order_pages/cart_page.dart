@@ -227,13 +227,19 @@ class CoDButton extends StatelessWidget {
           height: 55,
           child: ElevatedButton(
               onPressed: () async {
-                if (await isAfterTime()) {
+                if (await isAfterTime() && orderData.totalAmount > 0) {
                   generateOrderId();
                   addUserCOD(user.elementAt(0).id, user.elementAt(0).route);
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const SuccessPage()));
+                } else if (orderData.totalAmount == 0.0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please add items to cart'),
+                    ),
+                  );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
