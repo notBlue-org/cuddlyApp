@@ -10,6 +10,7 @@ class Product {
   final String description;
   final double price;
   final String imageUrl;
+  final String PacketCount;
 
   Product(
       {required this.id,
@@ -17,7 +18,8 @@ class Product {
       required this.title,
       required this.description,
       required this.imageUrl,
-      required this.price});
+      required this.price,
+      required this.PacketCount});
 }
 
 class Products with ChangeNotifier {
@@ -71,18 +73,30 @@ class Products with ChangeNotifier {
       for (var product in productDocsDefault) {
         var price;
         Map productMap = product.data() as Map;
-        if (productMap.containsKey(customPriceKey)) {
-          price = double.parse(productMap[customPriceKey]);
-        } else {
+        // if (productMap.containsKey(customPriceKey)) {
+        //   if (productMap[customPriceKey].toString().isEmpty) {
+        //     price = double.parse(productMap['Price']);
+        //   }
+        //   price = double.parse(productMap[customPriceKey]);
+        // } else {
+
+        if (!productMap.containsKey(customPriceKey) ||
+            productMap[customPriceKey] == "") {
           price = double.parse(productMap['Price']);
+        } else {
+          price = double.parse(productMap[customPriceKey]);
         }
+
+        // var price = double.parse(productMap['Price']);
+        // }
         productList.add(Product(
             id: product.id,
             brand: brand,
             title: productMap['Name'],
             description: productMap['Description'],
             imageUrl: productMap['ImageURI'],
-            price: (price).roundToDouble()));
+            price: (price).roundToDouble(),
+            PacketCount: productMap['PacketCount']));
       }
     }
 

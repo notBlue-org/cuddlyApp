@@ -44,6 +44,7 @@ class _DiaryAppState extends State<DiaryApp> {
         ChangeNotifierProvider(create: (context) => Cart()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: const MainScreen(),
         theme: ThemeData(fontFamily: 'Poppins'),
         onGenerateRoute: RouteGenerator.generateRoute,
