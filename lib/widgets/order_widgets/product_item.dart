@@ -13,6 +13,7 @@ class ProductItem extends StatelessWidget {
   final double price;
   final String brand;
   int quantity;
+  final String PacketCount;
 
   ProductItem(
       {required this.id,
@@ -21,7 +22,8 @@ class ProductItem extends StatelessWidget {
       required this.price,
       required this.description,
       this.quantity = 0,
-      required this.brand});
+      required this.brand,
+      required this.PacketCount});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -105,6 +107,7 @@ class ProductItem extends StatelessWidget {
                     price: price,
                     imageUrl: imageUrl,
                     brand: brand,
+                    PacketCount: PacketCount,
                   ),
                 ),
               ],

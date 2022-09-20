@@ -8,15 +8,16 @@ class CartItem {
   final double price;
   final String imgUrl;
   final String desciption;
-  CartItem({
-    required this.id,
-    required this.price,
-    required this.quantity,
-    required this.title,
-    required this.imgUrl,
-    required this.desciption,
-    required this.brand,
-  });
+  final String PacketCount;
+  CartItem(
+      {required this.id,
+      required this.price,
+      required this.quantity,
+      required this.title,
+      required this.imgUrl,
+      required this.desciption,
+      required this.brand,
+      required this.PacketCount});
 }
 
 class Cart with ChangeNotifier {
@@ -49,7 +50,7 @@ class Cart with ChangeNotifier {
   }
 
   void addItem(String productId, double price, String title, String imgUrl,
-      String description, String brand) {
+      String description, String brand, String PacketCount) {
     if (_items.containsKey(productId)) {
       _items.update(
           productId,
@@ -60,7 +61,8 @@ class Cart with ChangeNotifier {
               title: existingCartItem.title,
               imgUrl: existingCartItem.imgUrl,
               desciption: existingCartItem.desciption,
-              brand: existingCartItem.brand));
+              brand: existingCartItem.brand,
+              PacketCount: existingCartItem.PacketCount));
     } else {
       _items.putIfAbsent(
           productId,
@@ -71,7 +73,8 @@ class Cart with ChangeNotifier {
               title: title,
               imgUrl: imgUrl,
               desciption: description,
-              brand: brand));
+              brand: brand,
+              PacketCount: PacketCount));
     }
     notifyListeners();
   }
@@ -87,7 +90,8 @@ class Cart with ChangeNotifier {
               title: existingCartItem.title,
               imgUrl: existingCartItem.imgUrl,
               desciption: existingCartItem.desciption,
-              brand: existingCartItem.brand));
+              brand: existingCartItem.brand,
+              PacketCount: existingCartItem.PacketCount));
     } else {
       _items.remove(productId);
     }
