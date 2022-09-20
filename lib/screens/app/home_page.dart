@@ -13,7 +13,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    // final user = box.values.toList().cast<UserStore>();
     final box = Boxes.getUserStore();
     final username = box.values.toList().elementAt(0).username;
     final id = box.values.toList().elementAt(0).id;
@@ -50,7 +49,7 @@ class HomePage extends StatelessWidget {
                   height: 20,
                 ),
                 ..._getField(
-                    width, "Cut Off Time", snapshot.data![2].toString()),
+                    width, "Order Before", snapshot.data![2].toString()),
                 const SizedBox(
                   height: 20,
                 ),
