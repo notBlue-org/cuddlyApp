@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_brace_in_string_interps
 
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/models/boxes.dart';
 import 'package:diaryapp/models/order_instance.dart';
@@ -7,6 +9,7 @@ import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_time_patterns.dart';
 
 class OrderHistoryPage extends StatelessWidget {
   const OrderHistoryPage({Key? key}) : super(key: key);
@@ -52,11 +55,15 @@ class OrderHistoryPageBodyState extends State<OrderHistoryPageBody> {
                 return const CircularProgressIndicator();
               } else if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
+                  List<OrderInstance>? temp = snapshot.data;
+                  temp?.sort(
+                    (a, b) => b.id.compareTo(a.id),
+                  );
                   return Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemBuilder: (ctx, index) => _listContainer(
-                          snapshot.data!.elementAt(index), context),
+                      itemBuilder: (ctx, index) =>
+                          _listContainer(temp!.elementAt(index), context),
                       padding: const EdgeInsets.all(10),
                       itemCount: snapshot.data?.length,
                       scrollDirection: Axis.vertical,
@@ -197,12 +204,12 @@ Future<List<OrderInstance>> _getOrderData() async {
 
   List<OrderInstance> orderList = [];
   DateTime now = DateTime.now();
-  String month = now.month.toString().length == 2
-      ? now.month.toString()
-      : '0${now.month}';
+  String month =
+      now.month.toString().length == 2 ? now.month.toString() : '0${now.month}';
   for (var i = now.day; i > 0; i--) {
     String day = i.toString().length == 2 ? i.toString() : '0$i';
-    String orderDate = 'Orders_${day}-${month}-${now.year.toString().substring(2, 4)}';
+    String orderDate =
+        'Orders_${day}-${month}-${now.year.toString().substring(2, 4)}';
     await FirebaseFirestore.instance
         .collection(orderDate)
         .where("DistributorID", isEqualTo: userDetails.id)

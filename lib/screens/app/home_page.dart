@@ -24,7 +24,8 @@ class HomePage extends StatelessWidget {
       appBar: custAppBar("Home"),
       body: Center(
           child: FutureBuilder<List<dynamic>>(
-        future: Future.wait([_getCrate(id), _getAmount(id)]),
+        future:
+            Future.wait([_getCrate(id), _getAmount(id), _getCutOffTime(id)]),
         builder: (context, snapshot) {
           if (ConnectionState.done == snapshot.connectionState) {
             return Column(
@@ -45,6 +46,11 @@ class HomePage extends StatelessWidget {
                 ),
                 ..._getField(
                     width, "Crates Remaining", snapshot.data![0].toString()),
+                const SizedBox(
+                  height: 20,
+                ),
+                ..._getField(
+                    width, "Cut Off Time", snapshot.data![2].toString()),
                 const SizedBox(
                   height: 20,
                 ),
@@ -146,4 +152,11 @@ Future<String> _getAmount(id) async {
       await FirebaseFirestore.instance.collection('Distributors').doc(id).get();
   Map<String, dynamic>? value = document.data();
   return value!['AmountDue'];
+}
+
+Future<String> _getCutOffTime(id) async {
+  var document =
+      await FirebaseFirestore.instance.collection('Distributors').doc(id).get();
+  Map<String, dynamic>? value = document.data();
+  return value!['CutoffTime'];
 }

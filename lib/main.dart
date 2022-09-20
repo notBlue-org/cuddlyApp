@@ -2,6 +2,7 @@ import 'package:diaryapp/models/user_stored.dart';
 import 'package:diaryapp/providers/cart_provider.dart';
 import 'package:diaryapp/utils/route_generator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'screens/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,7 +17,9 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.registerAdapter(UserStoreAdapter());
   await Hive.openBox<UserStore>('user');
-  runApp(const DiaryApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(const DiaryApp()));
+  // runApp(const DiaryApp());
 }
 
 class DiaryApp extends StatefulWidget {

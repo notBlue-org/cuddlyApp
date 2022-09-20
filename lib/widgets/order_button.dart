@@ -40,20 +40,20 @@ class OnlineOrderButton extends StatelessWidget {
           await FirebaseFirestore.instance
               .collection('Distributors')
               .doc(id)
-              .update({
-            'AmountDue': orderData.totalAmount.toString()
-          }).then((value) => order
-                  .add({
-                    'DistributorID': id,
-                    'ProductList': getOrders(),
-                    'Status': 'Ordered',
-                    'Total Price': (number + orderData.totalAmount).toString(),
-                    'OTP': generateOtp(),
-                    'PaymentType': 'Online',
-                    'Date': DateTime.now(),
-                  })
-                  .then((value) => print("User Added"))
-                  .catchError((error) => print("Failed to add user: $error")));
+              .update({'AmountDue': orderData.totalAmount.toString()}).then(
+                  (value) => order
+                      .add({
+                        'DistributorID': id,
+                        'ProductList': getOrders(),
+                        'Status': 'Ordered',
+                        'Total Price':
+                            (number + orderData.totalAmount).toString(),
+                        'OTP': generateOtp(),
+                        'PaymentType': 'Online',
+                        'Date': DateTime.now(),
+                      })
+                      .then((value) => print("User Added"))
+                      .catchError((error) => ("Failed to add user: $error")));
         }
 
         final user = box.values.toList().cast<UserStore>();

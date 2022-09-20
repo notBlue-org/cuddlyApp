@@ -2,7 +2,7 @@ class OrderInstance {
   final String id;
   final String paymentType;
   final String otp;
-  final Map productList;
+  final List productList;
   final String status;
   final double totalPrice;
   final String route;
@@ -13,6 +13,5 @@ class OrderInstance {
       required this.productList,
       required this.status,
       required this.totalPrice,
-      required this.route
-      });
+      required this.route});
 }
