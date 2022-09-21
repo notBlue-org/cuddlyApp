@@ -82,30 +82,24 @@ class Products with ChangeNotifier {
 
         if (!productMap.containsKey(customPriceKey) ||
             productMap[customPriceKey] == "") {
-          // price = double.parse(productMap['Price']);
-
           price = double.parse(productMap['Price']) +
               (double.parse(productMap['Price']) *
                   int.parse(productMap['Tax']) /
                   100);
         } else {
-          // price = double.parse(productMap[customPriceKey]);
-
           price = double.parse(productMap[customPriceKey]) +
               (double.parse(productMap[customPriceKey]) *
                   int.parse(productMap['Tax']) /
                   100);
         }
 
-        // var price = double.parse(productMap['Price']);
-        // }
         productList.add(Product(
             id: product.id,
             brand: brand,
             title: productMap['Name'],
             description: productMap['Description'],
             imageUrl: productMap['ImageURI'],
-            price: (price).roundToDouble(),
+            price: double.parse(price.toStringAsFixed(2)),
             PacketCount: productMap['PacketCount']));
       }
     }

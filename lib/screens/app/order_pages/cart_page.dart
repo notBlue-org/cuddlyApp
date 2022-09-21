@@ -189,7 +189,7 @@ class CoDButton extends StatelessWidget {
           .doc(id)
           .get();
       Map<String, dynamic>? data = document.data();
-      var amtDue = double.parse(data!['AmountDue']);
+      var amtDue = int.parse(data!['AmountDue']);
       var crateDue = int.parse(data['Crates']);
       var tempData = getOrders();
       var orders = tempData[0];
@@ -198,7 +198,7 @@ class CoDButton extends StatelessWidget {
           .collection('Distributors')
           .doc(id)
           .update({
-        'AmountDue': (amtDue + orderData.totalAmount).toString(),
+        'AmountDue': (amtDue + orderData.totalAmount.toInt()).toString(),
         'Crates': (crateDue + crates).toString()
       });
 
@@ -209,7 +209,7 @@ class CoDButton extends StatelessWidget {
             'DistributorID': id,
             'ProductList': orders,
             'Status': 'Ordered',
-            'Total Price': orderData.totalAmount,
+            'Total Price': orderData.totalAmount.toInt().toString(),
             'OTP': generateOtp(),
             'PaymentType': 'COD',
             'Date': orderTime,
