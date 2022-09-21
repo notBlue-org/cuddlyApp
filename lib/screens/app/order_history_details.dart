@@ -4,20 +4,22 @@ import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
 
 class OrderHistoryDetailsPage extends StatelessWidget {
-  final _objectData;
-  const OrderHistoryDetailsPage(this._objectData, {Key? key}) : super(key: key);
+  final objectData;
+  const OrderHistoryDetailsPage(this.objectData, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
         drawer: const NavDrawer(),
         appBar: custAppBar("Order Details"),
-        body: OrderHistoryDetailsPageBody(_objectData));
+        body: OrderHistoryDetailsPageBody(objectData));
   }
 }
 
 class OrderHistoryDetailsPageBody extends StatefulWidget {
-  const OrderHistoryDetailsPageBody(objectData, {Key? key}) : super(key: key);
+  final objectData;
+  const OrderHistoryDetailsPageBody(this.objectData, {Key? key})
+      : super(key: key);
 
   @override
   State<OrderHistoryDetailsPageBody> createState() =>
@@ -28,68 +30,178 @@ class OrderHistoryDetailsPageBodyState
     extends State<OrderHistoryDetailsPageBody> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return Column(children: [
       SizedBox(
           height: 150,
           child: Stack(children: [Positioned(top: 0, child: CustomWaveSvg())])),
-          // FutureBuilder<List<OrderInstance>>(
-          //   future: _getData, // a previously-obtained Future<String> or null
-          //   builder: (BuildContext context,
-          //       AsyncSnapshot<List<OrderInstance>> snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return const CircularProgressIndicator();
-          //     } else if (snapshot.connectionState == ConnectionState.done) {
-          //       if (snapshot.hasData) {
-          //         return Expanded(
-          //           child: ListView.builder(
-          //             shrinkWrap: true,
-          //             itemBuilder: (ctx, index) => _listContainer(
-          //                 snapshot.data!.elementAt(index), context),
-          //             padding: const EdgeInsets.all(10),
-          //             itemCount: 4,
-          //             scrollDirection: Axis.vertical,
-          //           ),
-          //         );
-          //       } else {
-          //         Navigator.of(context).pushNamed(
-          //           "/error_page",
-          //         );
-          //         return const Text("Error!");
-          //       }
-          //     } else {
-          //       Navigator.of(context).pushNamed(
-          //         "/error_page",
-          //       );
-          //       return const Text("Data not loading!");
-          //     }
-          //   })
+      SingleChildScrollView(
+        child: Container(
+            padding: const EdgeInsets.only(left: 10.0),
+            alignment: Alignment.topLeft,
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromRGBO(13, 21, 129, 0.03),
+                    blurRadius: 100.0,
+                    offset: Offset(0, 10.0),
+                    spreadRadius: 2,
+                  ),
+                ]),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: width * 0.5,
+                      child: const Text(
+                        "Order ID",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Text(widget.objectData.id),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: width * 0.5,
+                      child: const Text(
+                        "OTP",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Text(widget.objectData.otp),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: width * 0.5,
+                      child: const Text(
+                        "Payment Type",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Text(widget.objectData.paymentType),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: width * 0.5,
+                      child: const Text(
+                        "Total Price",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Text(widget.objectData.totalPrice.toString()),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: width * 0.5,
+                      child: const Text(
+                        "Status",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Text(widget.objectData.status),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: width * 0.4,
+                      child: const Text(
+                        "Product List",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (ctx, i) =>
+                      OrderHistoryProductItem(widget.objectData.productList[i]),
+                  itemCount: widget.objectData.productList.length,
+                  scrollDirection: Axis.vertical,
+                ),
+              ],
+            )),
+      )
     ]);
   }
 }
 
+class OrderHistoryProductItem extends StatelessWidget {
+  final Map productDetailsMap;
+  const OrderHistoryProductItem(this.productDetailsMap, {Key? key})
+      : super(key: key);
 
-// Future<List<OrderInstance>> _getOrderData() async {
-//   final box = Boxes.getUserStore();
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
 
-//   var _userDetails = box.values.toList().elementAt(0);
-
-//   List<OrderInstance> _orderList = [];
-//   await FirebaseFirestore.instance
-//       .collection('Orders')
-//       .where("DistributorID", isEqualTo: _userDetails.id)
-//       .get()
-//       .then((QuerySnapshot data) {
-//     for (var doc in data.docs) {
-//       var dataD = doc.data() as Map;
-//       _orderList.add(OrderInstance(
-//           id: doc.id,
-//           paymentType: dataD["PaymentType"],
-//           otp: dataD["OTP"],
-//           productList: dataD["ProductList"],
-//           status: dataD["Status"],
-//           totalPrice: dataD["Total Price"]));
-//     }
-//   });
-//   return _orderList;
-// }
-
+    return Container(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: Column(children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: width * 0.3,
+              child: const Text(
+                "Name",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Text(productDetailsMap["Name"]),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: width * 0.3,
+              child: const Text(
+                "Quantity",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Text(productDetailsMap["Quantity"].toString()),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: width * 0.3,
+              child: const Text(
+                "Price",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Text(productDetailsMap["Price"].toString()),
+          ],
+        ),
+        const SizedBox(height: 10),
+      ]),
+    );
+  }
+}

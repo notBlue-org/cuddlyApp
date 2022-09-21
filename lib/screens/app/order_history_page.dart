@@ -1,15 +1,11 @@
-// ignore_for_file: unnecessary_brace_in_string_interps
-
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diaryapp/models/boxes.dart';
 import 'package:diaryapp/models/order_instance.dart';
+import 'package:diaryapp/screens/app/order_history_details.dart';
 import 'package:diaryapp/static_assets/appbar_wave.dart';
 import 'package:diaryapp/widgets/cust_appbar.dart';
 import 'package:diaryapp/widgets/nav_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_time_patterns.dart';
 
 class OrderHistoryPage extends StatelessWidget {
   const OrderHistoryPage({Key? key}) : super(key: key);
@@ -90,100 +86,105 @@ class OrderHistoryPageBodyState extends State<OrderHistoryPageBody> {
 _listContainer(OrderInstance data, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-    child: Container(
-      constraints:
-          const BoxConstraints(minHeight: 90, minWidth: double.infinity),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        children: [
-          // Expanded(
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Order ID:",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          height: 1.0,
+    child: GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OrderHistoryDetailsPage(data),
+            ));
+      },
+      child: Container(
+        constraints:
+            const BoxConstraints(minHeight: 90, minWidth: double.infinity),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            // Expanded(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Order ID:",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            height: 1.0,
+                          ),
                         ),
-                      ),
-                      Text("#${data.id}".substring(10),
-                          style: const TextStyle(
-                              color: Colors.black,
-                              height: 1.5,
-                              overflow: TextOverflow.ellipsis)),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 45,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Status",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          height: 1.0,
+                        Text("#${data.id}".substring(10),
+                            style: const TextStyle(
+                                color: Colors.black,
+                                height: 1.5,
+                                overflow: TextOverflow.ellipsis)),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 45,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Status",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            height: 1.0,
+                          ),
                         ),
-                      ),
-                      Text(data.status,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              height: 1.5,
-                              overflow: TextOverflow.ellipsis)),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 45,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Otp",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          height: 1.0,
+                        Text(data.status,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                height: 1.5,
+                                overflow: TextOverflow.ellipsis)),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 45,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Otp",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            height: 1.0,
+                          ),
                         ),
-                      ),
-                      Text(_otpGetter(data),
-                          style: const TextStyle(
-                              color: Colors.black,
-                              height: 1.5,
-                              overflow: TextOverflow.ellipsis)),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 45,
-                  ),
-                  // GestureDetector(
-                  //     onTap: () {
-                  //       Navigator.of(context).pushNamed(
-                  //         '/order_history_details_page',
-                  //         arguments: data,
-                  //       );
-                  //     },
-                  //     child: const Icon(Icons.arrow_forward_ios))
-                ]),
-          ),
-          // ),
-        ],
+                        Text(_otpGetter(data),
+                            style: const TextStyle(
+                                color: Colors.black,
+                                height: 1.5,
+                                overflow: TextOverflow.ellipsis)),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 45,
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                      semanticLabel: 'Icon',
+                    )
+                  ]),
+            ),
+          ],
+        ),
       ),
     ),
   );
@@ -209,7 +210,7 @@ Future<List<OrderInstance>> _getOrderData() async {
   for (var i = now.day; i > 0; i--) {
     String day = i.toString().length == 2 ? i.toString() : '0$i';
     String orderDate =
-        'Orders_${day}-${month}-${now.year.toString().substring(2, 4)}';
+        'Orders_$day-$month-${now.year.toString().substring(2, 4)}';
     await FirebaseFirestore.instance
         .collection(orderDate)
         .where("DistributorID", isEqualTo: userDetails.id)
@@ -227,8 +228,6 @@ Future<List<OrderInstance>> _getOrderData() async {
             route: dataD["Route"]));
       }
     });
-    // print(_orderList);
-    // print(orderDate);
   }
 
   return orderList;
