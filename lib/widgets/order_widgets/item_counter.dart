@@ -37,7 +37,11 @@ class ItemCounter extends StatelessWidget {
               padding: EdgeInsets.zero,
             ),
             onPressed: () => {
-              if (itemData.dispQuantity(id) > 0) {itemData.removeItem(id)}
+              if (itemData.dispQuantity(id) > 1)
+                {itemData.removeItem(id)}
+              // else if (itemData.dispQuantity(id) 0)
+              else
+                {itemData.deleteItem(id)}
             },
             child: const Icon(
               Icons.remove,
