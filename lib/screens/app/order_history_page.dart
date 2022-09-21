@@ -224,7 +224,7 @@ Future<List<OrderInstance>> _getOrderData() async {
             otp: dataD["OTP"],
             productList: dataD["ProductList"],
             status: dataD["Status"],
-            totalPrice: dataD["Total Price"],
+            totalPrice: double.parse(dataD["Total Price"]),
             route: dataD["Route"]));
       }
     });
