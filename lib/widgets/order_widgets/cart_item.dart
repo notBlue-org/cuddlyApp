@@ -55,7 +55,12 @@ class CartItemWid extends StatelessWidget {
               children: [
                 ImgHolder(imgUrl: imgUrl),
                 Expanded(
-                  child: ItemDetails(title: title, desciption: desciption),
+                  child: ItemDetails(
+                    title: title,
+                    desciption: desciption,
+                    price: price,
+                    quantity: quantity,
+                  ),
                 ),
                 Row(
                   children: [
@@ -118,10 +123,14 @@ class ItemDetails extends StatelessWidget {
     Key? key,
     required this.title,
     required this.desciption,
+    required this.price,
+    required this.quantity,
   }) : super(key: key);
 
   final String title;
   final String desciption;
+  final int quantity;
+  final double price;
 
   @override
   Widget build(BuildContext context) {
@@ -140,6 +149,14 @@ class ItemDetails extends StatelessWidget {
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
             desciption,
+            style: const TextStyle(fontSize: 16),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            'Price: ${(price * quantity).toInt().toString()}',
             style: const TextStyle(fontSize: 16),
             overflow: TextOverflow.ellipsis,
           ),

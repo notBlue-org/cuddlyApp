@@ -45,6 +45,7 @@ class CartPage extends StatelessWidget {
                 productId: cart.items.keys.toList()[i],
                 imgUrl: cart.items.values.toList()[i].imgUrl,
                 desciption: cart.items.values.toList()[i].desciption,
+                
               ),
             ),
           ),
