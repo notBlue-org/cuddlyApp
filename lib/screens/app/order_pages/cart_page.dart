@@ -45,7 +45,6 @@ class CartPage extends StatelessWidget {
                 productId: cart.items.keys.toList()[i],
                 imgUrl: cart.items.values.toList()[i].imgUrl,
                 desciption: cart.items.values.toList()[i].desciption,
-                
               ),
             ),
           ),
@@ -190,7 +189,7 @@ class CoDButton extends StatelessWidget {
           .doc(id)
           .get();
       Map<String, dynamic>? data = document.data();
-      var amtDue = int.parse(data!['AmountDue']);
+      var amtDue = double.parse(data!['AmountDue']);
       var crateDue = int.parse(data['Crates']);
       var tempData = getOrders();
       var orders = tempData[0];
@@ -199,7 +198,8 @@ class CoDButton extends StatelessWidget {
           .collection('Distributors')
           .doc(id)
           .update({
-        'AmountDue': (amtDue + orderData.totalAmount.toInt()).toString(),
+        'AmountDue':
+            (amtDue.toInt() + orderData.totalAmount.toInt()).toString(),
         'Crates': (crateDue + crates).toString()
       });
 
