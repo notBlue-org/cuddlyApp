@@ -91,6 +91,7 @@ class CoDButton extends StatelessWidget {
       for (var i in tmp.values) {
         orders.add({
           "ProductID": i.id,
+          'Brand': i.brand,
           "Name": i.title,
           "Quantity": i.quantity,
           "Price": i.price,
