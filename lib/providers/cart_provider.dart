@@ -6,6 +6,7 @@ class CartItem {
   int quantity;
   final String brand;
   final double price;
+  final double price_no_tax;
   final String imgUrl;
   final String desciption;
   final String PacketCount;
@@ -17,6 +18,7 @@ class CartItem {
       required this.imgUrl,
       required this.desciption,
       required this.brand,
+      required this.price_no_tax,
       required this.PacketCount});
 }
 
@@ -41,22 +43,32 @@ class Cart with ChangeNotifier {
     return _items.length;
   }
 
-  double get totalAmount {
+  List<double> get totalAmount {
     double total = 0.0;
+    double totalNoTax = 0.0;
     _items.forEach((key, value) {
       total += value.price * value.quantity;
+      totalNoTax += value.price_no_tax * value.quantity;
     });
-    return total;
+    return [total, totalNoTax];
   }
 
-  void addItem(String productId, double price, String title, String imgUrl,
-      String description, String brand, String PacketCount) {
+  void addItem(
+      String productId,
+      double price,
+      double price_no_tax,
+      String title,
+      String imgUrl,
+      String description,
+      String brand,
+      String PacketCount) {
     if (_items.containsKey(productId)) {
       _items.update(
           productId,
           (existingCartItem) => CartItem(
               id: existingCartItem.id,
               price: existingCartItem.price,
+              price_no_tax: existingCartItem.price_no_tax,
               quantity: existingCartItem.quantity + 1,
               title: existingCartItem.title,
               imgUrl: existingCartItem.imgUrl,
@@ -69,6 +81,7 @@ class Cart with ChangeNotifier {
           () => CartItem(
               id: productId,
               price: price,
+              price_no_tax: price_no_tax,
               quantity: 1,
               title: title,
               imgUrl: imgUrl,
@@ -86,6 +99,7 @@ class Cart with ChangeNotifier {
           (existingCartItem) => CartItem(
               id: existingCartItem.id,
               price: existingCartItem.price,
+              price_no_tax: existingCartItem.price_no_tax,
               quantity: existingCartItem.quantity - 1,
               title: existingCartItem.title,
               imgUrl: existingCartItem.imgUrl,

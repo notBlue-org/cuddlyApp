@@ -9,6 +9,7 @@ class Product {
   final String title;
   final String description;
   final double price;
+  final double price_no_tax;
   final String imageUrl;
   final String PacketCount;
 
@@ -19,6 +20,7 @@ class Product {
       required this.description,
       required this.imageUrl,
       required this.price,
+      required this.price_no_tax,
       required this.PacketCount});
 }
 
@@ -72,6 +74,7 @@ class Products with ChangeNotifier {
       var customPriceKey = 'Price_${userDetails.id}';
       for (var product in productDocsDefault) {
         var price;
+        var price_no_tax;
         Map productMap = product.data() as Map;
         // if (productMap.containsKey(customPriceKey)) {
         //   if (productMap[customPriceKey].toString().isEmpty) {
@@ -86,11 +89,13 @@ class Products with ChangeNotifier {
               (double.parse(productMap['Price']) *
                   int.parse(productMap['Tax']) /
                   100);
+          price_no_tax = double.parse(productMap['Price']);
         } else {
           price = double.parse(productMap[customPriceKey]) +
               (double.parse(productMap[customPriceKey]) *
                   int.parse(productMap['Tax']) /
                   100);
+          price_no_tax = double.parse(productMap[customPriceKey]);
         }
 
         productList.add(Product(
@@ -100,6 +105,7 @@ class Products with ChangeNotifier {
             description: productMap['Description'],
             imageUrl: productMap['ImageURI'],
             price: double.parse(price.toStringAsFixed(2)),
+            price_no_tax: double.parse(price_no_tax.toStringAsFixed(2)),
             PacketCount: productMap['PacketCount']));
       }
     }

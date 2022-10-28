@@ -11,6 +11,7 @@ class ProductItem extends StatelessWidget {
   final String imageUrl;
   final String description;
   final double price;
+  final double priceNoTax;
   final String brand;
   int quantity;
   final String PacketCount;
@@ -20,6 +21,7 @@ class ProductItem extends StatelessWidget {
       required this.title,
       required this.imageUrl,
       required this.price,
+      required this.priceNoTax,
       required this.description,
       this.quantity = 0,
       required this.brand,
@@ -105,6 +107,7 @@ class ProductItem extends StatelessWidget {
                     title: title,
                     description: description,
                     price: price,
+                    priceNoTax: priceNoTax,
                     imageUrl: imageUrl,
                     brand: brand,
                     PacketCount: PacketCount,

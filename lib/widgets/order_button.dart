@@ -65,7 +65,7 @@ class OnlineOrderButton extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Gateway(orderData.totalAmount,
+                        builder: (context) => Gateway(orderData.totalAmount[0],
                             addUser(user.elementAt(0).id))));
               },
               style: ElevatedButton.styleFrom(primary: const Color(0xff23233c)),

@@ -200,7 +200,7 @@ class CoDButton extends StatelessWidget {
           .doc(id)
           .update({
         'AmountDue':
-            (amtDue.toInt() + orderData.totalAmount.toInt()).toString(),
+            (amtDue.toInt() + orderData.totalAmount[0].toInt()).toString(),
         'Crates': (crateDue + crates).toString()
       });
 
@@ -211,7 +211,8 @@ class CoDButton extends StatelessWidget {
             'DistributorID': id,
             'ProductList': orders,
             'Status': 'Ordered',
-            'Total Price': orderData.totalAmount.toInt().toString(),
+            'Total Price': orderData.totalAmount[0].toInt().toString(),
+            'Total Price (WO_TAX)': orderData.totalAmount[1].toInt().toString(),
             'OTP': generateOtp(),
             'PaymentType': 'COD',
             'Date': orderTime,
@@ -230,7 +231,7 @@ class CoDButton extends StatelessWidget {
           height: 55,
           child: ElevatedButton(
               onPressed: () async {
-                if (await isAfterTime() && orderData.totalAmount > 0) {
+                if (await isAfterTime() && orderData.totalAmount[0] > 0) {
                   generateOrderId();
                   addUserCOD(user.elementAt(0).id, user.elementAt(0).route);
                   Navigator.pushReplacement(

@@ -23,7 +23,7 @@ class OrderSummary extends StatelessWidget {
             children: [
               Text('Total Number of products ${cart.itemCount}',
                   style: const TextStyle(fontSize: 14)),
-              Text('Total Bill: Rs ${cart.totalAmount.toInt()}',
+              Text('Total Bill: Rs ${cart.totalAmount[0].toInt()}',
                   style: const TextStyle(fontSize: 14)),
               // Chip(
               //     label: Text('Payable amt \$${cart.totalAmount}'),

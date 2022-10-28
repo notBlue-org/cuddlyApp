@@ -174,7 +174,7 @@ _listContainer(OrderInstance data, BuildContext context) {
                       ],
                     ),
                     const SizedBox(
-                      width: 45,
+                      width: 70,
                     ),
                     const Icon(
                       Icons.arrow_forward_ios,

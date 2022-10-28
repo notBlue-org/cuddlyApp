@@ -10,6 +10,7 @@ class ItemCounter extends StatelessWidget {
   final String imageUrl;
   final String description;
   final double price;
+  final double priceNoTax;
   final String brand;
   final String PacketCount;
   ItemCounter(
@@ -17,6 +18,7 @@ class ItemCounter extends StatelessWidget {
       required this.title,
       required this.description,
       required this.price,
+      required this.priceNoTax,
       required this.imageUrl,
       required this.brand,
       required this.PacketCount});
@@ -69,8 +71,8 @@ class ItemCounter extends StatelessWidget {
               padding: EdgeInsets.zero,
             ),
             onPressed: () => {
-              itemData.addItem(
-                  id, price, title, imageUrl, description, brand, PacketCount)
+              itemData.addItem(id, price, priceNoTax, title, imageUrl,
+                  description, brand, PacketCount)
             },
             child: const Icon(
               Icons.add,

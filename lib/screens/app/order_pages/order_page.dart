@@ -134,6 +134,7 @@ class _ProductListState extends State<ProductList> {
               title: productList[index].title,
               imageUrl: productList[index].imageUrl,
               price: productList[index].price,
+              priceNoTax: productList[index].price_no_tax,
               description: productList[index].description,
               brand: productList[index].brand,
               PacketCount: productList[index].PacketCount,
