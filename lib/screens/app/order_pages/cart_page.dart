@@ -95,6 +95,7 @@ class CoDButton extends StatelessWidget {
           "Name": i.title,
           "Quantity": i.quantity,
           "Price": i.price,
+          "Price_no_tax": i.price_no_tax,
           "Description": i.desciption,
           "PacketCount": i.quantity * int.parse(i.PacketCount)
         });
