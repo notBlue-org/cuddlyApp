@@ -1,4 +1,4 @@
-# DiaryApp - Time Series Analysis & Order Management
+# DiaryApp - Order Management
 
 DiaryApp is a Flutter application designed for time series analysis and efficient order management, primarily targeting a B2B (Business-to-Business) distribution model. It leverages Firebase as its robust backend for authentication, data storage, and real-time capabilities, complemented by Hive for local data persistence. The application provides a user-friendly interface for distributors to manage products, create orders, and track their history.
 
