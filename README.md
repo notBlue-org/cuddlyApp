@@ -96,7 +96,7 @@ Follow these steps to get DiaryApp up and running on your local machine.
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Skaarfacee/Time-series-analysis.git
+    git clone https://github.com/notBlue-org/cuddlyApp
     cd cuddlyApp
     ```
 
